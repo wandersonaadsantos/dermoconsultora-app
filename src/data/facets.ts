@@ -28,7 +28,10 @@ export function filterProducts(rows: ProductRow[], f: FilterState) {
   const q = normalizeForSearch(f.query);
 
   const filtered = rows.filter((r) => {
-    if (f.needsOnly && r.is_needs !== true) return false;
+    if (f.needsOnly) {
+      const tags = String(r.need_tags ?? "").trim();
+      if (!tags || tags.toLowerCase() === "não informado") return false;
+    }
     if (f.brand !== "all" && String(r.Marca ?? "") !== f.brand) return false;
     if (f.routine_step !== "all" && String(r.routine_step ?? "") !== f.routine_step) return false;
     if (f.caution_level !== "all" && String(r.caution_level ?? "") !== f.caution_level) return false;

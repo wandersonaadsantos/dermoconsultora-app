@@ -3,8 +3,11 @@ import type { ProductRow } from "../data/types";
 import {
   formatCautionLevel,
   formatComplexityLevel,
+  formatPrice,
+  formatPriceTier,
   formatRoutineStep,
-  formatTagList
+  formatTagList,
+  isMissing
 } from "../presentation/formatters";
 import { Button } from "./Button";
 import { ProductImage } from "./ProductImage";
@@ -21,7 +24,11 @@ export type ProductCardProps = {
 };
 
 export function ProductCard(props: ProductCardProps) {
+  const row = props.product as Record<string, unknown>;
   const needs = formatTagList(props.product.need_tags).slice(0, 2);
+  const priceRaw = row["Preço"] ?? row["price"];
+  const priceTier = formatPriceTier(row["price_tier"]);
+  const priceFormatted = isMissing(priceRaw) ? "" : formatPrice(priceRaw);
 
   return (
     <div className="card">
@@ -35,6 +42,8 @@ export function ProductCard(props: ProductCardProps) {
           <span>{formatRoutineStep(props.product.routine_step)}</span>
           <span>{formatCautionLevel(props.product.caution_level)}</span>
           <span>{formatComplexityLevel(props.product.complexity_level)}</span>
+          {priceTier ? <span className="price-tier">{priceTier}</span> : null}
+          {priceFormatted ? <span className="price-value">{priceFormatted}</span> : null}
         </div>
         {needs.length > 0 ? <div className="card-help">Pode fazer sentido para: {needs.join("; ")}.</div> : null}
         <div className="card-actions">

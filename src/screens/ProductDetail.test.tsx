@@ -158,11 +158,9 @@ test("ProductDetail_mantem_confirmar_no_rotulo_quando_secao_do_site_faltar", asy
   window.location.hash = `#/product/${encodeURIComponent(url)}`;
   render(<AppRoutes />);
 
-  expect(await screen.findByRole("heading", { name: "Informações do site Drogasil" })).toBeInTheDocument();
-  expect(
-    screen.getByText("Este produto ainda não tem conteúdo do site na base. Abra no site e confirme no rótulo antes de orientar.")
-  ).toBeInTheDocument();
-  expect(screen.getAllByText("Informação não encontrada na base atual. Confirmar no rótulo antes de orientar.").length).toBeGreaterThan(0);
+  await screen.findByRole("heading", { name: "Confirmar no rótulo antes de orientar" });
+  expect(screen.queryByRole("heading", { name: "Informações do site Drogasil" })).toBeNull();
+  expect(screen.getByText(/Confirmar tudo no rótulo antes de orientar/)).toBeInTheDocument();
 });
 
 test("ProductDetail_faz_scroll_para_topo_ao_abrir_ficha", async () => {

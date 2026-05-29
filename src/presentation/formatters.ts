@@ -40,10 +40,27 @@ const ROUTINE_STEPS: Record<string, string> = {
   hidratação: "Hidratação",
   protecao_solar: "Proteção solar",
   "proteção solar": "Proteção solar",
+  "proteção_solar": "Proteção solar",
   tratamento_cosmetico: "Tratamento cosmético",
   "tratamento cosmético": "Tratamento cosmético",
+  "tratamento_cosmético": "Tratamento cosmético",
   tratamento: "Tratamento cosmético",
-  outros: "Outros cuidados"
+  outros: "Outros cuidados",
+  higiene: "Higiene",
+  corpo: "Corpo",
+  cabelo: "Cabelo",
+  perfumaria: "Perfumaria",
+  maquiagem: "Maquiagem",
+  "não classificado": "Não classificado"
+};
+
+const PRICE_TIERS: Record<string, string> = {
+  baixo: "Preço acessível",
+  médio: "Preço médio",
+  medio: "Preço médio",
+  moderado: "Preço médio",
+  alto: "Preço alto",
+  premium: "Premium"
 };
 
 const COMPARISON_GROUPS: Record<string, string> = {
@@ -141,6 +158,12 @@ export function formatComplexityLevel(value: unknown) {
   if (isMissing(value)) return "Complexidade não informada";
   const key = String(value).trim().toLowerCase();
   return COMPLEXITY_LEVELS[key] ?? humanizeRaw(String(value));
+}
+
+export function formatPriceTier(value: unknown) {
+  if (isMissing(value)) return "";
+  const key = String(value).trim().toLowerCase();
+  return PRICE_TIERS[key] ?? humanizeRaw(String(value));
 }
 
 export function formatDataQualityNotes(value: unknown) {

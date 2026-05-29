@@ -124,7 +124,9 @@ export function ProductDetail() {
     const row = product as Record<string, unknown>;
     const needs = formatTagList(product.need_tags);
     const safePhrase =
-      String(row["Frase segura para atendimento"] ?? "").trim() || formatSafeSummary(product);
+      String(row["safe_recommendation_note"] ?? "").trim() ||
+      String(row["Frase segura para atendimento"] ?? "").trim() ||
+      formatSafeSummary(product);
     const missingItems = [
       missingLabel(product, "Modo de uso", ["Modo de uso", "site_how_to_use"]),
       missingLabel(product, "Advertências", ["Advertências", "site_warnings"]),
@@ -160,6 +162,7 @@ export function ProductDetail() {
       missingItems,
       drogasilCodeRaw,
       drogasilCode,
+      decisionSummary: isMissing(row.decision_summary) ? "" : String(row.decision_summary ?? "").trim(),
       manufacturer: isMissing(manufacturer) ? "" : String(manufacturer ?? "").trim(),
       seller: isMissing(seller) ? "" : String(seller ?? "").trim(),
       siteDescription: isMissing(row.site_description) ? "" : String(row.site_description ?? "").trim(),
@@ -320,9 +323,9 @@ export function ProductDetail() {
               ) : null}
             </section>
 
-            <section className="detail-card">
-              <h2>Informações do site Drogasil</h2>
-              {view.siteDescription || view.siteBenefits || view.siteHowToUse || view.siteWarnings || view.siteCharacteristics ? (
+            {view.siteDescription || view.siteBenefits || view.siteHowToUse || view.siteWarnings || view.siteCharacteristics ? (
+              <section className="detail-card">
+                <h2>Informações do site Drogasil</h2>
                 <div className="readable-list">
                   {view.siteDescription ? (
                     <div>
@@ -355,10 +358,8 @@ export function ProductDetail() {
                     </div>
                   ) : null}
                 </div>
-              ) : (
-                <p className="comfortable-text">{SITE_INFO_EMPTY}</p>
-              )}
-            </section>
+              </section>
+            ) : null}
 
             <section className="detail-card">
               <h2>Interpretação do app</h2>
@@ -376,12 +377,18 @@ export function ProductDetail() {
 
           <section className="detail-card">
             <h2>O que posso falar com segurança</h2>
+            {view.decisionSummary ? <p className="comfortable-text">{view.decisionSummary}</p> : null}
             <p className="comfortable-text">{view.safePhrase}</p>
           </section>
 
           <section className="detail-card warning-card">
             <h2>Confirmar no rótulo antes de orientar</h2>
-            {view.missingItems.length > 0 ? (
+            {view.missingItems.length >= 4 ? (
+              <p className="comfortable-text">
+                Modo de uso, advertências, restrições, indicação e restrições por faixa etária não foram encontrados na base.
+                Confirmar tudo no rótulo antes de orientar.
+              </p>
+            ) : view.missingItems.length > 0 ? (
               <div className="confirm-list">
                 {view.missingItems.map((item) => (
                   <div className="confirm-item" key={item}>
