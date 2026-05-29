@@ -175,6 +175,23 @@ test("Attend_sub_gatilho_persiste_na_url_e_e_restaurado", async () => {
   expect(screen.getByText("Chame o farmacêutico antes de indicar qualquer produto.")).toBeInTheDocument();
 });
 
+test("Attend_resultados_mostram_checklist_de_rotulo", async () => {
+  const p1 = {
+    URL_produto: "https://www.drogasil.com.br/p1-111.html",
+    Produto: "P1",
+    Marca: "M",
+    need_tags: "oleosidade",
+    routine_step: "limpeza"
+  };
+  setupFetch({ products: [p1] });
+  window.location.hash = "#/attend?step=results&needs=oleosidade&area=rosto&alert=no";
+  render(<AppRoutes />);
+
+  expect(await screen.findByText("P1")).toBeInTheDocument();
+  expect(screen.getByText("Confira o rótulo em 1 minuto")).toBeInTheDocument();
+  expect(screen.getByText(/Como usar\? \(modo de uso/)).toBeInTheDocument();
+});
+
 test("Attend_modo_alerta_mostra_resumo_para_farmaceutico", async () => {
   const p1 = {
     URL_produto: "https://www.drogasil.com.br/p1-111.html",

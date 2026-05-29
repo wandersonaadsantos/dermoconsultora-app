@@ -5,6 +5,7 @@ import { useDataV1 } from "../app/state/DataProvider";
 import { useFavorites } from "../app/state/FavoritesProvider";
 import { Button } from "../components/Button";
 import { Chip } from "../components/Chip";
+import { LabelChecklist } from "../components/LabelChecklist";
 import { ProductCard } from "../components/ProductCard";
 import { SafetyBanner } from "../components/SafetyBanner";
 import { uniqueNeedTags } from "../data/facets";
@@ -619,8 +620,12 @@ export function Attend() {
                       })}
                   </div>
                 )}
+                <details className="rotulo-details">
+                  <summary>Confira o rótulo em 1 minuto</summary>
+                  <LabelChecklist />
+                </details>
                 <div className="hint">
-                  Confirme o rótulo (modo de uso e advertências) antes de orientar. Se a cliente tiver reação, peça para voltar e chame o farmacêutico.
+                  Confirme o rótulo antes de orientar. Se a cliente tiver reação, peça para voltar e chame o farmacêutico.
                 </div>
               </>
             ) : null}
