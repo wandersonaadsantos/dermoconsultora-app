@@ -97,7 +97,7 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
     items = filterProducts(allProducts, { ...f, routine_step: "all" });
   }
 
-  items = items.slice(0, 8);
+  items = items.slice(0, 6);
   return {
     mode: "recommendations" as const,
     safePhrase: SAFE_PHRASE,

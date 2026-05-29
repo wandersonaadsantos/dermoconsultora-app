@@ -44,7 +44,7 @@ describe("attend/buildAttendResult", () => {
     });
 
     expect(result.mode).toBe("recommendations");
-    expect(result.items.length).toBeLessThanOrEqual(8);
+    expect(result.items.length).toBeLessThanOrEqual(6);
   });
 
   test("Maquiagem básica usa routine_step=maquiagem independente da área selecionada", () => {

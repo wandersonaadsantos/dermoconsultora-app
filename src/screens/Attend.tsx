@@ -189,7 +189,7 @@ export function Attend() {
         if (b.matchedLabels.length !== a.matchedLabels.length) return b.matchedLabels.length - a.matchedLabels.length;
         return String(a.product.Produto ?? "").localeCompare(String(b.product.Produto ?? ""));
       })
-      .slice(0, 8);
+      .slice(0, 6);
 
     const safePhrase = buildAttendResult(dataState.data.products, {
       need: needs[0].value,
@@ -457,7 +457,7 @@ export function Attend() {
           <>
             <h2>4) Existe sinal de alerta?</h2>
             <div className="hint">
-              Ferida, alergia forte, ardência intensa, inchaço, secreção, dor importante ou piora rápida.
+              Ferida, secreção, dor importante, inchaço, febre, ardência intensa, coceira forte, reação recente a produto, bebê/criança com sintoma, uso de medicamento dermatológico ou piora rápida.
             </div>
             <div className="chips" role="radiogroup" aria-label="Existe sinal de alerta?">
               <Chip role="radio" selected={!hasAlert} onClick={() => setHasAlert(false)}>
@@ -511,7 +511,7 @@ export function Attend() {
                 ) : (
                   <div className="cards">
                     {(recommendation.items as Array<{ product: ProductRow; matchedLabels: string[] }>)
-                      .slice(0, 8)
+                      .slice(0, 6)
                       .map((rec) => {
                         const rid = getProductRouteId(rec.product, dataState.data.products);
                         const reason = rec.matchedLabels.length > 0 ? `Combina com: ${rec.matchedLabels.join("; ")}` : "";
@@ -533,6 +533,9 @@ export function Attend() {
                       })}
                   </div>
                 )}
+                <div className="hint">
+                  Confirme o rótulo (modo de uso e advertências) antes de orientar. Se a cliente tiver reação, peça para voltar e chame o farmacêutico.
+                </div>
               </>
             ) : null}
           </>
