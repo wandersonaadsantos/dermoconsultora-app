@@ -23,6 +23,14 @@ const FACE_STEPS = new Set([
   "tratamento"
 ]);
 
+// Necessidades curatoradas que representam categorias de produto inteiras.
+// Usar routine_step direto em vez de busca textual garante resultados
+// mesmo quando a área selecionada não coincide com a categoria.
+const NEED_ROUTINE_STEP_OVERRIDE: Record<string, string> = {
+  "Maquiagem básica": "maquiagem",
+  "Perfume/presente": "perfumaria"
+};
+
 function makeFilterState(): FilterState {
   return {
     query: "",
@@ -57,10 +65,17 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
   const f = makeFilterState();
   f.routine_step = routineStepFromArea(answers.area);
 
+  let usedStepOverride = false;
   if (answers.needKind === "tag") {
     f.need_tag = answers.need;
   } else {
-    f.query = answers.need;
+    const stepOverride = NEED_ROUTINE_STEP_OVERRIDE[answers.need];
+    if (stepOverride) {
+      f.routine_step = stepOverride;
+      usedStepOverride = true;
+    } else {
+      f.query = answers.need;
+    }
   }
 
   if (answers.preference === "uso-simples") {
@@ -72,9 +87,16 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
   }
 
   let items = filterProducts(allProducts, f);
-  if (answers.area === "Rosto") {
+  // Filtro de face steps só se aplica quando não houve override de categoria
+  if (answers.area === "Rosto" && !usedStepOverride) {
     items = items.filter((p) => FACE_STEPS.has(normalizeRoutineStep(p.routine_step)));
   }
+
+  // Fallback: se busca textual + área retornou vazio, tenta sem área.
+  if (items.length === 0 && !usedStepOverride && f.routine_step !== "all") {
+    items = filterProducts(allProducts, { ...f, routine_step: "all" });
+  }
+
   items = items.slice(0, 8);
   return {
     mode: "recommendations" as const,

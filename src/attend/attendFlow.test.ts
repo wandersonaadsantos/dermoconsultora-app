@@ -47,6 +47,71 @@ describe("attend/buildAttendResult", () => {
     expect(result.items.length).toBeLessThanOrEqual(8);
   });
 
+  test("Maquiagem básica usa routine_step=maquiagem independente da área selecionada", () => {
+    const all: ProductRow[] = [
+      makeProduct({
+        URL_produto: "https://example.com/m",
+        Produto: "Base facial",
+        routine_step: "maquiagem"
+      })
+    ];
+
+    const result = buildAttendResult(all, {
+      need: "Maquiagem básica",
+      needKind: "query",
+      area: "Corpo", // área incorreta — deve encontrar mesmo assim
+      preference: "sem-preferencia",
+      hasAlert: false
+    });
+
+    expect(result.mode).toBe("recommendations");
+    expect(result.items.length).toBe(1);
+  });
+
+  test("Perfume/presente usa routine_step=perfumaria independente da área selecionada", () => {
+    const all: ProductRow[] = [
+      makeProduct({
+        URL_produto: "https://example.com/p",
+        Produto: "Colônia X",
+        routine_step: "perfumaria"
+      })
+    ];
+
+    const result = buildAttendResult(all, {
+      need: "Perfume/presente",
+      needKind: "query",
+      area: "Rosto", // área incorreta — deve encontrar mesmo assim
+      preference: "sem-preferencia",
+      hasAlert: false
+    });
+
+    expect(result.mode).toBe("recommendations");
+    expect(result.items.length).toBe(1);
+  });
+
+  test("fallback sem área para busca textual quando retorna vazio com área", () => {
+    const all: ProductRow[] = [
+      makeProduct({
+        URL_produto: "https://example.com/h",
+        Produto: "Hidratante corporal",
+        need_tags: "hidratação",
+        routine_step: "corpo"
+      })
+    ];
+
+    // Busca por "hidratação" com área "Cabelo" não encontra → fallback sem área
+    const result = buildAttendResult(all, {
+      need: "Hidratação",
+      needKind: "query",
+      area: "Cabelo",
+      preference: "sem-preferencia",
+      hasAlert: false
+    });
+
+    expect(result.mode).toBe("recommendations");
+    expect(result.items.length).toBe(1);
+  });
+
   test("em Rosto filtra para etapas da rotina facial", () => {
     const all: ProductRow[] = [
       makeProduct({ URL_produto: "https://example.com/a", need_tags: "oleosidade", routine_step: "limpeza" }),
