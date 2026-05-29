@@ -192,6 +192,50 @@ test("Attend_resultados_mostram_checklist_de_rotulo", async () => {
   expect(screen.getByText(/Como usar\? \(modo de uso/)).toBeInTheDocument();
 });
 
+test("Attend_modo_pressa_tem_3_passos_e_pula_area_e_preferencia", async () => {
+  const p1 = {
+    URL_produto: "https://www.drogasil.com.br/p1-111.html",
+    Produto: "P1",
+    Marca: "M",
+    need_tags: "oleosidade",
+    routine_step: "limpeza"
+  };
+  setupFetch({ products: [p1] });
+  window.location.hash = "#/attend?mode=pressa";
+  render(<AppRoutes />);
+
+  expect(await screen.findByRole("heading", { name: "Atendimento rápido" })).toBeInTheDocument();
+  expect(screen.getByText(/Etapa 1 de 3/)).toBeInTheDocument();
+
+  fireEvent.click(await screen.findByRole("button", { name: "Oleosidade" }));
+  fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
+
+  // Vai direto para o alerta (sem passos de área/preferência)
+  expect(await screen.findByRole("heading", { name: "Existe sinal de alerta?" })).toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: "2) Qual é a área?" })).toBeNull();
+  expect(screen.getByText(/Etapa 2 de 3/)).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
+  expect(await screen.findByText("P1")).toBeInTheDocument();
+  expect(screen.getByText(/Etapa 3 de 3/)).toBeInTheDocument();
+});
+
+test("Attend_modo_pressa_limita_a_2_opcoes", async () => {
+  const products = Array.from({ length: 5 }).map((_, i) => ({
+    URL_produto: `https://www.drogasil.com.br/p${i}-${i}.html`,
+    Produto: `Prod ${i}`,
+    Marca: "M",
+    need_tags: "oleosidade",
+    routine_step: "limpeza"
+  }));
+  setupFetch({ products });
+  window.location.hash = "#/attend?mode=pressa&step=results&needs=oleosidade";
+  render(<AppRoutes />);
+
+  const cards = await screen.findAllByText(/^Prod \d$/);
+  expect(cards.length).toBe(2);
+});
+
 test("Attend_modo_alerta_mostra_resumo_para_farmaceutico", async () => {
   const p1 = {
     URL_produto: "https://www.drogasil.com.br/p1-111.html",

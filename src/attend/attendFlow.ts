@@ -39,6 +39,7 @@ function makeFilterState(): FilterState {
     need_tag: "all",
     caution_level: "all",
     complexity_level: "all",
+    price_tier: "all",
     needsOnly: false
   };
 }
@@ -62,8 +63,9 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
     };
   }
 
+  const ignoreArea = answers.ignoreArea === true;
   const f = makeFilterState();
-  f.routine_step = routineStepFromArea(answers.area);
+  f.routine_step = ignoreArea ? "all" : routineStepFromArea(answers.area);
 
   let usedStepOverride = false;
   if (answers.needKind === "tag") {
@@ -88,7 +90,7 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
 
   let items = filterProducts(allProducts, f);
   // Filtro de face steps só se aplica quando não houve override de categoria
-  if (answers.area === "Rosto" && !usedStepOverride) {
+  if (!ignoreArea && answers.area === "Rosto" && !usedStepOverride) {
     items = items.filter((p) => FACE_STEPS.has(normalizeRoutineStep(p.routine_step)));
   }
 

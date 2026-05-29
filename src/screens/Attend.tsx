@@ -18,8 +18,12 @@ import type { AttendArea, AttendPreference } from "../attend/attendTypes";
 import { buildMoreNeeds, CURATED_NEEDS } from "../attend/needOptions";
 
 type AttendStep = "need" | "area" | "preference" | "alert" | "results";
+type AttendMode = "full" | "pressa";
 
 const MAX_NEEDS = 3;
+
+const STEP_ORDER_FULL: AttendStep[] = ["need", "area", "preference", "alert", "results"];
+const STEP_ORDER_PRESSA: AttendStep[] = ["need", "alert", "results"];
 
 const STEP_NAMES: Record<AttendStep, string> = {
   need: "Necessidades",
@@ -93,11 +97,17 @@ function getInitialSearch(): string {
 
 function parseStateFromSearch(search: string) {
   const params = new URLSearchParams(search);
+  const mode: AttendMode = params.get("mode") === "pressa" ? "pressa" : "full";
   const rawStep = params.get("step") ?? "needs";
-  const normalizedStep =
+  let normalizedStep =
     rawStep === "needs" || rawStep === "area" || rawStep === "preference" || rawStep === "alert" || rawStep === "results"
       ? rawStep
       : "needs";
+
+  // No modo pressa não existem os passos de área e preferência.
+  if (mode === "pressa" && (normalizedStep === "area" || normalizedStep === "preference")) {
+    normalizedStep = "needs";
+  }
 
   const needsRaw = (params.get("needs") ?? "")
     .split(",")
@@ -114,6 +124,7 @@ function parseStateFromSearch(search: string) {
   const effectiveStep = restoredNeeds.length === 0 && normalizedStep !== "needs" ? "needs" : normalizedStep;
 
   return {
+    mode,
     step: urlStepToInternal(effectiveStep),
     needs: restoredNeeds,
     area: areaParamToArea(params.get("area") ?? ""),
@@ -137,12 +148,18 @@ export function Attend() {
   const [preference, setPreference] = useState<AttendPreference>(() => parseStateFromSearch(getInitialSearch()).preference);
   const [hasAlert, setHasAlert] = useState(() => parseStateFromSearch(getInitialSearch()).hasAlert);
   const [alertFlags, setAlertFlags] = useState<AlertFlag[]>(() => parseStateFromSearch(getInitialSearch()).alertFlags);
+  const [mode, setMode] = useState<AttendMode>(() => parseStateFromSearch(getInitialSearch()).mode);
   const [showMoreNeeds, setShowMoreNeeds] = useState(false);
   const [moreNeedQuery, setMoreNeedQuery] = useState("");
   const [moreNeedSelectedValue, setMoreNeedSelectedValue] = useState("");
   const [needsWarning, setNeedsWarning] = useState("");
   const [copiedHandoff, setCopiedHandoff] = useState(false);
   const nextUrlSyncModeRef = useRef<"push" | "replace">("replace");
+
+  const isPressa = mode === "pressa";
+  const stepOrder = isPressa ? STEP_ORDER_PRESSA : STEP_ORDER_FULL;
+  const totalSteps = stepOrder.length;
+  const resultLimit = isPressa ? 2 : 6;
 
   const knownNeedTags = useMemo(() => {
     if (dataState.status !== "ready") return [];
@@ -185,7 +202,8 @@ export function Attend() {
         needKind: needs[0].kind,
         area,
         preference,
-        hasAlert: true
+        hasAlert: true,
+        ignoreArea: isPressa
       });
     }
 
@@ -196,7 +214,8 @@ export function Attend() {
         needKind: selected.kind,
         area,
         preference,
-        hasAlert: false
+        hasAlert: false,
+        ignoreArea: isPressa
       });
 
       if (result.mode !== "recommendations") continue;
@@ -216,14 +235,15 @@ export function Attend() {
         if (b.matchedLabels.length !== a.matchedLabels.length) return b.matchedLabels.length - a.matchedLabels.length;
         return String(a.product.Produto ?? "").localeCompare(String(b.product.Produto ?? ""));
       })
-      .slice(0, 6);
+      .slice(0, resultLimit);
 
     const safePhrase = buildAttendResult(dataState.data.products, {
       need: needs[0].value,
       needKind: needs[0].kind,
       area,
       preference,
-      hasAlert: false
+      hasAlert: false,
+      ignoreArea: isPressa
     }).safePhrase;
 
     return {
@@ -232,7 +252,7 @@ export function Attend() {
       reason: "Recomendações por múltiplas necessidades",
       items
     };
-  }, [area, dataState, effectiveAlert, needs, preference]);
+  }, [area, dataState, effectiveAlert, isPressa, needs, preference, resultLimit]);
 
   const pharmacistSummary = useMemo(() => {
     const needLabels = needs.map((n) => n.label).join("; ") || "—";
@@ -253,18 +273,16 @@ export function Attend() {
 
   const goNext = () => {
     nextUrlSyncModeRef.current = "push";
-    if (step === "need") return setStep("area");
-    if (step === "area") return setStep("preference");
-    if (step === "preference") return setStep("alert");
-    if (step === "alert") return setStep("results");
+    const i = stepOrder.indexOf(step);
+    const next = stepOrder[i + 1];
+    if (next) setStep(next);
   };
 
   const goPrev = () => {
     nextUrlSyncModeRef.current = "push";
-    if (step === "results") return setStep("alert");
-    if (step === "alert") return setStep("preference");
-    if (step === "preference") return setStep("area");
-    if (step === "area") return setStep("need");
+    const i = stepOrder.indexOf(step);
+    const prev = stepOrder[i - 1];
+    if (prev) setStep(prev);
   };
 
   const reset = () => {
@@ -281,13 +299,7 @@ export function Attend() {
     setNeedsWarning("");
   };
 
-  const stepNumber = useMemo(() => {
-    if (step === "need") return 1;
-    if (step === "area") return 2;
-    if (step === "preference") return 3;
-    if (step === "alert") return 4;
-    return 5;
-  }, [step]);
+  const stepNumber = Math.max(1, stepOrder.indexOf(step) + 1);
 
   const preferenceLabel = useMemo(() => {
     if (preference === "sem-preferencia") return "Sem preferência";
@@ -308,6 +320,7 @@ export function Attend() {
         prev.every((p, idx) => p.kind === parsed.needs[idx]?.kind && p.value === parsed.needs[idx]?.value);
       return same ? prev : parsed.needs;
     });
+    setMode(parsed.mode);
     setArea(parsed.area);
     setPreference(parsed.preference);
     setHasAlert(parsed.hasAlert);
@@ -323,6 +336,7 @@ export function Attend() {
     const urlStep = internalStepToUrl(step);
     const params = new URLSearchParams();
     params.set("step", urlStep);
+    if (mode === "pressa") params.set("mode", "pressa");
 
     if (needs.length > 0) {
       params.set(
@@ -356,16 +370,17 @@ export function Attend() {
     const replace = nextUrlSyncModeRef.current !== "push";
     nextUrlSyncModeRef.current = "replace";
     nav({ pathname: location.pathname, search: desiredSearch }, { replace });
-  }, [alertFlags, area, hasAlert, location.pathname, location.search, nav, needs, preference, step]);
+  }, [alertFlags, area, hasAlert, location.pathname, location.search, mode, nav, needs, preference, step]);
 
   return (
     <div className="screen attend-screen">
-      <h1>Atender cliente com apoio</h1>
+      <h1>{isPressa ? "Atendimento rápido" : "Atender cliente com apoio"}</h1>
       <SafetyBanner />
 
       <div className="attend-progress" aria-live="polite">
-        <span className="attend-step-pill">Etapa {stepNumber} de 5</span>
+        <span className="attend-step-pill">Etapa {stepNumber} de {totalSteps}</span>
         <span className="attend-step-name">{STEP_NAMES[step]}</span>
+        {isPressa ? <span className="attend-mode-badge">Rápido</span> : null}
       </div>
 
       {step !== "need" ? (
@@ -386,14 +401,18 @@ export function Attend() {
                 </div>
               )}
             </div>
-            <div className="info-item">
-              <div className="info-item-label">Área</div>
-              <div className="info-item-value">{area}</div>
-            </div>
-            <div className="info-item">
-              <div className="info-item-label">Preferência</div>
-              <div className="info-item-value">{showPreferenceInSummary ? preferenceLabel : "—"}</div>
-            </div>
+            {!isPressa ? (
+              <>
+                <div className="info-item">
+                  <div className="info-item-label">Área</div>
+                  <div className="info-item-value">{area}</div>
+                </div>
+                <div className="info-item">
+                  <div className="info-item-label">Preferência</div>
+                  <div className="info-item-value">{showPreferenceInSummary ? preferenceLabel : "—"}</div>
+                </div>
+              </>
+            ) : null}
             <div className="info-item">
               <div className="info-item-label">Alerta</div>
               <div className="info-item-value">
@@ -407,7 +426,7 @@ export function Attend() {
       <div className="attend-step-content">
         {step === "need" ? (
           <>
-            <h2>1) Quais necessidades a cliente trouxe?</h2>
+            <h2>{isPressa ? "Quais necessidades a cliente trouxe?" : "1) Quais necessidades a cliente trouxe?"}</h2>
             <div className="notice" aria-live="polite">
               Marque até {MAX_NEEDS} necessidades — {needs.length} de {MAX_NEEDS} selecionadas.
             </div>
@@ -503,7 +522,7 @@ export function Attend() {
 
         {step === "alert" ? (
           <>
-            <h2>4) Existe sinal de alerta?</h2>
+            <h2>{isPressa ? "Existe sinal de alerta?" : "4) Existe sinal de alerta?"}</h2>
             <div className="hint">
               Ferida, secreção, dor importante, inchaço, febre, ardência intensa, coceira forte, reação recente a produto, bebê/criança com sintoma, uso de medicamento dermatológico ou piora rápida.
             </div>
@@ -535,7 +554,7 @@ export function Attend() {
 
         {step === "results" ? (
           <>
-            <h2>5) Próximos passos</h2>
+            <h2>{isPressa ? "Próximos passos" : "5) Próximos passos"}</h2>
 
             {dataState.status === "loading" || dataState.status === "idle" ? <div>Carregando base…</div> : null}
             {dataState.status === "error" ? (
@@ -588,7 +607,17 @@ export function Attend() {
                 <div className="hint">
                   Sugestões para começar. Confirmar no rótulo antes de orientar. Se não fizer sentido, abra a consulta completa.
                 </div>
+                {isPressa ? (
+                  <div className="hint">
+                    Modo rápido: até {resultLimit} opções, sem filtrar por área. Para refinar, use o atendimento completo.
+                  </div>
+                ) : null}
                 <div className="toolbar">
+                  {isPressa ? (
+                    <Button type="button" variant="secondary" onClick={() => nav("/attend")}>
+                      Atendimento completo
+                    </Button>
+                  ) : null}
                   <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
                     Abrir consulta completa
                   </Button>
@@ -598,7 +627,7 @@ export function Attend() {
                 ) : (
                   <div className="cards">
                     {(recommendation.items as Array<{ product: ProductRow; matchedLabels: string[] }>)
-                      .slice(0, 6)
+                      .slice(0, resultLimit)
                       .map((rec) => {
                         const rid = getProductRouteId(rec.product, dataState.data.products);
                         const reason = rec.matchedLabels.length > 0 ? `Combina com: ${rec.matchedLabels.join("; ")}` : "";

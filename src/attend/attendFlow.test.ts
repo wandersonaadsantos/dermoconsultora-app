@@ -112,6 +112,38 @@ describe("attend/buildAttendResult", () => {
     expect(result.items.length).toBe(1);
   });
 
+  test("ignoreArea ignora o filtro por área (modo pressa)", () => {
+    const all: ProductRow[] = [
+      makeProduct({
+        URL_produto: "https://example.com/corpo",
+        Produto: "Hidratante corporal",
+        need_tags: "hidratação",
+        routine_step: "corpo"
+      })
+    ];
+
+    // Em "Rosto", o filtro de face normalmente removeria um produto de corpo.
+    const semIgnore = buildAttendResult(all, {
+      need: "hidratação",
+      needKind: "tag",
+      area: "Rosto",
+      preference: "sem-preferencia",
+      hasAlert: false
+    });
+    expect(semIgnore.items.length).toBe(0);
+
+    const comIgnore = buildAttendResult(all, {
+      need: "hidratação",
+      needKind: "tag",
+      area: "Rosto",
+      preference: "sem-preferencia",
+      hasAlert: false,
+      ignoreArea: true
+    });
+    expect(comIgnore.mode).toBe("recommendations");
+    expect(comIgnore.items.length).toBe(1);
+  });
+
   test("em Rosto filtra para etapas da rotina facial", () => {
     const all: ProductRow[] = [
       makeProduct({ URL_produto: "https://example.com/a", need_tags: "oleosidade", routine_step: "limpeza" }),

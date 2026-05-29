@@ -26,6 +26,11 @@ export function Home() {
     nav("/attend");
   };
 
+  const goAttendFast = () => {
+    setPreferredMode("consult");
+    nav("/attend?mode=pressa");
+  };
+
   return (
     <div className="screen">
       <h1>Apoio para estudo e atendimento</h1>
@@ -56,6 +61,9 @@ export function Home() {
             </Button>
           </>
         )}
+        <Button type="button" variant="secondary" onClick={goAttendFast}>
+          Atendimento rápido
+        </Button>
         <Button type="button" variant="secondary" onClick={goConsult}>
           Consultar produtos
         </Button>
