@@ -4,6 +4,7 @@ import { useCompare } from "../app/state/CompareProvider";
 import { useDataV1 } from "../app/state/DataProvider";
 import { useFavorites } from "../app/state/FavoritesProvider";
 import { Button } from "../components/Button";
+import { copyText } from "../presentation/clipboard";
 import { ImageLightbox } from "../components/ImageLightbox";
 import { ProductCard } from "../components/ProductCard";
 import { ProductImage } from "../components/ProductImage";
@@ -57,23 +58,6 @@ function TagList(props: { items: string[]; emptyText?: string }) {
 
 function missingLabel(product: ProductRow, label: string, keys: string[]) {
   return isMissing(productValue(product, keys)) ? label : null;
-}
-
-function copyText(text: string) {
-  const trimmed = text.trim();
-  if (!trimmed) return Promise.reject(new Error("empty"));
-  const clipboard = typeof navigator !== "undefined" ? navigator.clipboard : undefined;
-  if (clipboard?.writeText) return clipboard.writeText(trimmed);
-  const el = document.createElement("textarea");
-  el.value = trimmed;
-  el.setAttribute("readonly", "true");
-  el.style.position = "fixed";
-  el.style.left = "-9999px";
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand("copy");
-  document.body.removeChild(el);
-  return Promise.resolve();
 }
 
 function extractDrogasilCodeFromUrl(url: string) {

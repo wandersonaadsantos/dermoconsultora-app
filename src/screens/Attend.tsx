@@ -10,6 +10,7 @@ import { SafetyBanner } from "../components/SafetyBanner";
 import { uniqueNeedTags } from "../data/facets";
 import { normalizeForSearch } from "../data/normalize";
 import { getProductRouteId } from "../data/productIdentity";
+import { copyText } from "../presentation/clipboard";
 import type { ProductRow } from "../data/types";
 import { buildAttendResult } from "../attend/attendFlow";
 import type { AttendArea, AttendPreference } from "../attend/attendTypes";
@@ -139,6 +140,7 @@ export function Attend() {
   const [moreNeedQuery, setMoreNeedQuery] = useState("");
   const [moreNeedSelectedValue, setMoreNeedSelectedValue] = useState("");
   const [needsWarning, setNeedsWarning] = useState("");
+  const [copiedHandoff, setCopiedHandoff] = useState(false);
   const nextUrlSyncModeRef = useRef<"push" | "replace">("replace");
 
   const knownNeedTags = useMemo(() => {
@@ -230,6 +232,18 @@ export function Attend() {
       items
     };
   }, [area, dataState, effectiveAlert, needs, preference]);
+
+  const pharmacistSummary = useMemo(() => {
+    const needLabels = needs.map((n) => n.label).join("; ") || "—";
+    const reasons: string[] = [];
+    if (hasAlert) reasons.push("sinal de alerta geral (ferida, dor, reação, inchaço, etc.)");
+    for (const id of alertFlags) {
+      const label = ALERT_FLAGS.find((f) => f.id === id)?.label;
+      if (label) reasons.push(label.toLowerCase());
+    }
+    const reasonText = reasons.join("; ") || "não especificado";
+    return `Encaminhamento ao farmacêutico\nNecessidade: ${needLabels}\nÁrea: ${area}\nSinal de alerta: ${reasonText}`;
+  }, [needs, area, hasAlert, alertFlags]);
 
   const canNext = useMemo(() => {
     if (step === "need") return needs.length > 0;
@@ -531,6 +545,33 @@ export function Attend() {
               <>
                 <div className="error">Sinal de alerta marcado. Não recomende produto. Chame o farmacêutico.</div>
                 <div className="notice">{recommendation.safePhrase}</div>
+
+                <div className="notice attend-handoff">
+                  <div className="attend-handoff-title">Resumo para passar ao farmacêutico</div>
+                  <p className="attend-handoff-text">{pharmacistSummary}</p>
+                  <div className="toolbar toolbar-in-card">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={async () => {
+                        try {
+                          await copyText(pharmacistSummary);
+                          setCopiedHandoff(true);
+                          setTimeout(() => setCopiedHandoff(false), 1200);
+                        } catch {
+                          setCopiedHandoff(false);
+                        }
+                      }}
+                    >
+                      {copiedHandoff ? "Copiado" : "Copiar resumo"}
+                    </Button>
+                    <span className="sr-only" role="status" aria-live="polite">
+                      {copiedHandoff ? "Resumo copiado" : ""}
+                    </span>
+                  </div>
+                  <div className="hint">Use apenas dados do atendimento. Não inclua dados pessoais da cliente.</div>
+                </div>
+
                 <div className="toolbar">
                   <Button type="button" variant="primary" onClick={() => nav("/safety")}>
                     Abrir checklist

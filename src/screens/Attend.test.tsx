@@ -175,6 +175,40 @@ test("Attend_sub_gatilho_persiste_na_url_e_e_restaurado", async () => {
   expect(screen.getByText("Chame o farmacêutico antes de indicar qualquer produto.")).toBeInTheDocument();
 });
 
+test("Attend_modo_alerta_mostra_resumo_para_farmaceutico", async () => {
+  const p1 = {
+    URL_produto: "https://www.drogasil.com.br/p1-111.html",
+    Produto: "P1",
+    Marca: "M",
+    need_tags: "oleosidade",
+    routine_step: "limpeza"
+  };
+  setupFetch({ products: [p1] });
+  window.location.hash = "#/attend?step=results&needs=oleosidade&area=rosto&alert=yes";
+  render(<AppRoutes />);
+
+  expect(await screen.findByText("Resumo para passar ao farmacêutico")).toBeInTheDocument();
+  expect(screen.getByText(/Necessidade: Oleosidade/)).toBeInTheDocument();
+  expect(screen.getByText(/Área: Rosto/)).toBeInTheDocument();
+  expect(screen.getByText(/Sinal de alerta: sinal de alerta geral/)).toBeInTheDocument();
+  expect(screen.queryByText("P1")).toBeNull();
+});
+
+test("Attend_handoff_lista_gatilho_especifico", async () => {
+  const p1 = {
+    URL_produto: "https://www.drogasil.com.br/p1-111.html",
+    Produto: "P1",
+    Marca: "M",
+    need_tags: "oleosidade",
+    routine_step: "limpeza"
+  };
+  setupFetch({ products: [p1] });
+  window.location.hash = "#/attend?step=results&needs=oleosidade&area=rosto&alert=no&alertFlags=gestante";
+  render(<AppRoutes />);
+
+  expect(await screen.findByText(/Sinal de alerta: gestante ou lactante/)).toBeInTheDocument();
+});
+
 test("Attend_alerta_bloqueia_produtos_na_etapa_5", async () => {
   const p1 = {
     URL_produto: "https://www.drogasil.com.br/p1-111.html",
