@@ -5,8 +5,9 @@ export type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> & 
 };
 
 export function Chip(props: ChipProps) {
-  const { selected = false, className, ...rest } = props;
+  const { selected = false, className, role, ...rest } = props;
   const cn = ["chip", selected ? "chip-selected" : "chip-unselected", className].filter(Boolean).join(" ");
-  return <button {...rest} type="button" className={cn} />;
+  const stateProps = role === "radio" ? { role, "aria-checked": selected } : { "aria-pressed": selected };
+  return <button {...rest} {...stateProps} type="button" className={cn} />;
 }
 

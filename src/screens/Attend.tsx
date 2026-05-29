@@ -290,7 +290,7 @@ export function Attend() {
     <div className="screen attend-screen">
       <h1>Atender cliente agora</h1>
       <SafetyBanner />
-      <div className="notice">Etapa {stepNumber} de 5</div>
+      <p className="attend-step" aria-live="polite">Etapa {stepNumber} de 5</p>
 
       <div className="toolbar">
         {step !== "need" ? (
@@ -351,9 +351,8 @@ export function Attend() {
       {step === "need" ? (
         <>
           <h2>1) Quais necessidades a cliente trouxe?</h2>
-          <div className="notice">Você pode marcar até 3 opções.</div>
-          <div className="notice">
-            {needs.length} de {maxNeeds} necessidades selecionadas
+          <div className="notice" aria-live="polite">
+            Marque até {maxNeeds} necessidades — {needs.length} de {maxNeeds} selecionadas.
           </div>
           {needsWarning ? <div className="notice">{needsWarning}</div> : null}
           <div className="chips">
@@ -432,9 +431,9 @@ export function Attend() {
       {step === "area" ? (
         <>
           <h2>2) Qual é a área?</h2>
-          <div className="chips">
+          <div className="chips" role="radiogroup" aria-label="Área do atendimento">
             {(["Rosto", "Corpo", "Cabelo", "Perfumaria", "Maquiagem"] as const).map((a) => (
-              <Chip key={a} selected={area === a} onClick={() => setArea(a)}>
+              <Chip key={a} role="radio" selected={area === a} onClick={() => setArea(a)}>
                 {a}
               </Chip>
             ))}
@@ -446,13 +445,13 @@ export function Attend() {
         <>
           <h2>3) Preferência rápida</h2>
           <div className="notice">Use isso para reduzir risco e simplificar a escolha.</div>
-          <div className="chips">
+          <div className="chips" role="radiogroup" aria-label="Preferência da cliente">
             {([
               ["sem-preferencia", "Sem preferência"],
               ["uso-simples", "Uso simples"],
               ["mais-suave", "Mais suave"]
             ] as const).map(([value, label]) => (
-              <Chip key={value} selected={preference === value} onClick={() => setPreference(value)}>
+              <Chip key={value} role="radio" selected={preference === value} onClick={() => setPreference(value)}>
                 {label}
               </Chip>
             ))}
@@ -467,11 +466,11 @@ export function Attend() {
             Se houver ferida, alergia forte, ardência intensa, inchaço, secreção, dor importante ou piora rápida, marque sinal de
             alerta.
           </div>
-          <div className="chips">
-            <Chip selected={!hasAlert} onClick={() => setHasAlert(false)}>
+          <div className="chips" role="radiogroup" aria-label="Existe sinal de alerta?">
+            <Chip role="radio" selected={!hasAlert} onClick={() => setHasAlert(false)}>
               Não
             </Chip>
-            <Chip selected={hasAlert} onClick={() => setHasAlert(true)}>
+            <Chip role="radio" selected={hasAlert} onClick={() => setHasAlert(true)}>
               Sim
             </Chip>
           </div>

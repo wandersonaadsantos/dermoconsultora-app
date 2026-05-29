@@ -48,11 +48,11 @@ test("Attend_permite_selecionar_ate_3_necessidades_e_bloqueia_a_4a_com_aviso", a
   fireEvent.click(screen.getByRole("button", { name: "Ressecamento" }));
   fireEvent.click(screen.getByRole("button", { name: "Manchas" }));
 
-  expect(screen.getByText("3 de 3 necessidades selecionadas")).toBeInTheDocument();
+  expect(screen.getByText(/3 de 3 selecionadas/)).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole("button", { name: "Sensibilidade" }));
   expect(screen.getByText("Escolha até 3 para manter a orientação simples.")).toBeInTheDocument();
-  expect(screen.getByText("3 de 3 necessidades selecionadas")).toBeInTheDocument();
+  expect(screen.getByText(/3 de 3 selecionadas/)).toBeInTheDocument();
 });
 
 test("Attend_restaura_step_e_necessidades_pela_URL", async () => {
@@ -68,7 +68,7 @@ test("Attend_restaura_step_e_necessidades_pela_URL", async () => {
 
   expect(screen.getByRole("button", { name: "Oleosidade" }).className).toContain("chip-selected");
   expect(screen.getByRole("button", { name: "Manchas" }).className).toContain("chip-selected");
-  expect(screen.getByText("2 de 3 necessidades selecionadas")).toBeInTheDocument();
+  expect(screen.getByText(/2 de 3 selecionadas/)).toBeInTheDocument();
 });
 
 test("Attend_mostra_indicador_de_progresso", async () => {
@@ -147,7 +147,7 @@ test("Attend_alerta_bloqueia_produtos_na_etapa_5", async () => {
   fireEvent.click(await screen.findByRole("button", { name: "Próxima etapa" }));
   fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
 
-  fireEvent.click(await screen.findByRole("button", { name: "Sim" }));
+  fireEvent.click(await screen.findByRole("radio", { name: "Sim" }));
   fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
 
   expect(await screen.findByText("Sinal de alerta marcado. Não recomende produto. Chame o farmacêutico.")).toBeInTheDocument();

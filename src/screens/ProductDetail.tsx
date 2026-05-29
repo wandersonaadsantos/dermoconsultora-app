@@ -211,7 +211,7 @@ export function ProductDetail() {
   return (
     <div className="screen product-detail-screen">
       <h1>Ficha do produto</h1>
-      <SafetyBanner />
+      <SafetyBanner note={originText} />
 
       {dataState.status === "loading" || dataState.status === "idle" ? <div>Carregando base...</div> : null}
       {dataState.status === "error" ? (
@@ -230,7 +230,6 @@ export function ProductDetail() {
 
       {dataState.status === "ready" && product && view ? (
         <>
-          <SafetyBanner kind="origin" text={originText} />
           <div className="toolbar">
             <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
               Voltar para consulta
@@ -291,6 +290,9 @@ export function ProductDetail() {
                     >
                       {copiedCode ? "Copiado" : "Copiar código"}
                     </Button>
+                    <span className="sr-only" role="status" aria-live="polite">
+                      {copiedCode ? "Código copiado" : ""}
+                    </span>
                   </div>
                 </div>
                 <InfoItem label="Produto" value={view.productName} />

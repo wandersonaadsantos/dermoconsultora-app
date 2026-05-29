@@ -64,6 +64,16 @@ export function Consult() {
 
   const [shown, setShown] = useState(PAGE_SIZE);
 
+  const [advancedOpen, setAdvancedOpen] = useState<boolean>(
+    () =>
+      filters.brand !== "all" ||
+      filters.routine_step !== "all" ||
+      filters.need_tag !== "all" ||
+      filters.caution_level !== "all" ||
+      filters.complexity_level !== "all" ||
+      filters.needsOnly
+  );
+
   const updateFilters = (next: FilterState | ((prev: FilterState) => FilterState)) => {
     urlSyncEnabledRef.current = true;
     setFilters(next);
@@ -150,6 +160,15 @@ export function Consult() {
       : "Base coletada do site. Isso não garante estoque na loja física. Confirme disponibilidade e rótulo antes de orientar.";
   }, [dataState]);
 
+  const activeAdvancedCount = [
+    filters.brand !== "all",
+    filters.routine_step !== "all",
+    filters.need_tag !== "all",
+    filters.caution_level !== "all",
+    filters.complexity_level !== "all",
+    filters.needsOnly
+  ].filter(Boolean).length;
+
   return (
     <div className="screen">
       <h1>Consulta</h1>
@@ -165,8 +184,7 @@ export function Consult() {
 
       {dataState.status === "ready" && view ? (
         <>
-          <SafetyBanner />
-          <SafetyBanner kind="origin" text={originText} />
+          <SafetyBanner note={originText} />
           <div className="toolbar">
             <Button type="button" variant="primary" onClick={() => nav("/compare")}>
               Ir para comparação ({compare.selected.length})
@@ -188,8 +206,14 @@ export function Consult() {
             </FieldGroup>
           </div>
 
-          <div className="consult-advanced">
-            <h2>Filtros avançados</h2>
+          <details
+            className="consult-advanced"
+            open={advancedOpen}
+            onToggle={(e) => setAdvancedOpen(e.currentTarget.open)}
+          >
+            <summary className="consult-advanced-summary">
+              Filtros avançados{activeAdvancedCount > 0 ? ` (${activeAdvancedCount})` : ""}
+            </summary>
             <div className="filters">
               <FieldGroup label="Marca">
                 <select
@@ -281,7 +305,7 @@ export function Consult() {
                 </Button>
               </div>
             </div>
-          </div>
+          </details>
 
           {view.page.total === 0 ? (
             <div className="notice">

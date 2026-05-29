@@ -25,7 +25,7 @@ export function AppShell() {
 
   return (
     <div className="app-shell">
-      <div className="topbar">
+      <header className="topbar">
         <div className="topbar-left">
           {!isHome ? (
             <Button type="button" variant="secondary" onClick={() => nav(-1)}>
@@ -36,7 +36,7 @@ export function AppShell() {
           )}
         </div>
         <div className="topbar-title">Dermoconsultora</div>
-        <div className="topbar-right">
+        <nav className="topbar-right" aria-label="Navegação">
           <Button
             type="button"
             variant="secondary"
@@ -50,11 +50,11 @@ export function AppShell() {
           <Button type="button" variant="secondary" onClick={() => nav("/")}>
             Início
           </Button>
-        </div>
-      </div>
-      <div className="app-content">
+        </nav>
+      </header>
+      <main className="app-content">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }
