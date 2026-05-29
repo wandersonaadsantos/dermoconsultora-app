@@ -1,0 +1,116 @@
+:root {
+  --text: #4b5563;
+  --text-h: #1f2937;
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --surface-soft: #f3f0ea;
+  --border: #ded9cf;
+  --code-bg: #f6f1e8;
+  --accent: #7c3aed;
+  --accent-bg: rgba(124, 58, 237, 0.1);
+  --accent-border: rgba(124, 58, 237, 0.35);
+  --social-bg: #f7f5ef;
+  --success-bg: #e9f7ef;
+  --warning-bg: #fff7e6;
+  --danger-bg: #fff1f1;
+  --shadow: rgba(31, 41, 55, 0.08) 0 10px 24px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 900px) {
+    font-size: 16px;
+  }
+}
+
+:root[data-theme="dark"] {
+  --text: #c7ced8;
+  --text-h: #f8fafc;
+  --bg: #16171d;
+  --surface: #20222b;
+  --surface-soft: #282b35;
+  --border: #363a46;
+  --code-bg: #242731;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  --social-bg: #242731;
+  --success-bg: rgba(34, 197, 94, 0.13);
+  --warning-bg: rgba(245, 158, 11, 0.13);
+  --danger-bg: rgba(239, 68, 68, 0.13);
+  --shadow: rgba(0, 0, 0, 0.32) 0 12px 28px;
+  color-scheme: dark;
+}
+
+#root {
+  width: 1024px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: left;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 40px;
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin: 24px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}

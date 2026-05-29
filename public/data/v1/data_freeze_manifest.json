@@ -1,0 +1,97 @@
+{
+    "version":  "v1",
+    "created_at":  "2026-05-24T20:35:48.2492183Z",
+    "total_products":  2467,
+    "need_tags_coverage":  79.8,
+    "comparison_group_coverage":  99.7,
+    "tratamento_cosmetico_outros_count":  299,
+    "warnings_count":  686,
+    "both_substitute_and_complementary_count":  0,
+    "can_start_app":  true,
+    "limitations":  [
+                        "Ainda existem warnings, mas não há bloqueador estrutural.",
+                        "Nem todos os produtos têm dados factuais completos de rótulo/site.",
+                        "Campos derivados são rule-based, não equivalem a informação oficial do fabricante.",
+                        "O app deve diferenciar dado factual de dado derivado.",
+                        "Grupos genéricos ainda existem, mas abaixo do limite definido.",
+                        "O app não deve usar grupos genéricos como comparação direta sem cautela.",
+                        "Não há diagnóstico, prescrição ou promessa de tratamento."
+                    ],
+    "files":  [
+                  {
+                      "path":  "base_drogasil_dermoconsulta_enriquecida.csv",
+                      "sha256":  "02b170ec6bd44fc65f5ed282a2750a65103f359296eeed3cfd09bd62beefe41b",
+                      "bytes":  5965657
+                  },
+                  {
+                      "path":  "base_drogasil_dermoconsulta_enriquecida.json",
+                      "sha256":  "8c5751245878ab416b851d079c068bbbe698cecb001cd4f172993a579b49e944",
+                      "bytes":  9166751
+                  },
+                  {
+                      "path":  "cautionRules.json",
+                      "sha256":  "a448c5f34dd0184fcd0dd8d45a07778df9647e9a1160188ab4837db0bfa2d2cb",
+                      "bytes":  1367
+                  },
+                  {
+                      "path":  "comparisonGroups.json",
+                      "sha256":  "33a20d3dccabf23fd2f129ac2e8c08ea81b5334e66731e9d1e76f7883440982c",
+                      "bytes":  15211
+                  },
+                  {
+                      "path":  "complexityRules.json",
+                      "sha256":  "64da7505c6caeed977c12c036cb0b6833868394af8328be22dc42b3a4cdcc156",
+                      "bytes":  1667
+                  },
+                  {
+                      "path":  "images_manifest.json",
+                      "sha256":  "bde21c0a59263adfa4631e5745171add5b22c2704e5b83cd55cb1bea1e0c1485",
+                      "bytes":  1455425
+                  },
+                  {
+                      "path":  "needTags.json",
+                      "sha256":  "cf4c1afb3eddf3350be2c4206407d31152cdb58a874e6c788874744376707935",
+                      "bytes":  10340
+                  },
+                  {
+                      "path":  "normalization_audit_report.md",
+                      "sha256":  "3a080782f92965c70d06632e15efae8b526a298ec5b6917df292c3ebe61b582b",
+                      "bytes":  4542
+                  },
+                  {
+                      "path":  "normalization_audit_samples.csv",
+                      "sha256":  "46261916fa48786b5aa16da70a14e611fcd72c4b56b92f812bd23899f2cd1ffd",
+                      "bytes":  482959
+                  },
+                  {
+                      "path":  "normalization_report.json",
+                      "sha256":  "cf54270072a9b4830e21a18ddb987f259f38b60e7dad43804c0f4fa688404d50",
+                      "bytes":  4923
+                  },
+                  {
+                      "path":  "normalization_warnings.csv",
+                      "sha256":  "74cbce97f535884aeb2f4f6b0c842cc20dd1ad4cb4df1a2e665e606aae2b315c",
+                      "bytes":  381197
+                  },
+                  {
+                      "path":  "priceTiers.json",
+                      "sha256":  "8b6900fc328ec677de2a0afd083ca9e044d6e5719f7d4a5fb1ce4a5d61ce2ddd",
+                      "bytes":  1125
+                  },
+                  {
+                      "path":  "README.md",
+                      "sha256":  "23ba0d2693a8140d3192ccf08aa51e503b6ed16522826733827fc7f9afe6c346",
+                      "bytes":  2190
+                  },
+                  {
+                      "path":  "routineSteps.json",
+                      "sha256":  "de38f93c45ee6ec6659326dc2d751bb5994e117a4e2a48be532872beb0fab124",
+                      "bytes":  5328
+                  },
+                  {
+                      "path":  "taxonomy_refinement_suggestions.md",
+                      "sha256":  "d7aaf0b4ad756bbe980094fe14df57830806e3e7c5a335481f625c3a7be4569f",
+                      "bytes":  925
+                  }
+              ]
+}
