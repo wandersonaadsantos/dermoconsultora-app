@@ -314,33 +314,15 @@ export function Attend() {
     <div className="screen attend-screen">
       <h1>Atender cliente com apoio</h1>
       <SafetyBanner />
-      <p className="attend-step" aria-live="polite">
-        Etapa {stepNumber} de 5 — {STEP_NAMES[step]}
-      </p>
 
-      <div className="toolbar">
-        {step !== "need" ? (
-          <Button type="button" variant="secondary" onClick={goPrev}>
-            Voltar
-          </Button>
-        ) : null}
-        {step !== "results" ? (
-          <Button type="button" variant="primary" onClick={goNext} disabled={!canNext}>
-            Próxima etapa
-          </Button>
-        ) : (
-          <Button type="button" variant="secondary" onClick={reset}>
-            Reiniciar
-          </Button>
-        )}
-        <Button type="button" variant="secondary" onClick={() => nav("/safety")}>
-          Checklist de segurança
-        </Button>
+      <div className="attend-progress" aria-live="polite">
+        <span className="attend-step-pill">Etapa {stepNumber} de 5</span>
+        <span className="attend-step-name">{STEP_NAMES[step]}</span>
       </div>
 
       {step !== "need" ? (
         <div className="attend-summary">
-          <h2>Resumo do atendimento</h2>
+          <div className="attend-summary-label">Resumo do atendimento</div>
           <div className="attend-summary-grid">
             <div className="info-item">
               <div className="info-item-label">Necessidades</div>
@@ -374,188 +356,210 @@ export function Attend() {
         </div>
       ) : null}
 
-      {step === "need" ? (
-        <>
-          <h2>1) Quais necessidades a cliente trouxe?</h2>
-          <div className="notice" aria-live="polite">
-            Marque até {MAX_NEEDS} necessidades — {needs.length} de {MAX_NEEDS} selecionadas.
-          </div>
-          {needsWarning ? <div className="notice">{needsWarning}</div> : null}
-          <div className="chips">
-            {CURATED_NEEDS.map((label) => (
-              <Chip
-                key={label}
-                selected={needs.some((n) => n.kind === "query" && n.value === label)}
-                onClick={() => toggleNeed({ kind: "query", value: label, label })}
-              >
-                {label}
-              </Chip>
-            ))}
-          </div>
-
-          <div className="toolbar">
-            <Button type="button" variant="secondary" onClick={() => setShowMoreNeeds((v) => !v)}>
-              {showMoreNeeds ? "Ocultar necessidades" : "Ver mais necessidades"}
-            </Button>
-          </div>
-
-          {showMoreNeeds ? (
-            <div className="filters">
-              <div className="field">
-                <div className="field-label">Buscar na lista completa</div>
-                <input
-                  className="input"
-                  value={moreNeedQuery}
-                  onChange={(e) => setMoreNeedQuery(e.target.value)}
-                  placeholder="Ex.: queda, manchas, poros"
-                />
-                <div className="hint">Digite para filtrar e encontrar mais rápido.</div>
-              </div>
-              <div className="field">
-                <div className="field-label">Necessidades da base</div>
-                <select
-                  className="input"
-                  value={moreNeedSelectedValue}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    if (!v) return setMoreNeedSelectedValue("");
-                    const opt = moreNeeds.find((n) => n.value === v);
-                    if (opt) toggleNeed({ kind: "tag", value: opt.value, label: opt.label });
-                    setMoreNeedSelectedValue("");
-                  }}
-                >
-                  <option value="">Selecionar…</option>
-                  {(moreNeedQuery.trim().length > 0
-                    ? moreNeeds.filter((n) => n.label.toLowerCase().includes(moreNeedQuery.trim().toLowerCase()))
-                    : moreNeeds.slice(0, 200)
-                  ).map((n) => (
-                    <option key={n.value} value={n.value}>
-                      {n.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="hint">Se não aparecer, refine a busca. A lista é grande.</div>
-              </div>
+      <div className="attend-step-content">
+        {step === "need" ? (
+          <>
+            <h2>1) Quais necessidades a cliente trouxe?</h2>
+            <div className="notice" aria-live="polite">
+              Marque até {MAX_NEEDS} necessidades — {needs.length} de {MAX_NEEDS} selecionadas.
             </div>
-          ) : null}
-        </>
-      ) : null}
-
-      {step === "area" ? (
-        <>
-          <h2>2) Qual é a área?</h2>
-          <div className="chips" role="radiogroup" aria-label="Área do atendimento">
-            {(["Rosto", "Corpo", "Cabelo", "Perfumaria", "Maquiagem"] as const).map((a) => (
-              <Chip key={a} role="radio" selected={area === a} onClick={() => setArea(a)}>
-                {a}
-              </Chip>
-            ))}
-          </div>
-        </>
-      ) : null}
-
-      {step === "preference" ? (
-        <>
-          <h2>3) Preferência rápida</h2>
-          <div className="notice">Use isso para reduzir risco e simplificar a escolha.</div>
-          <div className="chips" role="radiogroup" aria-label="Preferência da cliente">
-            {([
-              ["sem-preferencia", "Sem preferência"],
-              ["uso-simples", "Uso simples"],
-              ["mais-suave", "Mais suave"]
-            ] as const).map(([value, label]) => (
-              <Chip key={value} role="radio" selected={preference === value} onClick={() => setPreference(value)}>
-                {label}
-              </Chip>
-            ))}
-          </div>
-        </>
-      ) : null}
-
-      {step === "alert" ? (
-        <>
-          <h2>4) Existe sinal de alerta?</h2>
-          <div className="notice">
-            Ferida, alergia forte, ardência intensa, inchaço, secreção, dor importante ou piora rápida.
-          </div>
-          <div className="chips" role="radiogroup" aria-label="Existe sinal de alerta?">
-            <Chip role="radio" selected={!hasAlert} onClick={() => setHasAlert(false)}>
-              Não
-            </Chip>
-            <Chip role="radio" selected={hasAlert} onClick={() => setHasAlert(true)}>
-              Sim
-            </Chip>
-          </div>
-          {hasAlert ? (
-            <div className="error">Chame o farmacêutico antes de indicar qualquer produto.</div>
-          ) : null}
-        </>
-      ) : null}
-
-      {step === "results" ? (
-        <>
-          <h2>5) Próximos passos</h2>
-
-          {dataState.status === "loading" || dataState.status === "idle" ? <div>Carregando base…</div> : null}
-          {dataState.status === "error" ? (
-            <div className="error">Falha ao carregar base. Use a consulta quando a base estiver disponível.</div>
-          ) : null}
-
-          {recommendation?.mode === "alert" ? (
-            <>
-              <div className="error">Sinal de alerta marcado. Não recomende produto. Chame o farmacêutico.</div>
-              <div className="notice">{recommendation.safePhrase}</div>
-              <div className="toolbar">
-                <Button type="button" variant="primary" onClick={() => nav("/safety")}>
-                  Abrir checklist
-                </Button>
-                <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
-                  Abrir consulta (sem indicar)
-                </Button>
-              </div>
-            </>
-          ) : recommendation?.mode === "recommendations" && dataState.status === "ready" ? (
-            <>
-              <div className="notice">{recommendation.safePhrase}</div>
-              <div className="notice">
-                Sugestões para começar. Confirmar no rótulo antes de orientar. Se não fizer sentido, abra a consulta completa.
-              </div>
-              <div className="toolbar">
-                <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
-                  Abrir consulta completa
-                </Button>
-              </div>
-              {recommendation.items.length === 0 ? (
-                <div className="notice">Não encontrei opções com esse recorte na base atual.</div>
-              ) : (
-                <div className="cards">
-                  {(recommendation.items as Array<{ product: ProductRow; matchedLabels: string[] }>)
-                    .slice(0, 8)
-                    .map((rec) => {
-                      const rid = getProductRouteId(rec.product, dataState.data.products);
-                      const reason = rec.matchedLabels.length > 0 ? `Combina com: ${rec.matchedLabels.join("; ")}` : "";
-                      return (
-                        <div key={String(rec.product.URL_produto ?? rid)}>
-                          {reason ? <div className="related-reason">{reason}</div> : null}
-                          <ProductCard
-                            product={rec.product}
-                            data={dataState.data}
-                            baseUrl={baseUrl}
-                            isInCompare={compare.has(rec.product)}
-                            onToggleCompare={() => compare.toggle(rec.product)}
-                            isFavorite={favorites.has(rec.product)}
-                            onToggleFavorite={() => favorites.toggle(rec.product)}
-                            onOpen={() => nav(`/product/${rid}`)}
-                          />
-                        </div>
-                      );
-                    })}
+            {needsWarning ? <div className="warning">{needsWarning}</div> : null}
+            <div className="chips">
+              {CURATED_NEEDS.map((label) => (
+                <Chip
+                  key={label}
+                  selected={needs.some((n) => n.kind === "query" && n.value === label)}
+                  onClick={() => toggleNeed({ kind: "query", value: label, label })}
+                >
+                  {label}
+                </Chip>
+              ))}
+            </div>
+            <div className="toolbar">
+              <Button type="button" variant="secondary" onClick={() => setShowMoreNeeds((v) => !v)}>
+                {showMoreNeeds ? "Ocultar necessidades" : "Ver mais necessidades"}
+              </Button>
+            </div>
+            {showMoreNeeds ? (
+              <div className="filters">
+                <div className="field">
+                  <div className="field-label">Buscar na lista completa</div>
+                  <input
+                    className="input"
+                    value={moreNeedQuery}
+                    onChange={(e) => setMoreNeedQuery(e.target.value)}
+                    placeholder="Ex.: queda, manchas, poros"
+                  />
+                  <div className="hint">Digite para filtrar e encontrar mais rápido.</div>
                 </div>
-              )}
-            </>
-          ) : null}
-        </>
-      ) : null}
+                <div className="field">
+                  <div className="field-label">Necessidades da base</div>
+                  <select
+                    className="input"
+                    value={moreNeedSelectedValue}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (!v) return setMoreNeedSelectedValue("");
+                      const opt = moreNeeds.find((n) => n.value === v);
+                      if (opt) toggleNeed({ kind: "tag", value: opt.value, label: opt.label });
+                      setMoreNeedSelectedValue("");
+                    }}
+                  >
+                    <option value="">Selecionar…</option>
+                    {(moreNeedQuery.trim().length > 0
+                      ? moreNeeds.filter((n) => n.label.toLowerCase().includes(moreNeedQuery.trim().toLowerCase()))
+                      : moreNeeds.slice(0, 200)
+                    ).map((n) => (
+                      <option key={n.value} value={n.value}>
+                        {n.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="hint">Se não aparecer, refine a busca. A lista é grande.</div>
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : null}
+
+        {step === "area" ? (
+          <>
+            <h2>2) Qual é a área?</h2>
+            <div className="chips" role="radiogroup" aria-label="Área do atendimento">
+              {(["Rosto", "Corpo", "Cabelo", "Perfumaria", "Maquiagem"] as const).map((a) => (
+                <Chip key={a} role="radio" selected={area === a} onClick={() => setArea(a)}>
+                  {a}
+                </Chip>
+              ))}
+            </div>
+          </>
+        ) : null}
+
+        {step === "preference" ? (
+          <>
+            <h2>3) Preferência rápida</h2>
+            <div className="hint">Use isso para reduzir risco e simplificar a escolha.</div>
+            <div className="chips" role="radiogroup" aria-label="Preferência da cliente">
+              {([
+                ["sem-preferencia", "Sem preferência"],
+                ["uso-simples", "Uso simples"],
+                ["mais-suave", "Mais suave"]
+              ] as const).map(([value, label]) => (
+                <Chip key={value} role="radio" selected={preference === value} onClick={() => setPreference(value)}>
+                  {label}
+                </Chip>
+              ))}
+            </div>
+          </>
+        ) : null}
+
+        {step === "alert" ? (
+          <>
+            <h2>4) Existe sinal de alerta?</h2>
+            <div className="hint">
+              Ferida, alergia forte, ardência intensa, inchaço, secreção, dor importante ou piora rápida.
+            </div>
+            <div className="chips" role="radiogroup" aria-label="Existe sinal de alerta?">
+              <Chip role="radio" selected={!hasAlert} onClick={() => setHasAlert(false)}>
+                Não
+              </Chip>
+              <Chip role="radio" selected={hasAlert} onClick={() => setHasAlert(true)}>
+                Sim
+              </Chip>
+            </div>
+            {hasAlert ? (
+              <div className="error">Chame o farmacêutico antes de indicar qualquer produto.</div>
+            ) : null}
+          </>
+        ) : null}
+
+        {step === "results" ? (
+          <>
+            <h2>5) Próximos passos</h2>
+
+            {dataState.status === "loading" || dataState.status === "idle" ? <div>Carregando base…</div> : null}
+            {dataState.status === "error" ? (
+              <div className="error">Falha ao carregar base. Use a consulta quando a base estiver disponível.</div>
+            ) : null}
+
+            {recommendation?.mode === "alert" ? (
+              <>
+                <div className="error">Sinal de alerta marcado. Não recomende produto. Chame o farmacêutico.</div>
+                <div className="notice">{recommendation.safePhrase}</div>
+                <div className="toolbar">
+                  <Button type="button" variant="primary" onClick={() => nav("/safety")}>
+                    Abrir checklist
+                  </Button>
+                  <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
+                    Abrir consulta (sem indicar)
+                  </Button>
+                </div>
+              </>
+            ) : recommendation?.mode === "recommendations" && dataState.status === "ready" ? (
+              <>
+                <div className="notice">{recommendation.safePhrase}</div>
+                <div className="hint">
+                  Sugestões para começar. Confirmar no rótulo antes de orientar. Se não fizer sentido, abra a consulta completa.
+                </div>
+                <div className="toolbar">
+                  <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
+                    Abrir consulta completa
+                  </Button>
+                </div>
+                {recommendation.items.length === 0 ? (
+                  <div className="notice">Não encontrei opções com esse recorte na base atual.</div>
+                ) : (
+                  <div className="cards">
+                    {(recommendation.items as Array<{ product: ProductRow; matchedLabels: string[] }>)
+                      .slice(0, 8)
+                      .map((rec) => {
+                        const rid = getProductRouteId(rec.product, dataState.data.products);
+                        const reason = rec.matchedLabels.length > 0 ? `Combina com: ${rec.matchedLabels.join("; ")}` : "";
+                        return (
+                          <div key={String(rec.product.URL_produto ?? rid)}>
+                            {reason ? <div className="related-reason">{reason}</div> : null}
+                            <ProductCard
+                              product={rec.product}
+                              data={dataState.data}
+                              baseUrl={baseUrl}
+                              isInCompare={compare.has(rec.product)}
+                              onToggleCompare={() => compare.toggle(rec.product)}
+                              isFavorite={favorites.has(rec.product)}
+                              onToggleFavorite={() => favorites.toggle(rec.product)}
+                              onOpen={() => nav(`/product/${rid}`)}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+              </>
+            ) : null}
+          </>
+        ) : null}
+      </div>
+
+      <div className="attend-nav">
+        {step !== "need" ? (
+          <Button type="button" variant="secondary" onClick={goPrev}>
+            Voltar
+          </Button>
+        ) : null}
+        <div className="attend-nav-spacer" />
+        {step !== "results" ? (
+          <Button type="button" variant="primary" onClick={goNext} disabled={!canNext}>
+            Próxima etapa
+          </Button>
+        ) : (
+          <Button type="button" variant="secondary" onClick={reset}>
+            Reiniciar
+          </Button>
+        )}
+      </div>
+
+      <button type="button" className="attend-secondary-link" onClick={() => nav("/safety")}>
+        Checklist de segurança
+      </button>
     </div>
   );
 }
