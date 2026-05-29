@@ -412,6 +412,42 @@
   line-height: 1.5;
 }
 
+.safe-phrases-title {
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 10px;
+}
+
+.safe-phrases-list {
+  display: grid;
+  gap: 12px;
+}
+
+.safe-phrase-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.safe-phrase-customer {
+  color: var(--text);
+  font-style: italic;
+}
+
+.safe-phrase-you {
+  color: var(--text-h);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.safe-phrase-check {
+  font-size: 14px;
+  color: var(--text);
+}
+
 .attend-alert-flags .field-label {
   margin-bottom: 10px;
 }

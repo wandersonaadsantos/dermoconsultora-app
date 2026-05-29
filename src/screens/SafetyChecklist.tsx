@@ -1,4 +1,5 @@
 import { LabelChecklist } from "../components/LabelChecklist";
+import { SafePhrases } from "../components/SafePhrases";
 
 export function SafetyChecklist() {
   return (
@@ -15,6 +16,10 @@ export function SafetyChecklist() {
 
       <section>
         <LabelChecklist heading="Confira o rótulo em 1 minuto" />
+      </section>
+
+      <section>
+        <SafePhrases heading="Frases seguras por situação" />
       </section>
     </div>
   );
