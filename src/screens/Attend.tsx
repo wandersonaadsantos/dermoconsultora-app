@@ -17,6 +17,93 @@ import { buildMoreNeeds, CURATED_NEEDS } from "../attend/needOptions";
 
 type AttendStep = "need" | "area" | "preference" | "alert" | "results";
 
+const MAX_NEEDS = 3;
+
+const STEP_NAMES: Record<AttendStep, string> = {
+  need: "Necessidades",
+  area: "Área",
+  preference: "Preferência",
+  alert: "Sinal de alerta",
+  results: "Resultado"
+};
+
+function needSlug(label: string) {
+  return normalizeForSearch(label)
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
+function urlStepToInternal(urlStep: string): AttendStep {
+  if (urlStep === "needs") return "need";
+  if (urlStep === "area") return "area";
+  if (urlStep === "preference") return "preference";
+  if (urlStep === "alert") return "alert";
+  if (urlStep === "results") return "results";
+  return "need";
+}
+
+function internalStepToUrl(s: AttendStep) {
+  if (s === "need") return "needs";
+  return s;
+}
+
+function areaParamToArea(value: string): AttendArea {
+  const v = normalizeForSearch(value);
+  if (v === "rosto") return "Rosto";
+  if (v === "corpo") return "Corpo";
+  if (v === "cabelo") return "Cabelo";
+  if (v === "perfumaria") return "Perfumaria";
+  if (v === "maquiagem") return "Maquiagem";
+  return "Rosto";
+}
+
+function areaToParam(value: AttendArea) {
+  if (value === "Rosto") return "rosto";
+  if (value === "Corpo") return "corpo";
+  if (value === "Cabelo") return "cabelo";
+  if (value === "Perfumaria") return "perfumaria";
+  return "maquiagem";
+}
+
+function getInitialSearch(): string {
+  if (typeof window === "undefined") return "";
+  const hash = window.location.hash;
+  const idx = hash.indexOf("?");
+  return idx >= 0 ? hash.slice(idx) : "";
+}
+
+function parseStateFromSearch(search: string) {
+  const params = new URLSearchParams(search);
+  const rawStep = params.get("step") ?? "needs";
+  const normalizedStep =
+    rawStep === "needs" || rawStep === "area" || rawStep === "preference" || rawStep === "alert" || rawStep === "results"
+      ? rawStep
+      : "needs";
+
+  const needsRaw = (params.get("needs") ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, MAX_NEEDS);
+
+  const restoredNeeds: Array<{ kind: "tag" | "query"; value: string; label: string }> = [];
+  for (const id of needsRaw) {
+    const match = CURATED_NEEDS.find((label) => needSlug(label) === id);
+    if (match) restoredNeeds.push({ kind: "query", value: match, label: match });
+  }
+
+  const effectiveStep = restoredNeeds.length === 0 && normalizedStep !== "needs" ? "needs" : normalizedStep;
+
+  return {
+    step: urlStepToInternal(effectiveStep),
+    needs: restoredNeeds,
+    area: areaParamToArea(params.get("area") ?? ""),
+    preference: (params.get("preference") ?? "sem-preferencia") as AttendPreference,
+    hasAlert: params.get("alert") === "yes"
+  };
+}
+
 export function Attend() {
   const nav = useNavigate();
   const location = useLocation();
@@ -25,58 +112,16 @@ export function Attend() {
   const favorites = useFavorites();
   const baseUrl = import.meta.env.BASE_URL ?? "/";
 
-  const maxNeeds = 3;
-
-  const [step, setStep] = useState<AttendStep>("need");
-  const [needs, setNeeds] = useState<Array<{ kind: "tag" | "query"; value: string; label: string }>>([]);
-  const [area, setArea] = useState<AttendArea>("Rosto");
-  const [preference, setPreference] = useState<AttendPreference>("sem-preferencia");
-  const [hasAlert, setHasAlert] = useState(false);
+  const [step, setStep] = useState<AttendStep>(() => parseStateFromSearch(getInitialSearch()).step);
+  const [needs, setNeeds] = useState(() => parseStateFromSearch(getInitialSearch()).needs);
+  const [area, setArea] = useState<AttendArea>(() => parseStateFromSearch(getInitialSearch()).area);
+  const [preference, setPreference] = useState<AttendPreference>(() => parseStateFromSearch(getInitialSearch()).preference);
+  const [hasAlert, setHasAlert] = useState(() => parseStateFromSearch(getInitialSearch()).hasAlert);
   const [showMoreNeeds, setShowMoreNeeds] = useState(false);
   const [moreNeedQuery, setMoreNeedQuery] = useState("");
   const [moreNeedSelectedValue, setMoreNeedSelectedValue] = useState("");
   const [needsWarning, setNeedsWarning] = useState("");
-  const [notes, setNotes] = useState("");
   const nextUrlSyncModeRef = useRef<"push" | "replace">("replace");
-
-  const needSlug = (label: string) => {
-    return normalizeForSearch(label)
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+/, "")
-      .replace(/-+$/, "");
-  };
-
-  const areaParamToArea = (value: string): AttendArea => {
-    const v = normalizeForSearch(value);
-    if (v === "rosto") return "Rosto";
-    if (v === "corpo") return "Corpo";
-    if (v === "cabelo") return "Cabelo";
-    if (v === "perfumaria") return "Perfumaria";
-    if (v === "maquiagem") return "Maquiagem";
-    return "Rosto";
-  };
-
-  const areaToParam = (value: AttendArea) => {
-    if (value === "Rosto") return "rosto";
-    if (value === "Corpo") return "corpo";
-    if (value === "Cabelo") return "cabelo";
-    if (value === "Perfumaria") return "perfumaria";
-    return "maquiagem";
-  };
-
-  const urlStepToInternal = (urlStep: string): AttendStep => {
-    if (urlStep === "needs") return "need";
-    if (urlStep === "area") return "area";
-    if (urlStep === "preference") return "preference";
-    if (urlStep === "alert") return "alert";
-    if (urlStep === "results") return "results";
-    return "need";
-  };
-
-  const internalStepToUrl = (s: AttendStep) => {
-    if (s === "need") return "needs";
-    return s;
-  };
 
   const knownNeedTags = useMemo(() => {
     if (dataState.status !== "ready") return [];
@@ -90,7 +135,7 @@ export function Attend() {
     setNeeds((prev) => {
       const exists = prev.some((n) => n.kind === next.kind && n.value === next.value);
       if (exists) return prev.filter((n) => !(n.kind === next.kind && n.value === next.value));
-      if (prev.length >= maxNeeds) {
+      if (prev.length >= MAX_NEEDS) {
         setNeedsWarning("Escolha até 3 para manter a orientação simples.");
         return prev;
       }
@@ -194,7 +239,6 @@ export function Attend() {
     setMoreNeedQuery("");
     setMoreNeedSelectedValue("");
     setNeedsWarning("");
-    setNotes("");
   };
 
   const stepNumber = useMemo(() => {
@@ -214,43 +258,23 @@ export function Attend() {
   const showPreferenceInSummary = step === "preference" || step === "alert" || step === "results";
   const showAlertInSummary = step === "alert" || step === "results";
 
+  // Restore state when URL changes (browser back/forward)
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const rawStep = params.get("step") ?? "needs";
-    const normalizedStep =
-      rawStep === "needs" || rawStep === "area" || rawStep === "preference" || rawStep === "alert" || rawStep === "results"
-        ? rawStep
-        : "needs";
-
-    const needsRaw = (params.get("needs") ?? "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .slice(0, maxNeeds);
-
-    const restoredNeeds: Array<{ kind: "tag" | "query"; value: string; label: string }> = [];
-    for (const id of needsRaw) {
-      const match = CURATED_NEEDS.find((label) => needSlug(label) === id);
-      if (match) restoredNeeds.push({ kind: "query", value: match, label: match });
-    }
-
-    const effectiveStep = restoredNeeds.length === 0 && normalizedStep !== "needs" ? "needs" : normalizedStep;
-    const restoredArea = areaParamToArea(params.get("area") ?? "");
-    const restoredPreference = (params.get("preference") ?? "sem-preferencia") as AttendPreference;
-    const restoredAlert = params.get("alert") === "yes";
+    const parsed = parseStateFromSearch(location.search);
 
     setNeeds((prev) => {
       const same =
-        prev.length === restoredNeeds.length &&
-        prev.every((p, idx) => p.kind === restoredNeeds[idx]?.kind && p.value === restoredNeeds[idx]?.value);
-      return same ? prev : restoredNeeds;
+        prev.length === parsed.needs.length &&
+        prev.every((p, idx) => p.kind === parsed.needs[idx]?.kind && p.value === parsed.needs[idx]?.value);
+      return same ? prev : parsed.needs;
     });
-    setArea(restoredArea);
-    setPreference(restoredPreference);
-    setHasAlert(restoredAlert);
-    setStep(urlStepToInternal(effectiveStep));
+    setArea(parsed.area);
+    setPreference(parsed.preference);
+    setHasAlert(parsed.hasAlert);
+    setStep(parsed.step);
   }, [location.search]);
 
+  // Sync state → URL
   useEffect(() => {
     const urlStep = internalStepToUrl(step);
     const params = new URLSearchParams();
@@ -260,7 +284,7 @@ export function Attend() {
       params.set(
         "needs",
         needs
-          .slice(0, maxNeeds)
+          .slice(0, MAX_NEEDS)
           .map((n) => needSlug(n.label))
           .join(",")
       );
@@ -288,9 +312,11 @@ export function Attend() {
 
   return (
     <div className="screen attend-screen">
-      <h1>Atender cliente agora</h1>
+      <h1>Atender cliente com apoio</h1>
       <SafetyBanner />
-      <p className="attend-step" aria-live="polite">Etapa {stepNumber} de 5</p>
+      <p className="attend-step" aria-live="polite">
+        Etapa {stepNumber} de 5 — {STEP_NAMES[step]}
+      </p>
 
       <div className="toolbar">
         {step !== "need" ? (
@@ -352,7 +378,7 @@ export function Attend() {
         <>
           <h2>1) Quais necessidades a cliente trouxe?</h2>
           <div className="notice" aria-live="polite">
-            Marque até {maxNeeds} necessidades — {needs.length} de {maxNeeds} selecionadas.
+            Marque até {MAX_NEEDS} necessidades — {needs.length} de {MAX_NEEDS} selecionadas.
           </div>
           {needsWarning ? <div className="notice">{needsWarning}</div> : null}
           <div className="chips">
@@ -412,19 +438,6 @@ export function Attend() {
               </div>
             </div>
           ) : null}
-
-          <div className="filters">
-            <div className="field">
-              <div className="field-label">Anotações (opcional)</div>
-              <textarea
-                className="input"
-                rows={3}
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Ex.: cliente tem pressa, prefere textura leve"
-              />
-            </div>
-          </div>
         </>
       ) : null}
 
@@ -463,8 +476,7 @@ export function Attend() {
         <>
           <h2>4) Existe sinal de alerta?</h2>
           <div className="notice">
-            Se houver ferida, alergia forte, ardência intensa, inchaço, secreção, dor importante ou piora rápida, marque sinal de
-            alerta.
+            Ferida, alergia forte, ardência intensa, inchaço, secreção, dor importante ou piora rápida.
           </div>
           <div className="chips" role="radiogroup" aria-label="Existe sinal de alerta?">
             <Chip role="radio" selected={!hasAlert} onClick={() => setHasAlert(false)}>
@@ -474,6 +486,9 @@ export function Attend() {
               Sim
             </Chip>
           </div>
+          {hasAlert ? (
+            <div className="error">Chame o farmacêutico antes de indicar qualquer produto.</div>
+          ) : null}
         </>
       ) : null}
 
@@ -501,18 +516,13 @@ export function Attend() {
             </>
           ) : recommendation?.mode === "recommendations" && dataState.status === "ready" ? (
             <>
+              <div className="notice">{recommendation.safePhrase}</div>
               <div className="notice">
                 Sugestões para começar. Confirmar no rótulo antes de orientar. Se não fizer sentido, abra a consulta completa.
               </div>
               <div className="toolbar">
                 <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
                   Abrir consulta completa
-                </Button>
-                <Button type="button" variant="secondary" onClick={() => nav("/simulations")}>
-                  Simulações
-                </Button>
-                <Button type="button" variant="secondary" onClick={() => nav("/exercises")}>
-                  Exercícios
                 </Button>
               </div>
               {recommendation.items.length === 0 ? (
@@ -524,25 +534,24 @@ export function Attend() {
                     .map((rec) => {
                       const rid = getProductRouteId(rec.product, dataState.data.products);
                       const reason = rec.matchedLabels.length > 0 ? `Combina com: ${rec.matchedLabels.join("; ")}` : "";
-                    return (
-                      <div key={String(rec.product.URL_produto ?? rid)}>
-                        {reason ? <div className="related-reason">{reason}</div> : null}
-                        <ProductCard
-                          product={rec.product}
-                          data={dataState.data}
-                          baseUrl={baseUrl}
-                          isInCompare={compare.has(rec.product)}
-                          onToggleCompare={() => compare.toggle(rec.product)}
-                          isFavorite={favorites.has(rec.product)}
-                          onToggleFavorite={() => favorites.toggle(rec.product)}
-                          onOpen={() => nav(`/product/${rid}`)}
-                        />
-                      </div>
-                    );
-                  })}
+                      return (
+                        <div key={String(rec.product.URL_produto ?? rid)}>
+                          {reason ? <div className="related-reason">{reason}</div> : null}
+                          <ProductCard
+                            product={rec.product}
+                            data={dataState.data}
+                            baseUrl={baseUrl}
+                            isInCompare={compare.has(rec.product)}
+                            onToggleCompare={() => compare.toggle(rec.product)}
+                            isFavorite={favorites.has(rec.product)}
+                            onToggleFavorite={() => favorites.toggle(rec.product)}
+                            onOpen={() => nav(`/product/${rid}`)}
+                          />
+                        </div>
+                      );
+                    })}
                 </div>
               )}
-              <div className="notice">{recommendation.safePhrase}</div>
             </>
           ) : null}
         </>

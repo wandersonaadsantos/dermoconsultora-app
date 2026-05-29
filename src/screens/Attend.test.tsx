@@ -76,7 +76,7 @@ test("Attend_mostra_indicador_de_progresso", async () => {
   window.location.hash = "#/attend";
   render(<AppRoutes />);
 
-  expect(await screen.findByText("Etapa 1 de 5")).toBeInTheDocument();
+  expect(await screen.findByText(/Etapa 1 de 5/)).toBeInTheDocument();
 });
 
 test("Attend_mostra_resumo_a_partir_da_etapa_2", async () => {

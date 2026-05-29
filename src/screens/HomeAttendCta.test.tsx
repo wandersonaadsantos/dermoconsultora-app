@@ -7,6 +7,6 @@ test("CTA 'Atender cliente com apoio' abre /attend", () => {
   render(<AppRoutes />);
 
   fireEvent.click(screen.getByRole("button", { name: "Atender cliente com apoio" }));
-  expect(screen.getByRole("heading", { name: "Atender cliente agora" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Atender cliente com apoio" })).toBeInTheDocument();
 });
 

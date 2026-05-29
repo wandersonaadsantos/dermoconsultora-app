@@ -43,7 +43,7 @@ test("abre a tela de checklist de segurança", () => {
 
 test("abre a tela de atendimento", () => {
   renderAtHash("#/attend");
-  expect(screen.getByRole("heading", { name: "Atender cliente agora" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Atender cliente com apoio" })).toBeInTheDocument();
 });
 
 test("abre a tela de simulações", () => {
