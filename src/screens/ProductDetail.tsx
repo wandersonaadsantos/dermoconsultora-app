@@ -12,24 +12,22 @@ import { getSimilarProducts } from "../data/similarProducts";
 import type { ProductRow } from "../data/types";
 import {
   formatCautionLevel,
+  formatCautionNote,
   formatCollectedDate,
   formatComparisonGroup,
   formatComplexityLevel,
-  formatDataQualityNotes,
-  formatDataQualityScore,
   formatDrogasilProductCode,
-  formatFieldLabel,
+  formatIndication,
   formatPrice,
   formatRoutineStep,
   formatSafeSummary,
-  formatStatus,
   formatTagList,
+  formatTexture,
   isMissing,
   productValue
 } from "../presentation/formatters";
 
 const LABEL_CONFIRM = "Informação não encontrada na base atual. Confirmar no rótulo antes de orientar.";
-const SITE_INFO_EMPTY = "Este produto ainda não tem conteúdo do site na base. Abra no site e confirme no rótulo antes de orientar.";
 
 function InfoItem(props: { label: string; value: string }) {
   return (
@@ -170,29 +168,9 @@ export function ProductDetail() {
       siteHowToUse: isMissing(row.site_how_to_use) ? "" : String(row.site_how_to_use ?? "").trim(),
       siteWarnings: isMissing(row.site_warnings) ? "" : String(row.site_warnings ?? "").trim(),
       siteCharacteristics: isMissing(row.site_characteristics) ? "" : String(row.site_characteristics ?? "").trim(),
-      dataQualityScore: formatDataQualityScore(row.data_quality_score),
-      dataQualityNotes: formatDataQualityNotes(row.data_quality_notes),
-      status: formatStatus(row.Status_coleta),
-      technicalFields: [
-        "source_hash",
-        "product_id",
-        "data_quality_score",
-        "data_quality_notes",
-        "Status_coleta",
-        "URL_produto",
-        "categoria_derivada",
-        "finalidade_derivada",
-        "indicacao_derivada",
-        "textura_derivada",
-        "cautela_derivada",
-        "routine_step",
-        "need_tags",
-        "comparison_group",
-        "caution_level",
-        "complexity_level"
-      ]
-        .map((key) => [key, row[key]] as const)
-        .filter(([, value]) => !isMissing(value))
+      texture: formatTexture(row.textura_derivada),
+      indication: formatIndication(row.indicacao_derivada),
+      cautionNote: formatCautionNote(row.cautela_derivada)
     };
   }, [product]);
 
@@ -365,10 +343,12 @@ export function ProductDetail() {
               <h2>Interpretação do app</h2>
               <div className="readable-list">
                 <InfoItem label="Etapa da rotina" value={view.routineStep} />
+                {view.texture ? <InfoItem label="Textura" value={view.texture} /> : null}
+                {view.indication ? <InfoItem label="Indicado para" value={view.indication} /> : null}
                 <InfoItem label="Grupo de comparação" value={view.comparisonGroup} />
                 <InfoItem label="Cautela" value={view.caution} />
+                {view.cautionNote ? <p className="comfortable-text muted">{view.cautionNote}</p> : null}
                 <InfoItem label="Complexidade" value={view.complexity} />
-                <InfoItem label="Status da coleta" value={view.status} />
               </div>
               <div className="section-mini-title">Necessidades relacionadas</div>
               <TagList items={view.needs} />
@@ -465,25 +445,6 @@ export function ProductDetail() {
             ) : null}
           </section>
 
-          <details className="technical-details">
-            <summary>Ver detalhes técnicos da base</summary>
-            <div className="technical-grid">
-              <InfoItem label="Qualidade dos dados" value={view.dataQualityScore} />
-              {view.dataQualityNotes.length > 0 ? (
-                <div className="technical-notes">
-                  <div className="info-item-label">Observações de qualidade</div>
-                  <ul>
-                    {view.dataQualityNotes.map((note) => (
-                      <li key={note}>{note}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {view.technicalFields.map(([key, value]) => (
-                <InfoItem key={key} label={formatFieldLabel(key)} value={String(value)} />
-              ))}
-            </div>
-          </details>
         </>
       ) : null}
     </div>

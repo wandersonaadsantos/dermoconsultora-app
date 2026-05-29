@@ -64,9 +64,7 @@ test("ProductDetail_exibe_codigo_drogasil_e_nao_expoe_url_gigante_no_texto", asy
 
   expect(await screen.findByText("Código Drogasil")).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Copiar código" })).toBeInTheDocument();
-  const urlNodes = screen.getAllByText(url);
-  expect(urlNodes.length).toBe(1);
-  expect(urlNodes[0]?.closest("details")).not.toBeNull();
+  expect(screen.queryAllByText(url).length).toBe(0);
 });
 
 test("ProductDetail_extrai_codigo_drogasil_da_url_quando_campo_faltar", async () => {

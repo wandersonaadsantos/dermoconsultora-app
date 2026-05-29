@@ -166,6 +166,23 @@ export function formatPriceTier(value: unknown) {
   return PRICE_TIERS[key] ?? humanizeRaw(String(value));
 }
 
+export function formatTexture(value: unknown) {
+  if (isMissing(value)) return "";
+  const text = String(value).trim();
+  return text.replace(/^\w/, (c) => c.toUpperCase());
+}
+
+export function formatIndication(value: unknown) {
+  if (isMissing(value)) return "";
+  const text = String(value).trim();
+  return text.replace(/^\w/, (c) => c.toUpperCase());
+}
+
+export function formatCautionNote(value: unknown) {
+  if (isMissing(value)) return "";
+  return String(value).trim();
+}
+
 export function formatDataQualityNotes(value: unknown) {
   return formatTagList(value).map((note) =>
     note
