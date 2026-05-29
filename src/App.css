@@ -321,6 +321,7 @@
   font-size: 13px;
   color: var(--text);
   margin-top: 6px;
+  margin-bottom: 12px;
 }
 
 .input {
@@ -632,6 +633,10 @@
 
 .detail-card h2 {
   margin-bottom: 14px;
+}
+
+.detail-card p + p {
+  margin-top: 12px;
 }
 
 .readable-list,

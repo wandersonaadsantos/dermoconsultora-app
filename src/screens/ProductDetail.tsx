@@ -373,43 +373,6 @@ export function ProductDetail() {
           </div>
 
           <section className="detail-card">
-            <h2>O que posso falar com segurança</h2>
-            {view.decisionSummary ? <p className="comfortable-text">{view.decisionSummary}</p> : null}
-            <p className="comfortable-text">{view.safePhrase}</p>
-          </section>
-
-          <section className="detail-card warning-card">
-            <h2>Confirmar no rótulo antes de orientar</h2>
-            {view.missingItems.length >= 4 ? (
-              <p className="comfortable-text">
-                Modo de uso, advertências, restrições, indicação e restrições por faixa etária não foram encontrados na base.
-                Confirmar tudo no rótulo antes de orientar.
-              </p>
-            ) : view.missingItems.length > 0 ? (
-              <div className="confirm-list">
-                {view.missingItems.map((item) => (
-                  <div className="confirm-item" key={item}>
-                    <strong>{item}</strong>
-                    <span>{LABEL_CONFIRM}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="comfortable-text">
-                As informações principais foram encontradas, mas o rótulo ainda deve ser conferido antes de orientar.
-              </p>
-            )}
-          </section>
-
-          <section className="detail-card pharmacist-card">
-            <h2>Quando chamar farmacêutico</h2>
-            <p>
-              Chame o farmacêutico se houver ardência forte, ferida, alergia, uso de medicamento dermatológico,
-              gravidez/lactação com dúvida, criança pequena ou pedido de diagnóstico.
-            </p>
-          </section>
-
-          <section className="detail-card">
             <h2>Posso comparar com outro?</h2>
             <p className="comfortable-text">
               Sim. Compare produtos do mesmo grupo e confirme no rótulo quando houver dúvida de uso, restrição ou
@@ -460,6 +423,43 @@ export function ProductDetail() {
                 </div>
               )
             ) : null}
+          </section>
+
+          <section className="detail-card">
+            <h2>O que posso falar com segurança</h2>
+            {view.decisionSummary ? <p className="comfortable-text">{view.decisionSummary}</p> : null}
+            <p className="comfortable-text">{view.safePhrase}</p>
+          </section>
+
+          <section className="detail-card warning-card">
+            <h2>Confirmar no rótulo antes de orientar</h2>
+            {view.missingItems.length >= 4 ? (
+              <p className="comfortable-text">
+                Modo de uso, advertências, restrições, indicação e restrições por faixa etária não foram encontrados na base.
+                Confirmar tudo no rótulo antes de orientar.
+              </p>
+            ) : view.missingItems.length > 0 ? (
+              <div className="confirm-list">
+                {view.missingItems.map((item) => (
+                  <div className="confirm-item" key={item}>
+                    <strong>{item}</strong>
+                    <span>{LABEL_CONFIRM}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="comfortable-text">
+                As informações principais foram encontradas, mas o rótulo ainda deve ser conferido antes de orientar.
+              </p>
+            )}
+          </section>
+
+          <section className="detail-card pharmacist-card">
+            <h2>Quando chamar farmacêutico</h2>
+            <p>
+              Chame o farmacêutico se houver ardência forte, ferida, alergia, uso de medicamento dermatológico,
+              gravidez/lactação com dúvida, criança pequena ou pedido de diagnóstico.
+            </p>
           </section>
 
         </>
