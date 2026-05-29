@@ -35,6 +35,10 @@ Confirmado como gap real:
 
 ## Balde A — P0 de frontend (dado/conteúdo já existem). Ordem de execução.
 
+> **Status: A1–A7 entregues** (2026-05-29), cada um com testes e verificação no
+> browser. 101 testes passando. Próximo foco sugerido: balde B (conteúdo) ou
+> itens de operação além do parqueado.
+
 ### A1 — Sub-gatilhos no passo de alerta `[Segurança]`
 **US:** 019, 021, 044, 056.
 Adicionar perguntas explícitas no passo 4 que, se marcadas, forçam `hasAlert` e exibem o aviso do farmacêutico:
