@@ -9,6 +9,7 @@ export type FilterState = {
   need_tag: string | "all";
   caution_level: string | "all";
   complexity_level: string | "all";
+  price_tier: string | "all";
   needsOnly: boolean;
 };
 
@@ -36,6 +37,7 @@ export function filterProducts(rows: ProductRow[], f: FilterState) {
     if (f.routine_step !== "all" && String(r.routine_step ?? "") !== f.routine_step) return false;
     if (f.caution_level !== "all" && String(r.caution_level ?? "") !== f.caution_level) return false;
     if (f.complexity_level !== "all" && String(r.complexity_level ?? "") !== f.complexity_level) return false;
+    if (f.price_tier && f.price_tier !== "all" && String(r.price_tier ?? "") !== f.price_tier) return false;
     if (f.need_tag !== "all" && !hasNeedTag(r, f.need_tag)) return false;
     return true;
   });

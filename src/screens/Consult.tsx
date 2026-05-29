@@ -17,6 +17,7 @@ import { getProductRouteId } from "../data/productIdentity";
 import {
   formatCautionLevel,
   formatComplexityLevel,
+  formatPriceTier,
   formatRoutineStep,
   formatTagList
 } from "../presentation/formatters";
@@ -25,7 +26,7 @@ function uniqueValues(rows: Array<Record<string, unknown>>, key: string) {
   const set = new Set<string>();
   for (const r of rows) {
     const v = String(r[key] ?? "").trim();
-    if (v && v !== "Não informado") set.add(v);
+    if (v && v.toLowerCase() !== "não informado") set.add(v);
   }
   return [...set].sort((a, b) => a.localeCompare(b));
 }
@@ -38,6 +39,7 @@ const DEFAULT_FILTERS: FilterState = {
   need_tag: "all",
   caution_level: "all",
   complexity_level: "all",
+  price_tier: "all",
   needsOnly: false
 };
 
@@ -59,7 +61,10 @@ export function Consult() {
 
   const urlSyncEnabledRef = useRef(false);
 
-  const [filters, setFilters] = useState<FilterState>(() => getStoredJson<FilterState>("consult_filters", DEFAULT_FILTERS));
+  const [filters, setFilters] = useState<FilterState>(() => ({
+    ...DEFAULT_FILTERS,
+    ...getStoredJson<Partial<FilterState>>("consult_filters", DEFAULT_FILTERS)
+  }));
   const debouncedQuery = useDebouncedValue(filters.query, 150);
 
   const [shown, setShown] = useState(PAGE_SIZE);
@@ -71,6 +76,7 @@ export function Consult() {
       filters.need_tag !== "all" ||
       filters.caution_level !== "all" ||
       filters.complexity_level !== "all" ||
+      filters.price_tier !== "all" ||
       filters.needsOnly
   );
 
@@ -146,8 +152,9 @@ export function Consult() {
     const routineSteps = uniqueValues(all as unknown as Array<Record<string, unknown>>, "routine_step");
     const cautionLevels = uniqueValues(all as unknown as Array<Record<string, unknown>>, "caution_level");
     const complexityLevels = uniqueValues(all as unknown as Array<Record<string, unknown>>, "complexity_level");
+    const priceTiers = uniqueValues(all as unknown as Array<Record<string, unknown>>, "price_tier");
 
-    return { all, filtered, page, brands, needTags, routineSteps, cautionLevels, complexityLevels };
+    return { all, filtered, page, brands, needTags, routineSteps, cautionLevels, complexityLevels, priceTiers };
   }, [dataState, debouncedQuery, filters, shown]);
 
   const originText = useMemo(() => {
@@ -166,6 +173,7 @@ export function Consult() {
     filters.need_tag !== "all",
     filters.caution_level !== "all",
     filters.complexity_level !== "all",
+    filters.price_tier !== "all",
     filters.needsOnly
   ].filter(Boolean).length;
 
@@ -294,6 +302,22 @@ export function Consult() {
                     </option>
                   ))}
                 </select>
+              </FieldGroup>
+
+              <FieldGroup label="Preço">
+                <select
+                  className="input"
+                  value={filters.price_tier}
+                  onChange={(e) => updateFilters((p) => ({ ...p, price_tier: e.target.value as FilterState["price_tier"] }))}
+                >
+                  <option value="all">Todos</option>
+                  {view.priceTiers.map((v) => (
+                    <option key={v} value={v}>
+                      {formatPriceTier(v) || v}
+                    </option>
+                  ))}
+                </select>
+                <div className="hint">Faixa coletada do site; confirme o preço atual na loja.</div>
               </FieldGroup>
 
               <div className="chips">
