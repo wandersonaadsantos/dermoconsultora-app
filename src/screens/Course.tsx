@@ -88,8 +88,7 @@ export function Course() {
           {recommendedPracticeSequence.map((m) => (
             <li key={m.id}>
               <div className="course-module-item">
-                {reading.isRead(m.id) ? <div className="course-read-badge">Lido</div> : null}
-                <CourseModuleCard module={m} onOpen={() => nav(`/study/${m.id}`)} />
+                <CourseModuleCard module={m} isRead={reading.isRead(m.id)} onOpen={() => nav(`/study/${m.id}`)} />
               </div>
             </li>
           ))}
@@ -103,8 +102,7 @@ export function Course() {
         <div>
           {courseModules.map((m) => (
             <div key={m.id} className="course-module-item">
-              {reading.isRead(m.id) ? <div className="course-read-badge">Lido</div> : null}
-              <CourseModuleCard module={m} onOpen={() => nav(`/study/${m.id}`)} />
+              <CourseModuleCard module={m} isRead={reading.isRead(m.id)} onOpen={() => nav(`/study/${m.id}`)} />
             </div>
           ))}
         </div>

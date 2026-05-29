@@ -60,12 +60,11 @@ test("Course_quando_ha_modulo_lido_exibe_selo_lido_no_card", async () => {
   expect(screen.getByText(`1 de ${courseModules.length} módulos lidos`)).toBeInTheDocument();
 
   const titleEls = screen.getAllByText("Treino de fala (objeções comuns)");
-  const anyHasBadge = titleEls.some((el) => {
-    const wrapper = el.closest(".course-module-item");
-    if (!wrapper) return false;
-    return within(wrapper).queryByText("Lido") != null;
+  const anyHasReadClass = titleEls.some((el) => {
+    const card = el.closest(".course-module-card");
+    return card?.classList.contains("course-module-card--read") ?? false;
   });
 
-  expect(anyHasBadge).toBe(true);
+  expect(anyHasReadClass).toBe(true);
 });
 

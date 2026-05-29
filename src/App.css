@@ -412,17 +412,9 @@
   position: relative;
 }
 
-.course-read-badge {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface-soft);
-  color: var(--text-h);
-  padding: 6px 10px;
-  font-size: 13px;
-  font-weight: 700;
+.course-module-card--read {
+  background: var(--success-bg);
+  border-left: 3px solid #22c55e;
 }
 
 .course-reading-progress {
