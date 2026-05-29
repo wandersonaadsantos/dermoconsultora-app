@@ -342,6 +342,14 @@
   margin-bottom: 20px;
 }
 
+.attend-alert-flags {
+  margin: 4px 0 4px;
+}
+
+.attend-alert-flags .field-label {
+  margin-bottom: 10px;
+}
+
 .attend-nav {
   display: flex;
   align-items: center;

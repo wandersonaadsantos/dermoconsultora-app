@@ -129,6 +129,52 @@ test("Attend_resultados_prioriza_produtos_que_batem_em_mais_de_uma_necessidade_e
   expect(screen.queryByText(/need_tags|routine_step|comparison_group|price_tier/)).toBeNull();
 });
 
+async function gotoAlertStep() {
+  fireEvent.click(await screen.findByRole("button", { name: "Oleosidade" }));
+  fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
+  fireEvent.click(await screen.findByRole("button", { name: "Próxima etapa" }));
+  fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
+}
+
+test.each([
+  ["Usa medicamento dermatológico"],
+  ["Gestante ou lactante"],
+  ["Bebê ou criança"]
+])("Attend_sub_gatilho_%s_forca_alerta_e_bloqueia_produtos", async (flagLabel) => {
+  const p1 = {
+    URL_produto: "https://www.drogasil.com.br/p1-111.html",
+    Produto: "P1",
+    Marca: "M",
+    need_tags: "oleosidade",
+    routine_step: "limpeza"
+  };
+
+  setupFetch({ products: [p1] });
+  window.location.hash = "#/attend";
+  render(<AppRoutes />);
+
+  await gotoAlertStep();
+
+  // "Não" segue marcado para o sinal geral, mas o sub-gatilho força o alerta
+  fireEvent.click(await screen.findByRole("button", { name: flagLabel }));
+  fireEvent.click(screen.getByRole("button", { name: "Próxima etapa" }));
+
+  expect(
+    await screen.findByText("Sinal de alerta marcado. Não recomende produto. Chame o farmacêutico.")
+  ).toBeInTheDocument();
+  expect(screen.queryByText("P1")).toBeNull();
+});
+
+test("Attend_sub_gatilho_persiste_na_url_e_e_restaurado", async () => {
+  setupFetch();
+  window.location.hash = "#/attend?step=alert&needs=oleosidade&area=rosto&alertFlags=gestante";
+  render(<AppRoutes />);
+
+  expect(await screen.findByRole("heading", { name: "4) Existe sinal de alerta?" })).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Gestante ou lactante" }).className).toContain("chip-selected");
+  expect(screen.getByText("Chame o farmacêutico antes de indicar qualquer produto.")).toBeInTheDocument();
+});
+
 test("Attend_alerta_bloqueia_produtos_na_etapa_5", async () => {
   const p1 = {
     URL_produto: "https://www.drogasil.com.br/p1-111.html",

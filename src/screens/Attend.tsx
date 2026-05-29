@@ -27,6 +27,22 @@ const STEP_NAMES: Record<AttendStep, string> = {
   results: "Resultado"
 };
 
+type AlertFlag = "medicamento" | "gestante" | "crianca";
+
+const ALERT_FLAGS: ReadonlyArray<{ id: AlertFlag; label: string }> = [
+  { id: "medicamento", label: "Usa medicamento dermatológico" },
+  { id: "gestante", label: "Gestante ou lactante" },
+  { id: "crianca", label: "Bebê ou criança" }
+];
+
+function parseAlertFlags(raw: string): AlertFlag[] {
+  const wanted = raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return ALERT_FLAGS.filter((f) => wanted.includes(f.id)).map((f) => f.id);
+}
+
 function needSlug(label: string) {
   return normalizeForSearch(label)
     .replace(/[^a-z0-9]+/g, "-")
@@ -100,7 +116,8 @@ function parseStateFromSearch(search: string) {
     needs: restoredNeeds,
     area: areaParamToArea(params.get("area") ?? ""),
     preference: (params.get("preference") ?? "sem-preferencia") as AttendPreference,
-    hasAlert: params.get("alert") === "yes"
+    hasAlert: params.get("alert") === "yes",
+    alertFlags: parseAlertFlags(params.get("alertFlags") ?? "")
   };
 }
 
@@ -117,6 +134,7 @@ export function Attend() {
   const [area, setArea] = useState<AttendArea>(() => parseStateFromSearch(getInitialSearch()).area);
   const [preference, setPreference] = useState<AttendPreference>(() => parseStateFromSearch(getInitialSearch()).preference);
   const [hasAlert, setHasAlert] = useState(() => parseStateFromSearch(getInitialSearch()).hasAlert);
+  const [alertFlags, setAlertFlags] = useState<AlertFlag[]>(() => parseStateFromSearch(getInitialSearch()).alertFlags);
   const [showMoreNeeds, setShowMoreNeeds] = useState(false);
   const [moreNeedQuery, setMoreNeedQuery] = useState("");
   const [moreNeedSelectedValue, setMoreNeedSelectedValue] = useState("");
@@ -143,16 +161,22 @@ export function Attend() {
     });
   };
 
+  const toggleAlertFlag = (id: AlertFlag) => {
+    setAlertFlags((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]));
+  };
+
   const productKey = (p: ProductRow) => {
     const rid = getProductRouteId(p, dataState.status === "ready" ? dataState.data.products : []);
     return String(p.URL_produto ?? rid);
   };
 
+  const effectiveAlert = hasAlert || alertFlags.length > 0;
+
   const recommendation = useMemo(() => {
     if (dataState.status !== "ready") return null;
     if (needs.length === 0) return null;
 
-    if (hasAlert) {
+    if (effectiveAlert) {
       return buildAttendResult(dataState.data.products, {
         need: needs[0].value,
         needKind: needs[0].kind,
@@ -205,7 +229,7 @@ export function Attend() {
       reason: "Recomendações por múltiplas necessidades",
       items
     };
-  }, [area, dataState, hasAlert, needs, preference]);
+  }, [area, dataState, effectiveAlert, needs, preference]);
 
   const canNext = useMemo(() => {
     if (step === "need") return needs.length > 0;
@@ -235,6 +259,7 @@ export function Attend() {
     setArea("Rosto");
     setPreference("sem-preferencia");
     setHasAlert(false);
+    setAlertFlags([]);
     setShowMoreNeeds(false);
     setMoreNeedQuery("");
     setMoreNeedSelectedValue("");
@@ -271,6 +296,10 @@ export function Attend() {
     setArea(parsed.area);
     setPreference(parsed.preference);
     setHasAlert(parsed.hasAlert);
+    setAlertFlags((prev) => {
+      const same = prev.length === parsed.alertFlags.length && prev.every((f, idx) => f === parsed.alertFlags[idx]);
+      return same ? prev : parsed.alertFlags;
+    });
     setStep(parsed.step);
   }, [location.search]);
 
@@ -298,6 +327,10 @@ export function Attend() {
       params.set("preference", preference);
     }
 
+    if ((urlStep === "alert" || urlStep === "results") && alertFlags.length > 0) {
+      params.set("alertFlags", alertFlags.join(","));
+    }
+
     if (urlStep === "results") {
       params.set("alert", hasAlert ? "yes" : "no");
     }
@@ -308,7 +341,7 @@ export function Attend() {
     const replace = nextUrlSyncModeRef.current !== "push";
     nextUrlSyncModeRef.current = "replace";
     nav({ pathname: location.pathname, search: desiredSearch }, { replace });
-  }, [area, hasAlert, location.pathname, location.search, nav, needs, preference, step]);
+  }, [alertFlags, area, hasAlert, location.pathname, location.search, nav, needs, preference, step]);
 
   return (
     <div className="screen attend-screen">
@@ -349,7 +382,7 @@ export function Attend() {
             <div className="info-item">
               <div className="info-item-label">Alerta</div>
               <div className="info-item-value">
-                {showAlertInSummary ? (hasAlert ? "Sim, chamar farmacêutico" : "Não identifiquei alerta") : "—"}
+                {showAlertInSummary ? (effectiveAlert ? "Sim, chamar farmacêutico" : "Não identifiquei alerta") : "—"}
               </div>
             </div>
           </div>
@@ -467,7 +500,19 @@ export function Attend() {
                 Sim
               </Chip>
             </div>
-            {hasAlert ? (
+
+            <div className="attend-alert-flags">
+              <div className="field-label">Situações que sempre exigem o farmacêutico (marque se aplica):</div>
+              <div className="chips">
+                {ALERT_FLAGS.map((f) => (
+                  <Chip key={f.id} selected={alertFlags.includes(f.id)} onClick={() => toggleAlertFlag(f.id)}>
+                    {f.label}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+
+            {effectiveAlert ? (
               <div className="error">Chame o farmacêutico antes de indicar qualquer produto.</div>
             ) : null}
           </>
