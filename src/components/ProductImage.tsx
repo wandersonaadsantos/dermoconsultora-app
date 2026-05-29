@@ -9,6 +9,7 @@ export type ProductImageProps = {
   data: Pick<LoadedDataV1, "imageIndex">;
   baseUrl: string;
   alt?: string;
+  onClick?: () => void;
 };
 
 export function ProductImage(props: ProductImageProps) {
@@ -23,7 +24,7 @@ export function ProductImage(props: ProductImageProps) {
     return <div className={`img-fallback img-${props.kind}`}>Sem imagem</div>;
   }
 
-  return (
+  const img = (
     <img
       className={`img img-${props.kind}`}
       src={src}
@@ -32,5 +33,20 @@ export function ProductImage(props: ProductImageProps) {
       onError={() => setBroken(true)}
     />
   );
+
+  if (props.onClick) {
+    return (
+      <button
+        type="button"
+        className="img-btn"
+        onClick={props.onClick}
+        aria-label={`Ampliar imagem de ${props.alt ?? String(props.product.Produto ?? "")}`}
+      >
+        {img}
+      </button>
+    );
+  }
+
+  return img;
 }
 

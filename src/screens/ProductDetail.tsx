@@ -4,10 +4,12 @@ import { useCompare } from "../app/state/CompareProvider";
 import { useDataV1 } from "../app/state/DataProvider";
 import { useFavorites } from "../app/state/FavoritesProvider";
 import { Button } from "../components/Button";
+import { ImageLightbox } from "../components/ImageLightbox";
 import { ProductCard } from "../components/ProductCard";
 import { ProductImage } from "../components/ProductImage";
 import { SafetyBanner } from "../components/SafetyBanner";
 import { findProductByRouteId, getProductRouteId } from "../data/productIdentity";
+import { getProductMediumUrl } from "../data/loadData";
 import { getSimilarProducts } from "../data/similarProducts";
 import type { ProductRow } from "../data/types";
 import {
@@ -105,6 +107,7 @@ export function ProductDetail() {
   const baseUrl = import.meta.env.BASE_URL ?? "/";
   const offline = typeof navigator !== "undefined" && navigator.onLine === false;
   const [copiedCode, setCopiedCode] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const routeId = String(params.routeId ?? "");
 
@@ -226,9 +229,23 @@ export function ProductDetail() {
             </Button>
           </div>
 
+          {lightboxOpen ? (
+            <ImageLightbox
+              src={getProductMediumUrl(baseUrl, product, dataState.data.imageIndex) ?? ""}
+              alt={view.productName}
+              onClose={() => setLightboxOpen(false)}
+            />
+          ) : null}
+
           <section className="product-hero">
             <div className="detail-img">
-              <ProductImage product={product} kind="medium" data={dataState.data} baseUrl={baseUrl} />
+              <ProductImage
+                product={product}
+                kind="medium"
+                data={dataState.data}
+                baseUrl={baseUrl}
+                onClick={() => setLightboxOpen(true)}
+              />
             </div>
             <div className="product-hero-main">
               <div className="eyebrow">Resumo prático</div>
