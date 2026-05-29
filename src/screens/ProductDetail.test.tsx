@@ -161,6 +161,37 @@ test("ProductDetail_mantem_confirmar_no_rotulo_quando_secao_do_site_faltar", asy
   expect(screen.getByText(/Confirmar tudo no rótulo antes de orientar/)).toBeInTheDocument();
 });
 
+test("ProductDetail_oferece_alternativas_para_produto_em_falta", async () => {
+  const url = "https://www.drogasil.com.br/produto-x-1.html";
+  setupFetch({
+    products: [
+      {
+        URL_produto: url,
+        Produto: "Produto X",
+        Marca: "Darrow",
+        comparison_group: "gel_limpeza_facial",
+        routine_step: "limpeza",
+        need_tags: "oleosidade"
+      },
+      {
+        URL_produto: "https://www.drogasil.com.br/produto-z-2.html",
+        Produto: "Produto Z",
+        Marca: "M",
+        comparison_group: "gel_limpeza_facial",
+        routine_step: "limpeza",
+        need_tags: "oleosidade"
+      }
+    ]
+  });
+
+  window.location.hash = `#/product/${encodeURIComponent(url)}`;
+  render(<AppRoutes />);
+
+  expect(await screen.findByRole("button", { name: "Produto em falta? Ver alternativas" })).toBeInTheDocument();
+  expect(screen.getByText(/Se este produto estiver em falta/)).toBeInTheDocument();
+  expect(screen.getByText("Produto Z")).toBeInTheDocument();
+});
+
 test("ProductDetail_faz_scroll_para_topo_ao_abrir_ficha", async () => {
   const url = "https://www.drogasil.com.br/produto-x-1318168.html";
   setupFetch({

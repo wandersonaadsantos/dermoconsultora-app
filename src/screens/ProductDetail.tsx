@@ -248,6 +248,18 @@ export function ProductDetail() {
             </div>
           </section>
 
+          <div className="toolbar">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() =>
+                document.getElementById("alternativas")?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+            >
+              Produto em falta? Ver alternativas
+            </Button>
+          </div>
+
           <div className="detail-readable-grid">
             <section className="detail-card">
               <h2>Informações do produto</h2>
@@ -372,8 +384,12 @@ export function ProductDetail() {
             </div>
           </section>
 
-          <section className="detail-card">
+          <section className="detail-card" id="alternativas">
             <h2>Produtos similares ou relacionados</h2>
+            <div className="notice">
+              Se este produto estiver em falta, considere estas opções pela mesma necessidade ou categoria. Não são
+              equivalentes diretos — confirme no rótulo antes de orientar.
+            </div>
             {similar?.warningOutros ? (
               <div className="notice">
                 Esses produtos são relacionados, mas não necessariamente substitutos diretos.
