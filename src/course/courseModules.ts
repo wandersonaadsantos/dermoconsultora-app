@@ -42,6 +42,27 @@ export const courseModules: CourseModule[] = [
     },
   },
   {
+    id: "estrutura-da-pele",
+    title: "Estrutura da pele",
+    summary: "Como a pele é organizada (epiderme, derme, hipoderme) e por que isso muda a forma de orientar cosmético.",
+    objective:
+      "Você vai aprender:\n- As três camadas da pele e o que cada uma faz, em linguagem simples\n- Por que cosmético cuida de aparência e conforto, sem 'reconstruir' a pele\n- Como traduzir queixas (\"grossa\", \"sem viço\", \"firmar\") em necessidade cosmética segura\n\nEm uma frase:\nA pele é uma barreira viva; cosmético cuida da aparência e do conforto, não trata doença.",
+    content:
+      "Na prática do balcão\nA cliente descreve sensação e aparência, não anatomia. Você não precisa decorar nomes. Precisa entender que a pele tem camadas e que o cosmético atua principalmente na superfície e na aparência.\n\nAs três camadas (linguagem simples)\n- Epiderme: a camada mais externa, é a barreira. A parte mais superficial (estrato córneo) ajuda a segurar água e dificultar a entrada de irritantes.\n- Derme: dá sustentação; tem colágeno, elastina, vasos, nervos, glândulas e folículos. Por isso 'reconstruir colágeno' ou 'curar flacidez' são promessas que você não faz.\n- Hipoderme: a camada mais profunda, com gordura e função de suporte. Cosmético de balcão não modifica isso.\n\nPerguntas úteis\n- Sua pele está ardendo, coçando ou descamando?\n- Isso começou depois de algum produto?\n- Você usa ácido, medicamento dermatológico ou algo indicado por médico?\n- Quer algo para uso diário ou para uma queixa pontual?\n\nComo explicar para a cliente\n- \"Esse produto tem proposta cosmética para melhorar aparência e conforto. O resultado varia e o rótulo orienta o uso.\"\n- \"Não fecho diagnóstico; posso te ajudar com orientação cosmética segura.\"\n\nQuando chamar farmacêutico\n- Ferida, dor, secreção, inchaço, vermelhidão ou ardência fortes\n- Piora rápida ou reação após produto\n- Uso de medicamento dermatológico com dúvida",
+    practicalExample:
+      "Cliente: “Minha pele está descamando, mas também é oleosa. Quero um ácido forte.”\nVocê: “Como você falou em descamação, eu não começaria pelo mais forte. Primeiro: está ardendo? Começou depois de algum produto? Você usa algo indicado por médico? Vamos confirmar o rótulo e, se arder forte ou piorar, eu chamo o farmacêutico.”",
+    safePhrase:
+      "Cosmético cuida da aparência e do conforto da pele. Não diagnostico, não trato doença e confirmo o uso no rótulo.",
+    avoid:
+      "Evite:\n- “Isso reconstrói/recupera sua pele”\n- “Isso trata sua pele” ou “resolve rugas/manchas/acne”\n- “Pode usar sem medo”\n- “Esse é o mais forte”",
+    exercise: {
+      prompt:
+        "Uma cliente diz que a pele está “grossa e sem viço” e pede “algo que renove”. Como traduzir isso em necessidade cosmética segura, sem prometer tratamento?",
+      expectedAnswer:
+        "Traduzir para necessidades cosméticas (textura irregular, aparência cansada, ressecamento, rotina básica com hidratação e fotoproteção), oferecer proposta cosmética sem prometer “renovar” ou tratar, confirmar no rótulo e chamar o farmacêutico se houver ardência forte, ferida ou piora.",
+    },
+  },
+  {
     id: "tipos-condicoes-pele",
     title: "Tipos e condições da pele",
     summary: "Diferenciar tipo de pele (tendência) de condição do momento, sem “dar diagnóstico”.",
@@ -317,6 +338,27 @@ export const courseModules: CourseModule[] = [
     },
   },
   {
+    id: "anatomia-fio-cabelo",
+    title: "Anatomia do fio e couro cabeludo",
+    summary: "Como o fio é formado (cutícula, córtex), o que é couro cabeludo e como diferenciar quebra de queda.",
+    objective:
+      "Você vai aprender:\n- A estrutura básica do fio (cutícula e córtex) em linguagem simples\n- Que o couro cabeludo é pele e pode ter sinais de alerta\n- A diferenciar quebra do fio de queda da raiz, sem diagnosticar\n\nEm uma frase:\nO cabelo tem o fio visível (haste) e o folículo na pele; cosmético cuida da aparência do fio, não trata queda nem doença do couro cabeludo.",
+    content:
+      "Na prática do balcão\nA cliente mistura problema do fio com problema do couro cabeludo. Seu papel é separar e usar perguntas simples.\n\nEstrutura do fio (linguagem simples)\n- Cutícula: camada externa, como 'telhas'. Quando alinhada, o fio reflete mais luz e parece mais brilhoso; quando danificada, vem frizz, aspereza e embaraço. Cosmético melhora toque/brilho/desembaraço, não 'reconstrói' o fio para sempre.\n- Córtex: parte interna e mais volumosa; ligada à resistência e elasticidade. Química, calor e atrito enfraquecem o fio. Dá para cuidar da aparência, mas quebra intensa pede cautela.\n- Couro cabeludo: é pele, com glândulas e folículos. Pode ter oleosidade, coceira, descamação, ferida, dor ou queda — alguns desses são sinal de alerta.\n\nPerguntas úteis\n- A queda é do fio quebrando ou saindo da raiz? Tem falhas?\n- Tem dor, ferida, coceira forte ou descamação intensa?\n- Fez química, coloração ou alisamento recentemente?\n- A raiz é oleosa e as pontas secas? Usa muito calor/chapinha?\n\nComo explicar para a cliente\n- \"Esse produto tem proposta cosmética de melhorar toque, brilho e desembaraço. Não recupera dano químico rapidamente.\"\n- \"Para a raiz e para o comprimento, podemos pensar em cuidados diferentes; vamos confirmar no rótulo.\"\n\nQuando chamar farmacêutico\n- Queda intensa, falhas ou queda persistente\n- Dor, ferida, secreção, coceira forte ou descamação intensa no couro cabeludo\n- Reação após química ou piora rápida",
+    practicalExample:
+      "Cliente: “Meu cabelo está caindo muito, dá para levar um shampoo antiqueda?”\nVocê: “Antes de indicar, preciso entender se é quebra do fio ou queda da raiz, e se há falhas, dor, ferida ou coceira forte. Como você falou ‘caindo muito’, eu não trato só como cosmético; vou chamar o farmacêutico para orientar com segurança.”",
+    safePhrase:
+      "Cuido da aparência do fio e da higiene do couro cabeludo. Para queda intensa, ferida, dor ou descamação forte, chamo o farmacêutico.",
+    avoid:
+      "Evite:\n- “Esse shampoo para queda resolve”\n- “Recupera o cabelo em X dias”\n- “Sela a cutícula para sempre” / “reconstrói totalmente”\n- “Caspa é simples, leva esse”",
+    exercise: {
+      prompt:
+        "Como diferenciar, no balcão, quebra do fio de queda da raiz — e qual é o critério para encaminhar ao farmacêutico?",
+      expectedAnswer:
+        "Perguntar se o fio parte no comprimento (quebra) ou sai inteiro com bulbo/da raiz (queda), e se há falhas. Encaminhar quando houver queda intensa/persistente, falhas, dor, ferida, secreção, coceira forte ou descamação intensa no couro cabeludo.",
+    },
+  },
+  {
     id: "produtos-cabelo",
     title: "Produtos — Cabelo (na prática)",
     summary: "Shampoo, condicionador, máscara, leave-in e couro cabeludo: orientar por objetivo e sinal de alerta.",
@@ -371,6 +413,27 @@ export const courseModules: CourseModule[] = [
       prompt: "Escreva 3 perguntas para orientar presente em perfumaria e uma frase de fechamento objetiva.",
       expectedAnswer:
         "Perguntas: para quem é, preferência (suave/marcante), ocasião (dia a dia/noite). Fechamento: “Vou te mostrar duas opções seguras e você escolhe pelo que mais te agrada.”",
+    },
+  },
+  {
+    id: "unhas-cuidados",
+    title: "Unhas: cuidado cosmético e sinais de alerta",
+    summary: "Estrutura básica da unha, produtos cosméticos (esmalte, base, removedor, óleo de cutícula) e quando encaminhar.",
+    objective:
+      "Você vai aprender:\n- A estrutura básica da unha e o que não machucar\n- As categorias de produtos cosméticos para unha e o que cada uma propõe\n- A reconhecer sinais de alerta que pedem farmacêutico ou dermatologista\n\nEm uma frase:\nDá para orientar cosmético para aparência e cuidado da unha; não se diagnostica micose, não se trata infecção e não se promete fortalecer ou crescer.",
+    content:
+      "Na prática do balcão\nA cliente quer aparência e cuidado. Você orienta cosmético, mas não cobre unha lesionada nem trata alteração com esmalte.\n\nEstrutura básica (linguagem simples)\n- Lâmina: parte dura e visível, onde entram esmalte, base, top coat, óleo e fortalecedor cosmético.\n- Leito: pele sob a lâmina; não deve ser machucado.\n- Cutícula: protege a entrada da matriz; remover de forma agressiva aumenta risco de trauma e irritação. Melhor hidratar.\n\nProdutos (proposta cosmética)\n- Esmalte/base/top coat: cor, acabamento, brilho e proteção visual da esmaltação.\n- Removedor: pode ressecar; usar com cautela e hidratar depois.\n- Óleo/hidratante de cutícula: conforto e aparência de cutícula menos ressecada.\n- Fortalecedor: proposta cosmética de aparência/resistência conforme o rótulo — não é tratamento e não 'faz crescer'.\n\nPerguntas úteis\n- A unha quebra na ponta ou está descolando?\n- Mudou de cor, engrossou ou está doendo?\n- Tem contato frequente com água/produtos de limpeza?\n- Usa muito removedor/esmaltação?\n\nComo explicar para a cliente\n- \"Posso ajudar com aparência e cuidado cosmético. Para dor, descolamento ou mudança importante de cor, é melhor avaliar antes.\"\n- \"Não consigo afirmar que é micose; isso precisa de avaliação.\"\n\nQuando chamar farmacêutico\n- Dor, pus/secreção, inchaço, vermelhidão intensa, sangramento ou ferida\n- Unha descolando, muito espessa, mau cheiro ou cor que muda/persiste\n- Faixa escura nova ou mudando; trauma; queda da unha\n- Criança, gestante/lactante ou pessoa com diabetes com alteração importante",
+    practicalExample:
+      "Cliente: “Minha unha ficou amarela e grossa. Qual esmalte cobre melhor?”\nVocê: “Eu não trataria isso só como questão estética. Como você falou em mudança de cor e espessamento, é melhor chamar o farmacêutico ou orientar avaliação. Depois, se estiver tudo seguro, a gente fala de esmalte.”",
+    safePhrase:
+      "Oriento cosmético para aparência e cuidado da unha. Não diagnostico micose, não trato infecção e encaminho quando há dor, descolamento ou mudança importante.",
+    avoid:
+      "Evite:\n- “Esse fortalecedor cura unha fraca” ou “faz crescer”\n- “Isso resolve micose”\n- Cobrir unha descolando/lesionada com esmalte como solução\n- “Pode usar mesmo com ferida”",
+    exercise: {
+      prompt:
+        "Uma cliente quer um esmalte para “disfarçar” uma unha amarelada, espessa e que está descolando. Qual é a condução segura?",
+      expectedAnswer:
+        "Não tratar como questão só estética nem cobrir com esmalte: mudança de cor, espessamento e descolamento são sinais que pedem avaliação. Chamar o farmacêutico ou orientar dermatologista; falar de esmalte só depois, se estiver seguro.",
     },
   },
   {
