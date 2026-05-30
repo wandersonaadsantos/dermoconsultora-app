@@ -121,6 +121,20 @@ Só avançam com fonte oficial:
 
 ---
 
+## Jornada de aprendizado (gamificação leve) — fora das 80 US
+
+Frente nova, a pedido do usuário, baseada em design instrucional (dual coding,
+retrieval practice, microlearning, progresso visual, gamificação leve).
+
+- **Iteração 1 — Trilha-jornada (feito, 2026-05-30):** /study redesenhado com
+  hero de progresso (anel %, nível, XP, streak), etapas temáticas com barra e
+  passos conectados, marcos por etapa. Motor puro testável em `gamification.ts`.
+- **Iteração 2 — Página do módulo (pendente):** microlearning em cards
+  (progressive disclosure) + **quiz de fixação** (retrieval) no lugar do
+  "revelar resposta"; ícones por seção (dual coding); concluir dá XP.
+- **Iteração 3 (ideia):** revisão espaçada — flashcards que ressurgem pontos-chave
+  de módulos já lidos.
+
 ## Rastreabilidade (US → destino)
 
 | US | Destino | US | Destino | US | Destino |
