@@ -84,8 +84,14 @@ Atalho para frases seguras por objeção (pressa, "o melhor/mais forte", "não s
 > do fio/couro cabeludo, unhas, venda consultiva, atuação profissional) e
 > enriquecimento de sol/fotoproteção, hidratação e tipos de pele (27 → 32 módulos).
 > Simulações por perfil de cliente difícil adicionadas (cliente-hostil,
-> internet-tiktok, cliente-insistente). Ainda pendente nesta trilha: cobertura
-> prática extra de corpo/higiene e módulos "frases proibidas vs seguras".
+> internet-tiktok, cliente-insistente). Diagramas de estudo (SVG originais de
+> pele, fio e unha) e guia "problema → tipos de produto" adicionados aos módulos
+> de anatomia. Ainda pendente nesta trilha: cobertura prática extra de
+> corpo/higiene e módulos "frases proibidas vs seguras".
+>
+> Nota técnica: a A4 introduziu `price_tier` obrigatório em `FilterState`, o que
+> quebrava o `build` (não pego pelo `typecheck` da raiz). Corrigido; gate de
+> pré-push agora inclui lint + build, não só typecheck + testes.
 
 Novas simulações/módulos. Prioridade dentro da trilha: **segurança > categorias**.
 
