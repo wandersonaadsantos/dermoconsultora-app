@@ -457,6 +457,27 @@ export const courseModules: CourseModule[] = [
     },
   },
   {
+    id: "atuacao-profissional",
+    title: "Atuação profissional",
+    summary: "O papel da dermoconsultora, os limites da função e como trabalhar com o farmacêutico, a equipe e as campanhas.",
+    objective:
+      "Você vai aprender:\n- O papel real da dermoconsultora e o que está dentro/fora do escopo\n- Como passar um caso ao farmacêutico e quando acionar a liderança\n- Como apoiar campanhas e testadores com ética e higiene\n\nEm uma frase:\nA dermoconsultora orienta cosmético com escuta e ética; não diagnostica, não prescreve e encaminha quando o caso sai do cosmético.",
+    content:
+      "Na prática do balcão\nSua atuação combina atendimento, demonstração/orientação, organização do setor e apoio a campanhas. Venda faz parte, mas é venda orientada e responsável.\n\nPode fazer\n- Orientar produto cosmético e explicar a finalidade conforme o rótulo\n- Demonstrar textura/fragrância/acabamento (com higiene e política da loja)\n- Comparar opções, sugerir rotina básica, lembrar de fotoproteção\n- Organizar o setor e apoiar campanhas\n\nNão pode fazer\n- Diagnosticar (acne, melasma, dermatite, micose, alergia)\n- Prescrever tratamento ou indicar medicamento\n- Prometer cura/resultado ou dizer que “trata doença”\n- Garantir estoque físico a partir do site\n\nPassar o caso ao farmacêutico\nLeve o essencial: queixa principal, há quanto tempo, área, sinais de alerta, produto usado (se souber) e o que a cliente pediu. Ex.: “Cliente relata ardência forte e vermelhidão após produto novo, quer algo para passar agora. Pode avaliar com ela?”\n\nAcionar a liderança\n- Ruptura, validade vencida, embalagem violada, testador inadequado, campanha sem material ou conflito no atendimento.\n\nPerguntas úteis\n- É para qual área? Já usa algo?\n- Tem ardor, alergia, ferida ou reação?\n- Prefere textura/preço? Quer rotina simples?\n\nComo explicar para a cliente\n- “Esse produto está em campanha; posso te mostrar se fizer sentido para o que você procura.”\n- “Se não fizer sentido para sua pele/rotina, melhor não levar só porque está em promoção.”\n\nQuando chamar farmacêutico\n- Dor, ferida, secreção, inchaço, alergia forte, ardência intensa ou piora rápida\n- Uso de medicamento; gestante/lactante ou criança com dúvida\n- Pedido de medicamento, suspeita de doença ou dúvida de segurança",
+    practicalExample:
+      "Cliente: “Esse está barato. Serve para minha pele sensível?”\nVocê: “Vamos confirmar no rótulo se é indicado para o seu perfil e se há advertências. Promoção é boa quando o produto faz sentido para a sua necessidade — se não fizer, melhor não levar só pelo preço.”",
+    safePhrase:
+      "Oriento cosmético com ética, dentro do rótulo. Não diagnostico nem prescrevo, e aciono o farmacêutico quando o caso sai do cosmético.",
+    avoid:
+      "Evite:\n- Diagnosticar ou prometer cura\n- “Pode usar sem medo” / “esse é o melhor da loja”\n- Empurrar rotina enorme ou kit por causa da campanha\n- Prometer estoque da loja a partir do site",
+    exercise: {
+      prompt:
+        "Uma cliente pede para você confirmar se a mancha dela “é melasma”. Como responder respeitando o limite da função?",
+      expectedAnswer:
+        "Não fechar diagnóstico: explicar que você orienta cosmético (fotoproteção, cobertura/uniformização) sem afirmar o que é, e orientar avaliação profissional ou farmacêutico se a mancha mudou, cresceu ou incomoda muito.",
+    },
+  },
+  {
     id: "operacao-de-loja",
     title: "Operação de loja",
     summary: "Organizar o atendimento e a rotina para não perder tempo e não criar risco.",
@@ -570,6 +591,27 @@ export const courseModules: CourseModule[] = [
       prompt: "Cite 4 critérios simples para comparar dois cosméticos parecidos sem prometer resultado.",
       expectedAnswer:
         "Categoria/etapa; cautela; complexidade; preferência do cliente (textura/preço) + confirmar no rótulo quando faltar informação.",
+    },
+  },
+  {
+    id: "venda-consultiva",
+    title: "Venda consultiva",
+    summary: "Conduzir a venda a partir da necessidade da cliente — abordar, entender, comparar e fechar sem empurrar nem prometer.",
+    objective:
+      "Você vai aprender:\n- O ciclo de venda consultiva (acolher → entender → confirmar → orientar → comparar → fechar → reforçar segurança)\n- Como oferecer complemento sem empurrar\n- Como responder objeções de preço, medo, pressa e “quero o mais forte”\n\nEm uma frase:\nVenda boa começa na necessidade da cliente, não no produto mais caro.",
+    content:
+      "Na prática do balcão\nVocê ajuda a cliente a escolher o que faz sentido para necessidade, orçamento, rotina, preferência e segurança — sempre dentro do rótulo. Vender menos, quando é o certo, também é bom atendimento.\n\nO ciclo (curto)\n1) Acolher: “Posso te ajudar a encontrar algo ou quer uma orientação?”\n2) Entender: área, se já usa algo, uso diário ou pontual, textura, reação anterior, orçamento.\n3) Confirmar: repetir o que entendeu antes de recomendar.\n4) Orientar: explicar a proposta cosmética, sem diagnosticar.\n5) Comparar: diferença de textura, etapa, simplicidade, cautela e preço.\n6) Fechar: oferecer a opção mais simples e deixar a decisão com a cliente.\n7) Reforçar segurança: o que fazer se arder, piorar ou aparecer ferida.\n\nComplemento sem empurrar\nOfereça complemento coerente (ex.: limpeza → hidratação/protetor) como opção, nunca como obrigação. “Não é obrigatório; é uma opção se você quiser completar a rotina.”\n\nPerguntas úteis\n- É para rosto, corpo, cabelo, perfume ou maquiagem?\n- Você já usa algo parecido? Teve reação?\n- Uso diário ou situação específica? Prefere textura leve?\n- Tem um orçamento que você quer respeitar?\n\nComo explicar para a cliente\n- “Pelo que você me contou, eu começaria por essa opção mais simples; vamos confirmar o modo de uso no rótulo.”\n- “Quer levar essa ou prefere que eu mostre uma alternativa mais em conta?”\n\nQuando chamar farmacêutico\n- Pedido de medicamento ou de “tratar” algo\n- Sinal de alerta, reação importante ou uso de medicamento\n- Dúvida de restrição (gestante/lactante/criança)",
+    practicalExample:
+      "Cliente: “Quero o melhor produto para acabar com minhas manchas, mas não quero gastar muito.”\nVocê: “Não consigo prometer acabar com manchas. Posso te ajudar com fotoproteção e aparência mais uniforme, respeitando seu orçamento. Vamos ver textura, com ou sem cor, e confirmar no rótulo. Se a mancha mudou, cresceu ou incomoda muito, o ideal é avaliação profissional.”",
+    safePhrase:
+      "Te ajudo a escolher pela sua necessidade e orçamento, com poucas opções. Não prometo resultado e confirmo no rótulo.",
+    avoid:
+      "Evite:\n- “Leva esse também que é obrigatório” / “sem esse não adianta”\n- “Esse é melhor porque é mais caro”\n- “Precisa do kit completo”\n- “Vai resolver mais rápido se levar tudo”",
+    exercise: {
+      prompt:
+        "A cliente diz que “está caro”. Escreva uma resposta de venda consultiva que respeite o orçamento sem dizer que o barato é ruim.",
+      expectedAnswer:
+        "Acolher sem constranger, oferecer 2 opções dentro do orçamento, explicar a diferença prática entre elas e confirmar no rótulo, deixando a decisão com a cliente. Ex.: “Entendo. Vamos comparar duas opções dentro do seu orçamento e ver o que muda entre elas.”",
     },
   },
   {
