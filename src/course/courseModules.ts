@@ -5,6 +5,28 @@ export const courseModules: CourseModule[] = [
     id: "papel-dermoconsultora",
     title: "Papel da dermoconsultora",
     summary: "Apoiar o cliente com orientação cosmética segura, sem diagnosticar e sem prometer resultado clínico.",
+    quiz: [
+      {
+        question: "O que está dentro do papel da dermoconsultora?",
+        options: [
+          "Diagnosticar doenças de pele",
+          "Orientar cosmético e encaminhar quando há sinal de alerta",
+          "Prescrever tratamento"
+        ],
+        correctIndex: 1,
+        explanation: "Orienta cosmético; não diagnostica nem prescreve; encaminha ao farmacêutico no alerta."
+      },
+      {
+        question: "Cliente pede “um creme para curar minha alergia”. A melhor resposta:",
+        options: [
+          "“Esse cura”",
+          "Explicar o limite, não prometer cura e, se for reação, chamar o farmacêutico",
+          "Indicar o mais forte"
+        ],
+        correctIndex: 1,
+        explanation: "Não prometer cura; reconhecer o limite e encaminhar quando necessário."
+      }
+    ],
     objective:
       "Saber o que você pode orientar com segurança no balcão, como conduzir a conversa e quando envolver o farmacêutico.",
     content:
@@ -25,6 +47,28 @@ export const courseModules: CourseModule[] = [
     id: "atendimento-consultivo",
     title: "Atendimento consultivo",
     summary: "Conduzir a conversa com poucas perguntas certas, reduzindo risco e aumentando clareza.",
+    quiz: [
+      {
+        question: "Qual é a base de um atendimento consultivo seguro?",
+        options: [
+          "Mostrar o máximo de produtos",
+          "Poucas perguntas certas, checar alerta e confirmar no rótulo",
+          "Fechar a venda o mais rápido possível"
+        ],
+        correctIndex: 1,
+        explanation: "Entender a necessidade, checar segurança e confirmar no rótulo."
+      },
+      {
+        question: "Cliente traz 3 queixas ao mesmo tempo. Você:",
+        options: [
+          "Vende um produto para cada uma",
+          "Prioriza uma necessidade principal e mantém a orientação simples",
+          "Manda usar tudo junto"
+        ],
+        correctIndex: 1,
+        explanation: "Priorizar e simplificar reduz risco; nada de empilhar ativos."
+      }
+    ],
     objective:
       "Aprender um roteiro curto para entender a necessidade, checar segurança e sugerir opções sem virar “consulta médica”.",
     content:
@@ -253,6 +297,28 @@ export const courseModules: CourseModule[] = [
     id: "produtos-na-pratica",
     title: "Produtos na prática",
     summary: "Conectar categorias de loja com objetivos reais do cliente.",
+    quiz: [
+      {
+        question: "Cliente pede “um produto para X”. O primeiro passo é:",
+        options: [
+          "Indicar o mais vendido",
+          "Transformar em categoria e objetivo cosmético e reduzir a poucas opções",
+          "Mostrar tudo da gôndola"
+        ],
+        correctIndex: 1,
+        explanation: "Traduzir a necessidade em categoria e confirmar no rótulo."
+      },
+      {
+        question: "Sobre “água micelar é igual a sabonete?”:",
+        options: [
+          "“É a mesma coisa”",
+          "“São formas diferentes de limpeza; a gente vê o que se adapta e confere o rótulo”",
+          "“Substitui qualquer limpeza”"
+        ],
+        correctIndex: 1,
+        explanation: "Explicar a diferença sem prometer substituição."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como transformar “categoria” em orientação simples de balcão\n- Como comparar opções sem inventar benefício\n- Como usar os módulos de aprofundamento por categoria\n\nEm uma frase:\nCategoria é linguagem de loja: ajuda a escolher com calma e sem prometer resultado.",
     content:
@@ -274,6 +340,24 @@ export const courseModules: CourseModule[] = [
     id: "produtos-limpeza-facial",
     title: "Produtos — Limpeza facial (na prática)",
     summary: "Gel de limpeza, sabonete facial, água micelar e demaquilante: como escolher sem exagero.",
+    quiz: [
+      {
+        question: "Cliente diz que a pele “repuxa muito” depois de lavar. Isso costuma indicar:",
+        options: ["Que limpou bem", "Que a limpeza pode estar agressiva demais", "Que precisa lavar mais vezes"],
+        correctIndex: 1,
+        explanation: "Repuxar e ardor sugerem limpeza forte demais; ir para algo mais suave."
+      },
+      {
+        question: "A fala segura sobre limpeza é:",
+        options: [
+          "“Quanto mais forte, melhor”",
+          "“Vamos escolher uma limpeza que você mantém sem ardor; se irritar, chamo o farmacêutico”",
+          "“Pode esfoliar todo dia”"
+        ],
+        correctIndex: 1,
+        explanation: "Suavidade + rótulo; encaminhar se houver reação."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Diferença prática entre tipos de limpeza (sem virar aula)\n- Perguntas para escolher por tolerância e preferência\n- Como evitar o erro de “limpar forte demais”\n\nEm uma frase:\nLimpeza boa remove sujeira sem deixar a pele reclamando.",
     content:
@@ -293,6 +377,24 @@ export const courseModules: CourseModule[] = [
     id: "produtos-hidratacao",
     title: "Produtos — Hidratação (na prática)",
     summary: "Hidratante facial, corporal e séruns: escolher textura e conforto sem prometer tratamento.",
+    quiz: [
+      {
+        question: "Pele oleosa que abandona o hidratante por “pesar”. A saída é:",
+        options: ["Não hidratar", "Textura leve (gel/gel-creme), confirmando no rótulo", "Usar o creme mais denso"],
+        correctIndex: 1,
+        explanation: "Pele oleosa também pode hidratar — com textura leve."
+      },
+      {
+        question: "O hidratante tem proposta de:",
+        options: [
+          "Curar dermatite",
+          "Conforto e hidratação conforme o rótulo, sem prometer tratamento",
+          "Substituir o protetor solar"
+        ],
+        correctIndex: 1,
+        explanation: "Proposta cosmética de conforto; não trata doença."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como escolher hidratante por sensação (oleosa, seca, sensível)\n- Por que pele oleosa também pode precisar hidratar\n- Como orientar sem “prometer barreira perfeita”\n\nEm uma frase:\nHidratação é conforto e consistência com a textura certa.",
     content:
@@ -312,6 +414,24 @@ export const courseModules: CourseModule[] = [
     id: "produtos-protecao-solar",
     title: "Produtos — Proteção solar (escolha na prática)",
     summary: "Com cor ou sem cor, toque seco ou hidratante, facial ou corporal: escolher pelo uso real.",
+    quiz: [
+      {
+        question: "Cliente quer protetor com cor para “sumir com a mancha”. Você:",
+        options: [
+          "Promete que clareia",
+          "Ajuda com cobertura/uniformização e fotoproteção, sem prometer clarear",
+          "Diz que não funciona"
+        ],
+        correctIndex: 1,
+        explanation: "Cor uniformiza visualmente; não prometer clareamento."
+      },
+      {
+        question: "O melhor protetor é:",
+        options: ["O de maior FPS", "O que a pessoa consegue usar todo dia, na textura certa", "O mais caro"],
+        correctIndex: 1,
+        explanation: "Adesão importa mais que o número; reaplicar conforme o rótulo."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como fechar a escolha por textura, cor e rotina\n- Como lidar com reclamações de ardor e oleosidade\n- Como orientar reaplicação sem inventar regra\n\nEm uma frase:\nProtetor precisa caber na rotina para funcionar.",
     content:
@@ -331,6 +451,28 @@ export const courseModules: CourseModule[] = [
     id: "ativos-cosmeticos",
     title: "Ativos cosméticos",
     summary: "Falar de ativos com pé no chão: objetivo cosmético, tolerância e rótulo.",
+    quiz: [
+      {
+        question: "Regra prática mais segura para introduzir ativos numa rotina iniciante:",
+        options: [
+          "Vários de uma vez para acelerar",
+          "Um por vez, observando tolerância e confirmando o rótulo",
+          "Começar pelo mais forte"
+        ],
+        correctIndex: 1,
+        explanation: "Um ativo por vez; pausar e encaminhar se irritar."
+      },
+      {
+        question: "Cliente quer retinol “porque viu na internet”. Você:",
+        options: [
+          "Garante que é seguro para todos",
+          "Explica que pode irritar, confirma o rótulo e chama o farmacêutico se houver medicamento/sensibilidade",
+          "Diz que é milagre"
+        ],
+        correctIndex: 1,
+        explanation: "Cautela, rótulo e encaminhamento; ativo não é milagre."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como falar de ativo sem prometer cura\n- Como escolher “um ativo por vez” e observar tolerância\n- Como usar os módulos de aprofundamento por blocos de ativos\n\nEm uma frase:\nAtivo é proposta cosmética, não garantia de resultado.",
     content:
@@ -351,6 +493,20 @@ export const courseModules: CourseModule[] = [
     id: "ativos-hidratacao-barreira",
     title: "Ativos — Hidratação e barreira (na prática)",
     summary: "Ácido hialurônico, ceramidas, pantenol e ureia: como explicar com segurança.",
+    quiz: [
+      {
+        question: "Esses ativos costumam aparecer em produtos com proposta de:",
+        options: ["Cura de dermatite", "Hidratação, conforto e barreira conforme o rótulo", "Clareamento garantido"],
+        correctIndex: 1,
+        explanation: "Proposta cosmética de hidratação/conforto; sem promessa clínica."
+      },
+      {
+        question: "Pele muito sensibilizada e ardendo forte. Você:",
+        options: ["Indica o produto mesmo assim", "Tem cautela e, se for forte, chama o farmacêutico", "Diz que ardência é normal"],
+        correctIndex: 1,
+        explanation: "Ardência forte é sinal de alerta; não insistir."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como explicar proposta de hidratação/conforto sem prometer cura\n- Quando ter cautela (pele muito sensibilizada/ardendo)\n- Frases seguras e perguntas rápidas de balcão\n\nEm uma frase:\nEsses ativos costumam aparecer em produtos de hidratação e conforto, mas o rótulo manda.",
     content:
@@ -370,6 +526,24 @@ export const courseModules: CourseModule[] = [
     id: "ativos-oleosidade-acne",
     title: "Ativos — Oleosidade e espinhas (na prática)",
     summary: "Niacinamida, salicílico e zinco: proposta cosmética e cautelas sem “prometer tratar acne”.",
+    quiz: [
+      {
+        question: "Cliente: “qual niacinamida cura acne?”. Resposta segura:",
+        options: [
+          "“Essa cura”",
+          "“Pode aparecer em produtos com proposta de controle de oleosidade/aparência; não prometo cura”",
+          "“Use com tudo junto”"
+        ],
+        correctIndex: 1,
+        explanation: "Proposta cosmética, não cura; sem misturar tudo."
+      },
+      {
+        question: "Há dor, ferida, pus ou inflamação importante. Você:",
+        options: ["Indica um ativo mais forte", "Encaminha ao farmacêutico", "Diz que passa sozinho"],
+        correctIndex: 1,
+        explanation: "Sinais inflamatórios importantes são alerta."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como falar de oleosidade/espinhas como queixa (sem diagnosticar)\n- Como explicar ativos com pé no chão\n- Quando parar e encaminhar\n\nEm uma frase:\nEsses ativos aparecem em produtos com proposta de controle de oleosidade e aparência, mas não são “remédio”.",
     content:
@@ -389,6 +563,24 @@ export const courseModules: CourseModule[] = [
     id: "ativos-antioxidantes-uniformizacao",
     title: "Ativos — Antioxidantes e aparência uniforme (na prática)",
     summary: "Vitamina C: como explicar proposta cosmética sem prometer clareamento ou tratamento.",
+    quiz: [
+      {
+        question: "Cliente quer vitamina C “para tirar mancha”. Você:",
+        options: [
+          "Promete clareamento",
+          "Oferece como proposta de aparência mais uniforme, reforça fotoproteção e não promete clarear",
+          "Diz que tira em 1 semana"
+        ],
+        correctIndex: 1,
+        explanation: "Sem promessa de clareamento; fotoproteção é o pilar."
+      },
+      {
+        question: "O cuidado mais importante junto da vitamina C para manchas é:",
+        options: ["Esfoliar todo dia", "Protetor solar diário", "Trocar de produto toda semana"],
+        correctIndex: 1,
+        explanation: "Fotoproteção diária sustenta a rotina."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como falar de “aparência mais uniforme” sem prometer clarear mancha\n- Como orientar introdução com cautela\n- Quando encaminhar\n\nEm uma frase:\nVitamina C aparece em produtos com proposta de antioxidante e aparência mais uniforme, mas não é promessa clínica.",
     content:
@@ -408,6 +600,24 @@ export const courseModules: CourseModule[] = [
     id: "ativos-renovacao-anti-idade",
     title: "Ativos — Renovação e antissinais (na prática)",
     summary: "Glicólico e retinol: foco em cautela, tolerância e encaminhamento quando necessário.",
+    quiz: [
+      {
+        question: "Ativos de renovação exigem:",
+        options: [
+          "Uso forte desde o início",
+          "Introdução lenta, observar tolerância e confirmar o rótulo",
+          "Misturar com tudo"
+        ],
+        correctIndex: 1,
+        explanation: "Cautela e introdução gradual; encaminhar em dúvida ou uso de medicamento."
+      },
+      {
+        question: "Gestante/lactante, ou uso de medicamento dermatológico com dúvida:",
+        options: ["Liberar o ativo", "Chamar o farmacêutico", "Indicar o mais forte"],
+        correctIndex: 1,
+        explanation: "Casos sensíveis pedem o farmacêutico."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como falar de renovação/antissinais sem prometer “tratamento”\n- Por que tolerância e rótulo mandam\n- Quando não orientar e chamar farmacêutico\n\nEm uma frase:\nAtivos de renovação exigem mais cautela: introdução lenta, observação e rótulo.",
     content:
@@ -427,6 +637,24 @@ export const courseModules: CourseModule[] = [
     id: "cabelo-corpo-perfumaria-maquiagem",
     title: "Cabelo, corpo, perfumaria e maquiagem",
     summary: "Aplicar o mesmo atendimento consultivo fora do skincare facial.",
+    quiz: [
+      {
+        question: "Fora do rosto (cabelo, corpo, perfumaria), o método de atendimento:",
+        options: [
+          "Muda completamente",
+          "É o mesmo: objetivo, preferência, rótulo e encaminhar se houver alerta",
+          "Não precisa de perguntas"
+        ],
+        correctIndex: 1,
+        explanation: "Mesmo método; atenção a sinais de alerta (ex.: couro cabeludo)."
+      },
+      {
+        question: "Couro cabeludo com coceira intensa e descamação forte:",
+        options: ["Indicar shampoo e seguir", "Chamar o farmacêutico", "Dizer que é caspa comum"],
+        correctIndex: 1,
+        explanation: "Sintoma importante no couro cabeludo é sinal de alerta."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como atender por categoria e preferência fora do rosto\n- Como reconhecer sinais de alerta (couro cabeludo e reação)\n- Como usar os módulos de produtos por categoria\n\nEm uma frase:\nO mesmo método funciona: objetivo, preferência, rótulo e encaminhamento quando necessário.",
     content:
@@ -490,6 +718,28 @@ export const courseModules: CourseModule[] = [
     id: "produtos-cabelo",
     title: "Produtos — Cabelo (na prática)",
     summary: "Shampoo, condicionador, máscara, leave-in e couro cabeludo: orientar por objetivo e sinal de alerta.",
+    quiz: [
+      {
+        question: "Raiz oleosa e pontas secas. Conduta cosmética:",
+        options: [
+          "Um produto pesado em todo o cabelo",
+          "Shampoo para a raiz e cuidado de comprimento/pontas separados, conferindo o rótulo",
+          "Lavar bem menos"
+        ],
+        correctIndex: 1,
+        explanation: "Tratar raiz e comprimento conforme a necessidade de cada um."
+      },
+      {
+        question: "Cliente quer “recuperar” cabelo com química danificada. Você:",
+        options: [
+          "Promete recuperação rápida",
+          "Oferece cuidado cosmético de aparência, sem prometer recuperar o dano, e encaminha se houver quebra intensa ou couro cabeludo irritado",
+          "Diz que volta ao normal em dias"
+        ],
+        correctIndex: 1,
+        explanation: "Sem promessa; encaminhar sinais de alerta."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como escolher por objetivo (oleosidade, ressecamento, frizz, dano)\n- O que observar no couro cabeludo sem diagnosticar\n- Quando encaminhar (queda intensa, ferida, coceira forte)\n\nEm uma frase:\nEm cabelo, o principal é objetivo + tolerância + atenção ao couro cabeludo.",
     content:
@@ -509,6 +759,28 @@ export const courseModules: CourseModule[] = [
     id: "produtos-corpo",
     title: "Produtos — Corpo (na prática)",
     summary: "Hidratante corporal e desodorante: conforto, rotina e rótulo sem promessas.",
+    quiz: [
+      {
+        question: "Cliente relata a perna “rachando e ardendo”. Você:",
+        options: [
+          "Indica hidratante e pronto",
+          "Se houver ferida/dor/ardência forte, chama o farmacêutico; se for ressecamento leve, orienta cosmético",
+          "Diz que é normal"
+        ],
+        correctIndex: 1,
+        explanation: "Ferida/dor é alerta; ressecamento leve é cuidado cosmético."
+      },
+      {
+        question: "Desodorante que sempre irrita a cliente. Conduta:",
+        options: [
+          "Insistir no mesmo",
+          "Ver opções mais suaves e, se continuar irritando, chamar o farmacêutico",
+          "Dizer que irritação é esperada"
+        ],
+        correctIndex: 1,
+        explanation: "Cautela e encaminhamento se persistir."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como escolher hidratante corporal por textura e necessidade\n- Como orientar desodorante por preferência e tolerância\n- Quando encaminhar em caso de reação/lesão\n\nEm uma frase:\nCorpo é conforto + rotina simples + rótulo.",
     content:
@@ -528,6 +800,28 @@ export const courseModules: CourseModule[] = [
     id: "produtos-perfumaria-maquiagem",
     title: "Produtos — Perfumaria e maquiagem básica (na prática)",
     summary: "Escolher por preferência e ocasião, sem aula técnica e sem prometer efeito.",
+    quiz: [
+      {
+        question: "Em perfumaria e maquiagem, a escolha é guiada por:",
+        options: [
+          "O produto “melhor” para todos",
+          "Preferência e ocasião da cliente, com poucas opções",
+          "Sempre o mais caro"
+        ],
+        correctIndex: 1,
+        explanation: "É preferência; a melhor é a que a pessoa gosta de usar."
+      },
+      {
+        question: "Cliente quer um perfume “que agrade qualquer um” de presente:",
+        options: [
+          "Garantir que agrada todo mundo",
+          "Fazer perguntas de perfil/ocasião e não prometer universalidade",
+          "Indicar o mais vendido sem perguntar"
+        ],
+        correctIndex: 1,
+        explanation: "Sem prometer que agrada todos; orientar por perfil."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como orientar escolha de perfume/body splash por gosto e ocasião\n- Como atender maquiagem básica com linguagem simples\n- Como fechar venda com segurança (teste, rótulo, preferência)\n\nEm uma frase:\nPerfumaria e maquiagem são preferência: a melhor escolha é a que a pessoa gosta de usar.",
     content:
@@ -679,6 +973,24 @@ export const courseModules: CourseModule[] = [
     id: "operacao-de-loja",
     title: "Operação de loja",
     summary: "Organizar o atendimento e a rotina para não perder tempo e não criar risco.",
+    quiz: [
+      {
+        question: "A regra de ouro quando o atendimento está corrido:",
+        options: [
+          "Empurrar o mais caro",
+          "Reduzir ao básico, confirmar no rótulo e encaminhar em alerta ou dúvida",
+          "Pular a checagem de segurança"
+        ],
+        correctIndex: 1,
+        explanation: "Simplicidade + rótulo + encaminhamento."
+      },
+      {
+        question: "Embalagem violada ou produto vencido na gôndola:",
+        options: ["Vender mesmo assim", "Não vender e acionar a liderança", "Esconder no estoque"],
+        correctIndex: 1,
+        explanation: "Integridade e validade fazem parte da segurança."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Rotina prática de setor para reduzir erro e retrabalho\n- O que checar na gôndola (validade, lacre, organização) sem travar o atendimento\n- Como usar o app para ganhar tempo com segurança\n\nEm uma frase:\nOperação boa deixa o atendimento simples, rápido e seguro.",
     content:
@@ -776,6 +1088,24 @@ export const courseModules: CourseModule[] = [
     id: "comparar-parecidos",
     title: "Comparar produtos parecidos",
     summary: "Critérios simples para comparar sem inventar benefício.",
+    quiz: [
+      {
+        question: "Cliente pergunta “qual é melhor?” entre dois produtos parecidos. Você:",
+        options: [
+          "Aponta “o melhor do mercado”",
+          "Explica que não há melhor para todos e compara por textura, etapa, cautela e preço",
+          "Manda levar os dois"
+        ],
+        correctIndex: 1,
+        explanation: "Comparar por critérios objetivos, sem prometer."
+      },
+      {
+        question: "Quando falta informação para comparar, você:",
+        options: ["Inventa o benefício", "Confirma no rótulo antes de orientar", "Escolhe só pelo preço"],
+        correctIndex: 1,
+        explanation: "Não adivinhar; o rótulo decide."
+      }
+    ],
     objective:
       "Conseguir justificar a escolha de forma curta e segura, usando categoria, cautela, complexidade e rótulo.",
     content:
@@ -838,6 +1168,28 @@ export const courseModules: CourseModule[] = [
     id: "treino-de-fala-objecoes",
     title: "Treino de fala (objeções comuns)",
     summary: "Frases prontas para preço, pressa e “quero o melhor”, sem perder segurança.",
+    quiz: [
+      {
+        question: "“Esse vai resolver seu problema” deve virar:",
+        options: [
+          "“Resolve mesmo”",
+          "“Posso te ajudar a comparar opções cosméticas; confirmar no rótulo antes de orientar”",
+          "“É tiro e queda”"
+        ],
+        correctIndex: 1,
+        explanation: "Sem promessa de resultado."
+      },
+      {
+        question: "Cliente com pressa pede “qualquer um”:",
+        options: [
+          "Entregar qualquer produto",
+          "Ir ao essencial (necessidade, área, alerta) e mostrar 1–2 opções",
+          "Dizer que vai demorar"
+        ],
+        correctIndex: 1,
+        explanation: "Rapidez sem pular a segurança."
+      }
+    ],
     objective:
       "Manter o atendimento objetivo e acolhedor, reduzindo carga cognitiva e risco.",
     content:
