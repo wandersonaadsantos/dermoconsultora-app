@@ -168,6 +168,60 @@ export const simulations: Simulation[] = [
     whatNotToSay: ["“Leva tempo para escolher direito.”", "“Compra esse aqui e pronto.”"],
     whenToRefer: "Se houver sinal de alerta, interromper e chamar o farmacêutico.",
     closing: "Mostrar poucas opções, abrir ficha e indicar comparação rápida."
+  },
+  {
+    id: "cliente-hostil",
+    title: "Cliente irritada e exigente",
+    summary: "Acolher, manter o limite e não prometer sob pressão.",
+    context: "Cliente chega reclamando: “Vocês só vendem coisa que não funciona. Quero algo que resolva agora.”",
+    questionsToAsk: [
+      "Quero te ajudar a achar uma opção melhor — qual é a necessidade principal e a área?",
+      "O que você já usou e como a sua pele reagiu?",
+      "Tem ardência forte, ferida, inchaço ou piora rápida?"
+    ],
+    safeResponse:
+      "Entendo a sua frustração e quero te ajudar a escolher com calma. Não vou prometer resultado, mas posso comparar poucas opções pela sua necessidade. Confirmar no rótulo antes de orientar.",
+    whatNotToSay: ["“Esse aqui resolve, pode confiar.”", "“Da última vez você deve ter usado errado.”"],
+    whenToRefer:
+      "Se houver sinal de alerta (ardência forte, ferida, inchaço, piora rápida) ou pedido de tratamento/medicamento, chamar o farmacêutico.",
+    closing:
+      "Manter o tom calmo, oferecer 2 opções com critério claro e reforçar rótulo e retorno se houver reação."
+  },
+  {
+    id: "internet-tiktok",
+    title: "Cliente viu na internet / TikTok",
+    summary: "Validar sem confrontar e trazer para rótulo e segurança.",
+    context: "Cliente diz: “Vi no TikTok que esse ativo pode usar todo dia e resolve tudo.”",
+    questionsToAsk: [
+      "Qual ativo/produto você viu? Você tem o rótulo aqui?",
+      "Sua pele é sensível ou já teve reação?",
+      "Você usa algum medicamento na pele ou está em tratamento?"
+    ],
+    safeResponse:
+      "Esse ativo aparece bastante mesmo. Antes de escolher, vamos ver a proposta, o modo de uso e se faz sentido para a sua pele. Confirmar no rótulo antes de orientar.",
+    whatNotToSay: ["“Resolve mesmo, pode usar todo dia.”", "“Tudo que viraliza funciona.”"],
+    whenToRefer:
+      "Se houver sensibilidade importante, uso de medicamento, gestação/lactação ou sinal de alerta, chamar o farmacêutico.",
+    closing: "Acolher a referência, comparar com cautela e reforçar introdução lenta e rótulo."
+  },
+  {
+    id: "cliente-insistente",
+    title: "Cliente insiste e questiona o encaminhamento",
+    summary: "Manter o limite com firmeza e sem parecer insegura.",
+    context:
+      "Você sugere chamar o farmacêutico e a cliente reage: “Ah, mas você não sabe me dizer? Só me indica logo um.”",
+    questionsToAsk: [
+      "Para te orientar com segurança, posso confirmar: tem ardência forte, ferida, inchaço ou piora rápida?",
+      "Você usa algum medicamento na pele ou está grávida/amamentando?",
+      "Você quer cuidado cosmético simples ou está buscando tratamento?"
+    ],
+    safeResponse:
+      "Eu sei te orientar no cosmético e, justamente por isso, nesse caso o mais seguro é o farmacêutico avaliar com você. Não é insegurança; é cuidado. Confirmar no rótulo antes de orientar.",
+    whatNotToSay: ["“Tá bom, leva esse aqui então.”", "“Não sei, mas acho que esse serve.”"],
+    whenToRefer:
+      "Sempre que o pedido envolver sinal de alerta, medicamento, gestação/lactação, criança ou pedido de tratamento — não ceder à insistência.",
+    closing:
+      "Manter o encaminhamento com firmeza calma e oferecer ajuda cosmética segura no que for possível."
   }
 ];
 
