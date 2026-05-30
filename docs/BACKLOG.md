@@ -130,12 +130,16 @@ retrieval practice, microlearning, progresso visual, gamificação leve).
   hero de progresso (anel %, nível, XP, streak), etapas temáticas com barra e
   passos conectados, marcos por etapa. Motor puro testável em `gamification.ts`.
 - **Iteração 2 — Página do módulo (feito, 2026-05-30):** quiz de fixação
-  (retrieval, uma pergunta por vez com feedback e placar) em 10 módulos;
+  (retrieval, uma pergunta por vez com feedback e placar) em **28 de 32 módulos**;
   concluir o quiz marca o módulo como lido (XP, avança a trilha); ícones por
-  seção (dual coding); o exercício aberto virou "Aprofundar". Pendente nesta
-  iteração: cards/progressive disclosure mais fortes e quizzes nos demais módulos.
-- **Iteração 3 (ideia):** revisão espaçada — flashcards que ressurgem pontos-chave
-  de módulos já lidos.
+  seção (dual coding); o exercício aberto virou "Aprofundar". Sem quiz por
+  intenção: simulações e exercícios (já são prática), checklist e categorias.
+- **Iteração 3 — Revisão (feito, 2026-05-30):** tela /study/revisao que reúne os
+  quizzes dos módulos concluídos como recordação rápida (reusa o QuizCard);
+  atalho "Revisar o que aprendi" na trilha. Fecha o tripé dual coding + retrieval
+  + revisão.
+- **Refino futuro (opcional):** cards/progressive disclosure mais fortes na página
+  do módulo; agendamento real de revisão (priorizar por tempo desde a última vez).
 
 ## Rastreabilidade (US → destino)
 
