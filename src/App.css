@@ -991,6 +991,12 @@
   flex: 1;
 }
 
+/* Respiro abaixo do grid de recomendações: sem isso o card (com sombra)
+   encosta no aviso seguinte e parece sobrepor. */
+.attend-screen .cards {
+  margin-bottom: 16px;
+}
+
 .card-actions .btn {
   flex: 1 1 auto;
   padding-inline: 14px;
