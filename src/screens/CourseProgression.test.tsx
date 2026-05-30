@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 import { AppRoutes } from "../app/routes";
 
@@ -33,35 +33,32 @@ function setupFetch() {
 }
 
 afterEach(() => {
+  cleanup();
   vi.unstubAllGlobals();
+  localStorage.clear();
 });
 
-test("Course_exibe_sequencia_recomendada_pratica", async () => {
+test("Course_exibe_trilha_por_etapas", async () => {
   setupFetch();
   window.location.hash = "#/study";
   render(<AppRoutes />);
 
-  const heading = await screen.findByRole("heading", { level: 2, name: "Sequência recomendada (prática)" });
+  const heading = await screen.findByRole("heading", { level: 2, name: "Fundamentos" });
   const section = heading.closest("section");
   expect(section).not.toBeNull();
 
-  const titles = within(section as HTMLElement)
-    .getAllByText(/.+/, { selector: ".card-title" })
-    .map((n) => String(n.textContent ?? "").trim());
+  // a etapa "Fundamentos" começa pelo papel da dermoconsultora
+  expect(within(section as HTMLElement).getByText("Papel da dermoconsultora")).toBeInTheDocument();
+  // outras etapas da jornada também aparecem
+  expect(screen.getByRole("heading", { level: 2, name: "Produtos na prática" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { level: 2, name: "Atendimento e venda" })).toBeInTheDocument();
+});
 
-  expect(titles).toEqual([
-    "Atendimento consultivo",
-    "Leitura de rótulo",
-    "Tipos e condições da pele",
-    "Skincare básico",
-    "Proteção solar",
-    "Categorias de loja (na prática)",
-    "Comparar produtos parecidos",
-    "Treino de fala (objeções comuns)",
-    "Simulações de atendimento",
-    "Checklist rápido"
-  ]);
+test("Course_continuar_abre_o_primeiro_modulo_nao_lido", async () => {
+  setupFetch();
+  window.location.hash = "#/study";
+  render(<AppRoutes />);
 
-  fireEvent.click(within(section as HTMLElement).getByRole("button", { name: "Começar pela sequência" }));
-  expect(await screen.findByRole("heading", { level: 1, name: "Atendimento consultivo" })).toBeInTheDocument();
+  fireEvent.click(await screen.findByRole("button", { name: "Continuar de onde parei" }));
+  expect(await screen.findByRole("heading", { level: 1, name: "Papel da dermoconsultora" })).toBeInTheDocument();
 });
