@@ -79,12 +79,13 @@ Atalho para frases seguras por objeção (pressa, "o melhor/mais forte", "não s
 
 ## Balde B — Trilha de conteúdo/currículo (escrita, não dev)
 
-> **Status parcial (2026-05-29):** integrada a "base científica e profissional"
-> a partir de material trazido pelo usuário — 5 módulos novos (estrutura da pele,
-> anatomia do fio/couro cabeludo, unhas, venda consultiva, atuação profissional)
-> e enriquecimento de sol/fotoproteção, hidratação e tipos de pele. Curso passou
-> de 27 → 32 módulos. Ainda pendente nesta trilha: simulações por perfil
-> (hostil/TikTok/insistente) e cobertura prática extra de corpo/higiene.
+> **Status (2026-05-29):** integrada a "base científica e profissional" a partir
+> de material trazido pelo usuário — 5 módulos novos (estrutura da pele, anatomia
+> do fio/couro cabeludo, unhas, venda consultiva, atuação profissional) e
+> enriquecimento de sol/fotoproteção, hidratação e tipos de pele (27 → 32 módulos).
+> Simulações por perfil de cliente difícil adicionadas (cliente-hostil,
+> internet-tiktok, cliente-insistente). Ainda pendente nesta trilha: cobertura
+> prática extra de corpo/higiene e módulos "frases proibidas vs seguras".
 
 Novas simulações/módulos. Prioridade dentro da trilha: **segurança > categorias**.
 
