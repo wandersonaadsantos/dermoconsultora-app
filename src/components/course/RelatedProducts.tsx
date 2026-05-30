@@ -16,6 +16,7 @@ function toFilterState(partial: Partial<FilterState>): FilterState {
     need_tag: partial.need_tag ?? "all",
     caution_level: partial.caution_level ?? "all",
     complexity_level: partial.complexity_level ?? "all",
+    price_tier: partial.price_tier ?? "all",
     needsOnly: partial.needsOnly ?? false,
   };
 }

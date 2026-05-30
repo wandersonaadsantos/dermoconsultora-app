@@ -10,7 +10,7 @@ function splitTags(raw: string) {
 
 function hasAnyNeedTag(row: ProductRow, tags: string[]) {
   if (tags.length === 0) return true;
-  const rowTags = splitTags(String((row as any).need_tags ?? ""));
+  const rowTags = splitTags(String(row.need_tags ?? ""));
   for (const tag of tags) {
     const t = tag.trim().toLowerCase();
     if (t.length > 0 && rowTags.includes(t)) return true;

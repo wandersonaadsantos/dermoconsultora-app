@@ -56,7 +56,7 @@ export function getSimilarProducts(all: ProductRow[], current: ProductRow, limit
   const group = String(current.comparison_group ?? "").trim();
   const step = String(current.routine_step ?? "").trim();
   const brand = String(current.Marca ?? "").trim();
-  const priceTier = String((current as any).price_tier ?? "").trim();
+  const priceTier = String(current.price_tier ?? "").trim();
   const needs = new Set(splitTags(current.need_tags));
 
   const outros = isOutrosGroup(group);
@@ -76,7 +76,7 @@ export function getSimilarProducts(all: ProductRow[], current: ProductRow, limit
     const matchNeeds = overlap > 0;
 
     const matchBrand = !isMissing(brand) && String(p.Marca ?? "").trim() === brand;
-    const matchPrice = !isMissing(priceTier) && String((p as any).price_tier ?? "").trim() === priceTier;
+    const matchPrice = !isMissing(priceTier) && String(p.price_tier ?? "").trim() === priceTier;
 
     let score = 0;
     if (matchGroup) score += 100;
