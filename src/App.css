@@ -971,10 +971,29 @@
   max-width: 58ch;
 }
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .card-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* Recomendações do atendimento: cards de altura igual (motivo + card alinhados) */
+.attend-rec-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.attend-rec-item .card {
+  flex: 1;
 }
 
 .card-actions .btn {

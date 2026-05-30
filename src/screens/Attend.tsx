@@ -632,7 +632,7 @@ export function Attend() {
                         const rid = getProductRouteId(rec.product, dataState.data.products);
                         const reason = rec.matchedLabels.length > 0 ? `Combina com: ${rec.matchedLabels.join("; ")}` : "";
                         return (
-                          <div key={String(rec.product.URL_produto ?? rid)}>
+                          <div key={String(rec.product.URL_produto ?? rid)} className="attend-rec-item">
                             {reason ? <div className="related-reason">{reason}</div> : null}
                             <ProductCard
                               product={rec.product}
