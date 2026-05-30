@@ -608,6 +608,76 @@
   margin-bottom: 10px;
 }
 
+.course-diagram {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 16px;
+}
+
+.course-diagram-svg {
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.course-diagram-name {
+  fill: var(--text-h);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.course-diagram-desc {
+  fill: var(--text);
+  font-size: 12px;
+}
+
+.course-diagram-caption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text);
+  text-align: center;
+}
+
+.problem-guide {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.problem-guide-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 12px 14px;
+}
+
+.problem-guide-problem {
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 8px;
+}
+
+.problem-guide-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.problem-guide-tag {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-h);
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
 .card-meta {
   display: flex;
   flex-wrap: wrap;

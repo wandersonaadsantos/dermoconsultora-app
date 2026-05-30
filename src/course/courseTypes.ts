@@ -3,6 +3,15 @@ export type CourseExercise = {
   expectedAnswer: string;
 };
 
+/** Item do guia "problema → tipos de produto cosmético que ajudam". */
+export type ProblemGuideItem = {
+  problem: string;
+  products: string[];
+};
+
+/** Chave de diagrama de estudo (renderizado como SVG original). */
+export type CourseDiagramId = "pele" | "fio" | "unha";
+
 export type CourseModule = {
   id: string;
   title: string;
@@ -13,6 +22,10 @@ export type CourseModule = {
   safePhrase: string;
   avoid: string;
   exercise: CourseExercise;
+  /** Diagrama esquemático opcional exibido junto do conteúdo. */
+  diagram?: CourseDiagramId;
+  /** Guia opcional de problema → tipos de produto que ajudam. */
+  problemGuide?: ProblemGuideItem[];
 };
 
 export type CourseProductFilter = {

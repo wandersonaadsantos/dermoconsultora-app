@@ -45,6 +45,14 @@ export const courseModules: CourseModule[] = [
     id: "estrutura-da-pele",
     title: "Estrutura da pele",
     summary: "Como a pele é organizada (epiderme, derme, hipoderme) e por que isso muda a forma de orientar cosmético.",
+    diagram: "pele",
+    problemGuide: [
+      { problem: "Ressecamento / repuxa", products: ["Limpeza suave", "Hidratante (umectante + oclusivo)"] },
+      { problem: "Oleosidade / brilho", products: ["Limpeza suave", "Hidratante leve (gel/gel-creme)", "Protetor toque seco"] },
+      { problem: "Sensibilidade / ardência", products: ["Produtos mais suaves", "Hidratante de barreira (ceramidas)", "Evitar ativos fortes"] },
+      { problem: "Aparência cansada / textura", products: ["Antioxidante (vitamina C)", "Protetor solar diário"] },
+      { problem: "Manchas (aparência)", products: ["Protetor amplo espectro, com cor", "Antioxidante"] }
+    ],
     objective:
       "Você vai aprender:\n- As três camadas da pele e o que cada uma faz, em linguagem simples\n- Por que cosmético cuida de aparência e conforto, sem 'reconstruir' a pele\n- Como traduzir queixas (\"grossa\", \"sem viço\", \"firmar\") em necessidade cosmética segura\n\nEm uma frase:\nA pele é uma barreira viva; cosmético cuida da aparência e do conforto, não trata doença.",
     content:
@@ -341,6 +349,14 @@ export const courseModules: CourseModule[] = [
     id: "anatomia-fio-cabelo",
     title: "Anatomia do fio e couro cabeludo",
     summary: "Como o fio é formado (cutícula, córtex), o que é couro cabeludo e como diferenciar quebra de queda.",
+    diagram: "fio",
+    problemGuide: [
+      { problem: "Frizz / aspereza", products: ["Condicionador", "Leave-in / finalizador", "Máscara de hidratação"] },
+      { problem: "Pontas ressecadas / dano químico", products: ["Máscara de nutrição", "Óleo/sérum de pontas", "Leave-in"] },
+      { problem: "Raiz oleosa", products: ["Shampoo de limpeza para a raiz", "Evitar produto pesado na raiz"] },
+      { problem: "Quebra do fio", products: ["Proposta de fortalecimento cosmético", "Reduzir calor e atrito"] },
+      { problem: "Coceira/descamação forte, ferida ou queda intensa", products: ["⚠ Sinal de alerta — chamar o farmacêutico"] }
+    ],
     objective:
       "Você vai aprender:\n- A estrutura básica do fio (cutícula e córtex) em linguagem simples\n- Que o couro cabeludo é pele e pode ter sinais de alerta\n- A diferenciar quebra do fio de queda da raiz, sem diagnosticar\n\nEm uma frase:\nO cabelo tem o fio visível (haste) e o folículo na pele; cosmético cuida da aparência do fio, não trata queda nem doença do couro cabeludo.",
     content:
@@ -419,6 +435,14 @@ export const courseModules: CourseModule[] = [
     id: "unhas-cuidados",
     title: "Unhas: cuidado cosmético e sinais de alerta",
     summary: "Estrutura básica da unha, produtos cosméticos (esmalte, base, removedor, óleo de cutícula) e quando encaminhar.",
+    diagram: "unha",
+    problemGuide: [
+      { problem: "Unha fraca / quebradiça", products: ["Fortalecedor cosmético", "Óleo de cutícula", "Reduzir removedor/esmaltação"] },
+      { problem: "Cutícula ressecada", products: ["Óleo de cutícula", "Hidratante"] },
+      { problem: "Quer cor / acabamento", products: ["Esmalte", "Base", "Top coat"] },
+      { problem: "Ressecamento por removedor", products: ["Removedor sem acetona / hidratante", "Hidratar após o uso"] },
+      { problem: "Cor amarela, espessamento ou descolamento", products: ["⚠ Não é cosmético — chamar o farmacêutico/avaliação"] }
+    ],
     objective:
       "Você vai aprender:\n- A estrutura básica da unha e o que não machucar\n- As categorias de produtos cosméticos para unha e o que cada uma propõe\n- A reconhecer sinais de alerta que pedem farmacêutico ou dermatologista\n\nEm uma frase:\nDá para orientar cosmético para aparência e cuidado da unha; não se diagnostica micose, não se trata infecção e não se promete fortalecer ou crescer.",
     content:

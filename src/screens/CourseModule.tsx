@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../components/Button";
+import { CourseDiagram } from "../components/course/CourseDiagram";
 import { CourseSection } from "../components/course/CourseSection";
 import { ExerciseCard } from "../components/course/ExerciseCard";
+import { ProblemGuide } from "../components/course/ProblemGuide";
 import { RelatedProducts } from "../components/course/RelatedProducts";
 import { SafePhraseCard } from "../components/course/SafePhraseCard";
 import { TalkTrackCard } from "../components/course/TalkTrackCard";
@@ -70,6 +72,12 @@ export function CourseModule() {
         <div className="prose">{module.content}</div>
       </CourseSection>
 
+      {module.diagram ? (
+        <CourseSection title="Diagrama de estudo" description="Imagem esquemática para fixar a estrutura.">
+          <CourseDiagram id={module.diagram} />
+        </CourseSection>
+      ) : null}
+
       <CourseSection title="Exemplo prático" description="Como isso aparece na conversa com o cliente.">
         <div className="prose">{module.practicalExample}</div>
       </CourseSection>
@@ -79,6 +87,15 @@ export function CourseModule() {
       <CourseSection title="O que evitar" description="Frases e atitudes que aumentam risco.">
         <div className="prose">{module.avoid}</div>
       </CourseSection>
+
+      {module.problemGuide?.length ? (
+        <CourseSection
+          title="Problemas e produtos que ajudam"
+          description="Tipos de produto cosmético por queixa. Sempre confirmar no rótulo; se sair do cosmético, chamar o farmacêutico."
+        >
+          <ProblemGuide items={module.problemGuide} />
+        </CourseSection>
+      ) : null}
 
       <ExerciseCard exercise={module.exercise} />
 
