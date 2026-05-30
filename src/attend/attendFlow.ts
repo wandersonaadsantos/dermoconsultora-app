@@ -44,16 +44,38 @@ const OFF_CONTEXT_PATTERNS: RegExp[] = [
   /repelente/i
 ];
 
-// Regiões do corpo que não são o rosto. Numa consulta de rosto, um produto
-// explicitamente de outra região (mãos, pés, corpo, cabelo, pernas) não faz
-// sentido — mesmo quando a base o etiqueta com uma etapa de rotina facial
-// (dado impreciso). Em vez de caçar termo a termo, tratamos a classe inteira.
-const NON_FACE_REGION = /\b(m[aã]os|p[eé]s|corpo|corporal|capilar|cabelos?|pernas?)\b/i;
-const FACE_TERMS = /\b(facial|rosto|face)\b/i;
+// Regiões do corpo detectáveis pelo nome. A base classifica routine_step de
+// forma imprecisa (ex.: produto de mãos/cabelo etiquetado como rotina facial),
+// então usamos o nome para descartar produtos de OUTRA região na consulta.
+const REGION_PATTERNS: Record<string, RegExp> = {
+  face: /\b(facial|rosto|face)\b/i,
+  body: /\b(corporal|corpo)\b/i,
+  hair: /\b(capilar|cabelos?)\b/i,
+  hands: /\b(m[aã]os|p[eé]s|pernas?)\b/i
+};
 
-/** Produto claramente de região não-facial (e que não cita o rosto). */
-function isOffFaceRegion(name: string): boolean {
-  return NON_FACE_REGION.test(name) && !FACE_TERMS.test(name);
+const AREA_HOME_REGION: Partial<Record<AttendAnswers["area"], keyof typeof REGION_PATTERNS>> = {
+  Rosto: "face",
+  Corpo: "body",
+  Cabelo: "hair"
+};
+
+// Perfumaria mal classificada pela base inclui skincare "sem perfume"; e a
+// categoria maquiagem inclui removedores. Esses não são perfume/maquiagem.
+const NOT_PERFUME = /sem perfume|gel de limpeza|limpeza facial|sabonete|s[ée]rum|lo[çc][ãa]o de limpeza|espuma.*limpeza|hidratante/i;
+const MAKEUP_REMOVER = /demaquilante|[áa]gua micelar|remove.*maquiagem/i;
+
+/** Produto fora de contexto para o foco da consulta (área ou categoria). */
+function isOffContextForArea(name: string, context: string): boolean {
+  if (context === "Perfumaria") return NOT_PERFUME.test(name);
+  if (context === "Maquiagem") return MAKEUP_REMOVER.test(name);
+
+  const home = AREA_HOME_REGION[context as AttendAnswers["area"]];
+  if (!home) return false;
+  // Se cita a região da consulta, é adequado (ex.: "facial e corporal" no rosto).
+  if (REGION_PATTERNS[home].test(name)) return false;
+  // Cita explicitamente outra região → fora de contexto.
+  return Object.keys(REGION_PATTERNS).some((k) => k !== home && REGION_PATTERNS[k].test(name));
 }
 
 /** Indica se o produto é uma recomendação adequada para o balcão. */
@@ -125,16 +147,21 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
       ? rows.filter((p) => FACE_STEPS.has(normalizeRoutineStep(p.routine_step)))
       : rows;
 
-  let items = constrainToArea(filterProducts(allProducts, f)).filter(isRecommendable);
+  // Foco da consulta: a área escolhida ou, quando a necessidade implica uma
+  // categoria (perfumaria/maquiagem), essa categoria.
+  const context = usedStepOverride
+    ? NEED_ROUTINE_STEP_OVERRIDE[answers.need] === "perfumaria"
+      ? "Perfumaria"
+      : "Maquiagem"
+    : answers.area;
 
-  // No rosto, descarta produtos explicitamente de outra região do corpo
-  // (mãos, pés, corpo, cabelo…) que escaparam por etiqueta de rotina imprecisa.
-  if (answers.area === "Rosto" && !usedStepOverride) {
-    items = items.filter((p) => !isOffFaceRegion(String(p.Produto ?? "")));
-  }
+  let items = constrainToArea(filterProducts(allProducts, f))
+    .filter(isRecommendable)
+    .filter((p) => !isOffContextForArea(String(p.Produto ?? ""), context));
 
   // Fallback de área: se a área escolhida não produziu resultado, amplia para
-  // todas as áreas (mantém o recorte de necessidade/preferência e a relevância).
+  // todas as áreas. Aqui não aplicamos o filtro de contexto: se não há nada
+  // na região da consulta, mostrar algo relevante é melhor do que vazio.
   if (items.length === 0 && !usedStepOverride) {
     items = filterProducts(allProducts, { ...f, routine_step: "all" }).filter(isRecommendable);
   }
