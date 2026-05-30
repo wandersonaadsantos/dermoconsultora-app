@@ -8,7 +8,9 @@ import {
   computeStageProgress,
   computeMilestones,
   nextModuleId,
-  computeStreak
+  computeStreak,
+  collectReviewQuestions,
+  buildReviewDeck
 } from "./gamification";
 
 describe("gamification / stages", () => {
@@ -81,5 +83,21 @@ describe("gamification / streak", () => {
   test("zera se houve um buraco", () => {
     expect(computeStreak(["2026-05-20", "2026-05-21"], "2026-05-30")).toBe(0);
     expect(computeStreak([], "2026-05-30")).toBe(0);
+  });
+});
+
+describe("gamification / revisão", () => {
+  test("collectReviewQuestions só inclui módulos lidos que têm quiz", () => {
+    expect(collectReviewQuestions(new Set()).length).toBe(0);
+    const items = collectReviewQuestions(new Set(["estrutura-da-pele"]));
+    expect(items.length).toBeGreaterThan(0);
+    expect(items.every((q) => q.moduleId === "estrutura-da-pele")).toBe(true);
+  });
+
+  test("buildReviewDeck respeita o limite", () => {
+    const readSet = new Set(["estrutura-da-pele", "leitura-rotulo"]);
+    const all = collectReviewQuestions(readSet).length;
+    const deck = buildReviewDeck(readSet, 3, () => 0);
+    expect(deck.length).toBe(Math.min(3, all));
   });
 });

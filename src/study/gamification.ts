@@ -1,4 +1,5 @@
 import { courseModules } from "../course/courseModules";
+import type { QuizQuestion } from "../course/courseTypes";
 
 /** Etapa temática da trilha (jornada de aprendizado). */
 export type Stage = {
@@ -181,4 +182,32 @@ export function todayKey(date = new Date()): string {
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
+}
+
+/** Pergunta de revisão, anotada com o módulo de origem. */
+export type ReviewItem = QuizQuestion & { moduleId: string; moduleTitle: string };
+
+/** Reúne as perguntas de quiz dos módulos já lidos (base da revisão). */
+export function collectReviewQuestions(readSet: Set<string>): ReviewItem[] {
+  const items: ReviewItem[] = [];
+  for (const m of courseModules) {
+    if (!readSet.has(m.id) || !m.quiz) continue;
+    for (const q of m.quiz) {
+      items.push({ ...q, moduleId: m.id, moduleTitle: m.title });
+    }
+  }
+  return items;
+}
+
+/**
+ * Monta um baralho de revisão embaralhado a partir do que já foi estudado.
+ * `rand` é injetável para tornar o embaralhamento determinístico em testes.
+ */
+export function buildReviewDeck(readSet: Set<string>, limit: number, rand: () => number = Math.random): ReviewItem[] {
+  const arr = collectReviewQuestions(readSet);
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, Math.max(0, limit));
 }

@@ -12,7 +12,7 @@ import { ResultsList } from "../components/ResultsList";
 import { SafetyBanner } from "../components/SafetyBanner";
 import { courseModules } from "../course/courseModules";
 import { getProductRouteId } from "../data/productIdentity";
-import { STAGES, computeMilestones, computeStageProgress, nextModuleId } from "../study/gamification";
+import { STAGES, collectReviewQuestions, computeMilestones, computeStageProgress, nextModuleId } from "../study/gamification";
 import { useReadingProgress } from "../study/useReadingProgress";
 
 export function Course() {
@@ -34,6 +34,7 @@ export function Course() {
 
   const nextId = useMemo(() => nextModuleId(reading.readSet), [reading.readSet]);
   const milestones = useMemo(() => computeMilestones(reading.readSet), [reading.readSet]);
+  const reviewCount = useMemo(() => collectReviewQuestions(reading.readSet).length, [reading.readSet]);
 
   const favoriteProducts = useMemo(() => {
     if (dataState.status !== "ready") return null;
@@ -68,6 +69,11 @@ export function Course() {
       ) : null}
 
       <div className="toolbar">
+        {reviewCount > 0 ? (
+          <Button type="button" variant="primary" onClick={() => nav("/study/revisao")}>
+            Revisar o que aprendi
+          </Button>
+        ) : null}
         <Button type="button" variant="secondary" onClick={() => nav("/consult")}>
           Consultar produtos
         </Button>

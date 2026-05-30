@@ -15,6 +15,7 @@ import { SafetyChecklist } from "../screens/SafetyChecklist";
 import { Simulations } from "../screens/Simulations";
 import { SimulationDetail } from "../screens/SimulationDetail";
 import { Study } from "../screens/Study";
+import { StudyReview } from "../screens/StudyReview";
 
 export function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export function AppRoutes() {
               <Route element={<AppShell />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/study" element={<Study />} />
+                <Route path="/study/revisao" element={<StudyReview />} />
                 <Route path="/study/:moduleId" element={<CourseModule />} />
                 <Route path="/consult" element={<Consult />} />
                 <Route path="/attend" element={<Attend />} />
