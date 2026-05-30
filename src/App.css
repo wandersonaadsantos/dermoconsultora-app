@@ -971,21 +971,16 @@
   max-width: 58ch;
 }
 
-.card-body {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
 .card-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: auto;
-  padding-top: 4px;
 }
 
-/* Recomendações do atendimento: cards de altura igual (motivo + card alinhados) */
+/* Recomendações do atendimento: cards de altura igual (bases alinhadas).
+   O wrapper (motivo + card) estica no grid e o card preenche; o conteúdo
+   fica alinhado ao topo e a sobra vira respiro no rodapé — sem vão no meio
+   nem card "flutuando" dentro da célula. */
 .attend-rec-item {
   display: flex;
   flex-direction: column;
