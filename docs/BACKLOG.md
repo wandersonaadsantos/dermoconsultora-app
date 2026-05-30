@@ -129,9 +129,11 @@ retrieval practice, microlearning, progresso visual, gamificação leve).
 - **Iteração 1 — Trilha-jornada (feito, 2026-05-30):** /study redesenhado com
   hero de progresso (anel %, nível, XP, streak), etapas temáticas com barra e
   passos conectados, marcos por etapa. Motor puro testável em `gamification.ts`.
-- **Iteração 2 — Página do módulo (pendente):** microlearning em cards
-  (progressive disclosure) + **quiz de fixação** (retrieval) no lugar do
-  "revelar resposta"; ícones por seção (dual coding); concluir dá XP.
+- **Iteração 2 — Página do módulo (feito, 2026-05-30):** quiz de fixação
+  (retrieval, uma pergunta por vez com feedback e placar) em 10 módulos;
+  concluir o quiz marca o módulo como lido (XP, avança a trilha); ícones por
+  seção (dual coding); o exercício aberto virou "Aprofundar". Pendente nesta
+  iteração: cards/progressive disclosure mais fortes e quizzes nos demais módulos.
 - **Iteração 3 (ideia):** revisão espaçada — flashcards que ressurgem pontos-chave
   de módulos já lidos.
 
