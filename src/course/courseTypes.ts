@@ -12,6 +12,14 @@ export type ProblemGuideItem = {
 /** Chave de diagrama de estudo (renderizado como SVG original). */
 export type CourseDiagramId = "pele" | "fio" | "unha";
 
+/** Pergunta de múltipla escolha do quiz de fixação (recordação ativa). */
+export type QuizQuestion = {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation?: string;
+};
+
 export type CourseModule = {
   id: string;
   title: string;
@@ -26,6 +34,8 @@ export type CourseModule = {
   diagram?: CourseDiagramId;
   /** Guia opcional de problema → tipos de produto que ajudam. */
   problemGuide?: ProblemGuideItem[];
+  /** Quiz de fixação opcional (recordação ativa). */
+  quiz?: QuizQuestion[];
 };
 
 export type CourseProductFilter = {

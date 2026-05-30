@@ -56,4 +56,19 @@ describe("courseModules", () => {
       expect(m.exercise.expectedAnswer.trim().length).toBeGreaterThan(0);
     }
   });
+
+  test("quizzes de fixação têm estrutura válida", () => {
+    let withQuiz = 0;
+    for (const m of courseModules) {
+      if (!m.quiz) continue;
+      withQuiz++;
+      for (const q of m.quiz) {
+        expect(q.question.trim().length).toBeGreaterThan(0);
+        expect(q.options.length).toBeGreaterThanOrEqual(2);
+        expect(q.correctIndex).toBeGreaterThanOrEqual(0);
+        expect(q.correctIndex).toBeLessThan(q.options.length);
+      }
+    }
+    expect(withQuiz).toBeGreaterThanOrEqual(10);
+  });
 });

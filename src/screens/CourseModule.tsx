@@ -5,6 +5,7 @@ import { CourseDiagram } from "../components/course/CourseDiagram";
 import { CourseSection } from "../components/course/CourseSection";
 import { ExerciseCard } from "../components/course/ExerciseCard";
 import { ProblemGuide } from "../components/course/ProblemGuide";
+import { QuizCard } from "../components/course/QuizCard";
 import { RelatedProducts } from "../components/course/RelatedProducts";
 import { SafePhraseCard } from "../components/course/SafePhraseCard";
 import { TalkTrackCard } from "../components/course/TalkTrackCard";
@@ -64,32 +65,33 @@ export function CourseModule() {
 
       <div className="notice">{module.summary}</div>
 
-      <CourseSection title="Objetivo" description="O que você deve conseguir fazer ao terminar este módulo.">
+      <CourseSection icon="🎯" title="Objetivo" description="O que você deve conseguir fazer ao terminar este módulo.">
         <div className="prose">{module.objective}</div>
       </CourseSection>
 
-      <CourseSection title="Conteúdo" description="Leitura curta, com foco no balcão.">
+      <CourseSection icon="📖" title="Conteúdo" description="Leitura curta, com foco no balcão.">
         <div className="prose">{module.content}</div>
       </CourseSection>
 
       {module.diagram ? (
-        <CourseSection title="Diagrama de estudo" description="Imagem esquemática para fixar a estrutura.">
+        <CourseSection icon="🖼️" title="Diagrama de estudo" description="Imagem esquemática para fixar a estrutura.">
           <CourseDiagram id={module.diagram} />
         </CourseSection>
       ) : null}
 
-      <CourseSection title="Exemplo prático" description="Como isso aparece na conversa com o cliente.">
+      <CourseSection icon="💬" title="Exemplo prático" description="Como isso aparece na conversa com o cliente.">
         <div className="prose">{module.practicalExample}</div>
       </CourseSection>
 
       <SafePhraseCard phrase={module.safePhrase} />
 
-      <CourseSection title="O que evitar" description="Frases e atitudes que aumentam risco.">
+      <CourseSection icon="🚫" title="O que evitar" description="Frases e atitudes que aumentam risco.">
         <div className="prose">{module.avoid}</div>
       </CourseSection>
 
       {module.problemGuide?.length ? (
         <CourseSection
+          icon="🧴"
           title="Problemas e produtos que ajudam"
           description="Tipos de produto cosmético por queixa. Sempre confirmar no rótulo; se sair do cosmético, chamar o farmacêutico."
         >
@@ -97,10 +99,23 @@ export function CourseModule() {
         </CourseSection>
       ) : null}
 
-      <ExerciseCard exercise={module.exercise} />
+      {module.quiz?.length ? (
+        <CourseSection
+          icon="✅"
+          title="Quiz de fixação"
+          description="Recordar ativamente fixa mais que reler. Responda e confira na hora; concluir marca o módulo como lido."
+        >
+          <QuizCard quiz={module.quiz} onComplete={() => reading.markAsRead(module.id)} />
+        </CourseSection>
+      ) : null}
+
+      <CourseSection icon="✍️" title="Aprofundar" description="Reflexão aberta para treinar a resposta com suas palavras.">
+        <ExerciseCard exercise={module.exercise} />
+      </CourseSection>
 
       {courseTalkTracks[module.id]?.length ? (
         <CourseSection
+          icon="🗣️"
           title="Treino de fala"
           description="Treine respostas curtas e seguras para objeções comuns, sem prometer resultado e sem fechar diagnóstico."
         >

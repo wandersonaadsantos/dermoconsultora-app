@@ -45,6 +45,24 @@ export const courseModules: CourseModule[] = [
     id: "estrutura-da-pele",
     title: "Estrutura da pele",
     summary: "Como a pele é organizada (epiderme, derme, hipoderme) e por que isso muda a forma de orientar cosmético.",
+    quiz: [
+      {
+        question: "Qual é a barreira mais externa da pele?",
+        options: ["Epiderme", "Derme", "Hipoderme"],
+        correctIndex: 0,
+        explanation: "A epiderme (com o estrato córneo) é a barreira externa; é onde a maioria dos cosméticos atua."
+      },
+      {
+        question: "Cliente quer algo que “reconstrói o colágeno e tira a flacidez”. A melhor postura é:",
+        options: [
+          "Prometer o resultado para fechar a venda",
+          "Oferecer como proposta cosmética de aparência e conforto, sem prometer, e confirmar no rótulo",
+          "Dizer que nenhum produto ajuda"
+        ],
+        correctIndex: 1,
+        explanation: "Colágeno está na derme; cosmético cuida de aparência e conforto, não “reconstrói”. Sem promessa."
+      }
+    ],
     diagram: "pele",
     problemGuide: [
       { problem: "Ressecamento / repuxa", products: ["Limpeza suave", "Hidratante (umectante + oclusivo)"] },
@@ -74,6 +92,28 @@ export const courseModules: CourseModule[] = [
     id: "tipos-condicoes-pele",
     title: "Tipos e condições da pele",
     summary: "Diferenciar tipo de pele (tendência) de condição do momento, sem “dar diagnóstico”.",
+    quiz: [
+      {
+        question: "Qual a diferença entre tipo e condição da pele?",
+        options: [
+          "São a mesma coisa",
+          "Tipo é tendência (oleosa/seca/mista); condição é o estado do momento",
+          "Condição é permanente e o tipo muda toda semana"
+        ],
+        correctIndex: 1,
+        explanation: "A mesma pessoa pode ter pele oleosa (tipo) e estar sensibilizada (condição)."
+      },
+      {
+        question: "Pele oleosa que começou a arder e descamar depois de um produto novo. A conduta é:",
+        options: [
+          "Tratar só como oleosidade e indicar algo mais forte",
+          "Ter cautela, confirmar o rótulo e, se arder forte ou piorar, chamar o farmacêutico",
+          "Dizer que ardência é sinal de que está funcionando"
+        ],
+        correctIndex: 1,
+        explanation: "Ardência e descamação após produto são condição de alerta; nada de “mais forte” nem “arder é normal”."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Diferença entre tipo de pele e condição do momento, sem rotular doença\n- Sinais simples para observar e perguntas rápidas de balcão\n- Como orientar o básico (limpar, hidratar, proteger) com linguagem segura\n\nEm uma frase:\nTipo é tendência. Condição é o que a pele está sentindo agora.",
     content:
@@ -95,6 +135,24 @@ export const courseModules: CourseModule[] = [
     id: "skincare-basico",
     title: "Skincare básico",
     summary: "Montar uma rotina simples, com poucos passos, que o cliente consegue manter.",
+    quiz: [
+      {
+        question: "Para uma cliente iniciante que quer “começar tudo”, a rotina mínima segura é:",
+        options: [
+          "Vários ácidos de uma vez",
+          "Limpeza + hidratação + proteção solar",
+          "Só protetor quando vai à praia"
+        ],
+        correctIndex: 1,
+        explanation: "Começar simples aumenta a chance de manter; depois ajusta-se uma coisa por vez."
+      },
+      {
+        question: "“Pele oleosa não precisa hidratar.” Isso é:",
+        options: ["Verdade", "Falso — pode hidratar com textura leve", "Verdade só no verão"],
+        correctIndex: 1,
+        explanation: "Oleosidade é sebo; hidratação é água e barreira. Pele oleosa pode hidratar com textura leve."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Rotina mínima para iniciante (limpar + hidratar + proteger)\n- Como ajustar a rotina por sensação da pele, sem exagerar\n- Erros comuns de balcão e como corrigir com frases seguras\n\nEm uma frase:\nSkincare básico é consistência no essencial, não quantidade de produtos.",
     content:
@@ -115,6 +173,28 @@ export const courseModules: CourseModule[] = [
     id: "protecao-solar",
     title: "Proteção solar",
     summary: "Ajudar o cliente a escolher um protetor que ele realmente vai usar.",
+    quiz: [
+      {
+        question: "Sobre “FPS 50”, o que é correto dizer?",
+        options: [
+          "Pode passar uma vez e dura o dia todo",
+          "Protege cerca de 98% contra UVB quando bem aplicado, mas precisa reaplicar conforme o rótulo",
+          "Bloqueia 100% do sol"
+        ],
+        correctIndex: 1,
+        explanation: "FPS não é duração; nenhum bloqueia 100% e a reaplicação segue o rótulo."
+      },
+      {
+        question: "“Resistente à água” quer dizer:",
+        options: [
+          "À prova d’água, não precisa reaplicar",
+          "Reaplicar conforme o rótulo, principalmente após água, suor ou toalha",
+          "Que só serve na piscina"
+        ],
+        correctIndex: 1,
+        explanation: "“Resistente” não é “à prova d’água”; reaplicar conforme o rótulo."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Como escolher protetor por uso real (textura, com/sem cor, rotina)\n- Como orientar reaplicação sem inventar regra (seguir rótulo)\n- Como lidar com reclamações comuns: “pesa”, “arde”, “não gosto da cor”, “é caro”\n\nEm uma frase:\nO melhor protetor é o que a pessoa consegue usar todo dia.",
     content:
@@ -136,6 +216,24 @@ export const courseModules: CourseModule[] = [
     id: "leitura-rotulo",
     title: "Leitura de rótulo",
     summary: "Transformar rótulo em checklist: o que confirmar antes de orientar qualquer produto.",
+    quiz: [
+      {
+        question: "Cliente pergunta “posso usar todo dia?” e a base não traz o modo de uso. Você:",
+        options: ["Chuta uma frequência", "Confirma no rótulo antes de orientar", "Diz que pode usar à vontade"],
+        correctIndex: 1,
+        explanation: "Sem o dado, a fonte é o rótulo; nunca inventar frequência."
+      },
+      {
+        question: "O rótulo serve principalmente para:",
+        options: [
+          "Decorar a embalagem",
+          "Confirmar modo de uso, advertências e restrições antes de orientar",
+          "Saber o preço"
+        ],
+        correctIndex: 1,
+        explanation: "O rótulo é a fonte final de segurança antes de orientar."
+      }
+    ],
     objective:
       "Você vai aprender:\n- Um checklist prático do que confirmar na embalagem\n- Um roteiro de “1 minuto” para reduzir risco no balcão\n- Como responder “posso usar?” sem inventar informação\n\nEm uma frase:\nO rótulo é a fonte final de segurança antes de orientar.",
     content:
@@ -349,6 +447,20 @@ export const courseModules: CourseModule[] = [
     id: "anatomia-fio-cabelo",
     title: "Anatomia do fio e couro cabeludo",
     summary: "Como o fio é formado (cutícula, córtex), o que é couro cabeludo e como diferenciar quebra de queda.",
+    quiz: [
+      {
+        question: "Frizz e falta de brilho estão mais ligados a qual parte do fio?",
+        options: ["Cutícula", "Couro cabeludo", "Medula"],
+        correctIndex: 0,
+        explanation: "A cutícula alinhada reflete luz e reduz frizz; o cosmético melhora a aparência, não reconstrói o fio."
+      },
+      {
+        question: "Cliente relata queda intensa, com falhas e coceira forte. Você deve:",
+        options: ["Indicar um shampoo antiqueda", "Chamar o farmacêutico ou orientar avaliação", "Dizer que é normal"],
+        correctIndex: 1,
+        explanation: "Queda intensa, falhas e coceira forte são sinal de alerta — não é caso de cosmético simples."
+      }
+    ],
     diagram: "fio",
     problemGuide: [
       { problem: "Frizz / aspereza", products: ["Condicionador", "Leave-in / finalizador", "Máscara de hidratação"] },
@@ -435,6 +547,28 @@ export const courseModules: CourseModule[] = [
     id: "unhas-cuidados",
     title: "Unhas: cuidado cosmético e sinais de alerta",
     summary: "Estrutura básica da unha, produtos cosméticos (esmalte, base, removedor, óleo de cutícula) e quando encaminhar.",
+    quiz: [
+      {
+        question: "Cliente quer um esmalte para disfarçar unha amarelada, espessa e descolando. O certo é:",
+        options: [
+          "Vender o esmalte que cobre melhor",
+          "Não tratar como questão estética e encaminhar ao farmacêutico/avaliação",
+          "Lixar e aplicar uma base"
+        ],
+        correctIndex: 1,
+        explanation: "Mudança de cor, espessamento e descolamento pedem avaliação — não cobrir com esmalte."
+      },
+      {
+        question: "Sobre “fortalecedor de unhas”, a fala segura é:",
+        options: [
+          "“Cura unha fraca e faz crescer”",
+          "“Tem proposta cosmética de aparência/resistência conforme o rótulo; não é tratamento”",
+          "“Resolve micose”"
+        ],
+        correctIndex: 1,
+        explanation: "Fortalecedor é proposta cosmética, não tratamento; não promete cura nem crescimento."
+      }
+    ],
     diagram: "unha",
     problemGuide: [
       { problem: "Unha fraca / quebradiça", products: ["Fortalecedor cosmético", "Óleo de cutícula", "Reduzir removedor/esmaltação"] },
@@ -464,6 +598,24 @@ export const courseModules: CourseModule[] = [
     id: "sinais-alerta-encaminhamento",
     title: "Sinais de alerta e encaminhamento",
     summary: "Reconhecer quando parar a orientação cosmética e envolver o farmacêutico.",
+    quiz: [
+      {
+        question: "Qual destes é um sinal de alerta para chamar o farmacêutico?",
+        options: ["A cliente quer textura leve", "Ferida, inchaço, secreção ou piora rápida", "A cliente tem pressa"],
+        correctIndex: 1,
+        explanation: "Ferida, inchaço, secreção, dor importante, reação forte e piora rápida exigem o farmacêutico."
+      },
+      {
+        question: "Cliente diz que passou um creme e o rosto inchou. Você:",
+        options: [
+          "Indica outro creme para acalmar",
+          "Não indica produto e chama o farmacêutico",
+          "Diz que passa sozinho"
+        ],
+        correctIndex: 1,
+        explanation: "Com sinal de alerta, não recomende cosmético; chame o farmacêutico."
+      }
+    ],
     objective:
       "Ter uma lista prática de sinais de alerta e um texto pronto de encaminhamento, sem alarmismo.",
     content:
@@ -484,6 +636,28 @@ export const courseModules: CourseModule[] = [
     id: "atuacao-profissional",
     title: "Atuação profissional",
     summary: "O papel da dermoconsultora, os limites da função e como trabalhar com o farmacêutico, a equipe e as campanhas.",
+    quiz: [
+      {
+        question: "Cliente pergunta se a mancha dela “é melasma”. Você:",
+        options: [
+          "Confirma o diagnóstico",
+          "Não fecha diagnóstico; orienta cosmético (fotoproteção/cobertura) e sugere avaliação",
+          "Diz que não é nada"
+        ],
+        correctIndex: 1,
+        explanation: "A dermoconsultora não diagnostica; orienta cosmético e encaminha para avaliação."
+      },
+      {
+        question: "Um produto está em promoção. A postura ética é:",
+        options: [
+          "Empurrar porque está barato",
+          "Oferecer só se fizer sentido para a necessidade da cliente",
+          "Esconder a promoção"
+        ],
+        correctIndex: 1,
+        explanation: "Campanha não é pressão; vender o que faz sentido para a cliente."
+      }
+    ],
     objective:
       "Você vai aprender:\n- O papel real da dermoconsultora e o que está dentro/fora do escopo\n- Como passar um caso ao farmacêutico e quando acionar a liderança\n- Como apoiar campanhas e testadores com ética e higiene\n\nEm uma frase:\nA dermoconsultora orienta cosmético com escuta e ética; não diagnostica, não prescreve e encaminha quando o caso sai do cosmético.",
     content:
@@ -621,6 +795,28 @@ export const courseModules: CourseModule[] = [
     id: "venda-consultiva",
     title: "Venda consultiva",
     summary: "Conduzir a venda a partir da necessidade da cliente — abordar, entender, comparar e fechar sem empurrar nem prometer.",
+    quiz: [
+      {
+        question: "Cliente diz que “está caro”. A resposta consultiva é:",
+        options: [
+          "“Mas esse é o melhor, leva esse”",
+          "Acolher e comparar 2 opções dentro do orçamento, sem dizer que o barato é ruim",
+          "“Sem esse não adianta”"
+        ],
+        correctIndex: 1,
+        explanation: "Respeitar o orçamento, oferecer opções e explicar a diferença — sem empurrar nem julgar."
+      },
+      {
+        question: "Oferecer um complemento (ex.: hidratante junto da limpeza) deve ser:",
+        options: [
+          "Obrigatório para “funcionar”",
+          "Uma opção, sem pressão, se fizer sentido para a rotina",
+          "Sempre o produto mais caro"
+        ],
+        correctIndex: 1,
+        explanation: "Complemento é opção coerente, nunca obrigação; aceitar o “não”."
+      }
+    ],
     objective:
       "Você vai aprender:\n- O ciclo de venda consultiva (acolher → entender → confirmar → orientar → comparar → fechar → reforçar segurança)\n- Como oferecer complemento sem empurrar\n- Como responder objeções de preço, medo, pressa e “quero o mais forte”\n\nEm uma frase:\nVenda boa começa na necessidade da cliente, não no produto mais caro.",
     content:
