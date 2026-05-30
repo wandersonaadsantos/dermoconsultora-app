@@ -31,6 +31,37 @@ const NEED_ROUTINE_STEP_OVERRIDE: Record<string, string> = {
   "Perfume/presente": "perfumaria"
 };
 
+// Produtos que não fazem sentido como recomendação de balcão e por isso são
+// removidos das sugestões: kits/combos (não é uma opção única para comparar),
+// produtos infantis e bundles com item não cosmético (ex.: repelente).
+const OFF_CONTEXT_PATTERNS: RegExp[] = [
+  /\bkit\b/i,
+  /\bcombo\b/i,
+  /compre e ganhe/i,
+  /\bkids?\b/i,
+  /infantil/i,
+  /\bbeb[eê]s?\b/i,
+  /repelente/i
+];
+
+// Regiões do corpo que não são o rosto. Numa consulta de rosto, um produto
+// explicitamente de outra região (mãos, pés, corpo, cabelo, pernas) não faz
+// sentido — mesmo quando a base o etiqueta com uma etapa de rotina facial
+// (dado impreciso). Em vez de caçar termo a termo, tratamos a classe inteira.
+const NON_FACE_REGION = /\b(m[aã]os|p[eé]s|corpo|corporal|capilar|cabelos?|pernas?)\b/i;
+const FACE_TERMS = /\b(facial|rosto|face)\b/i;
+
+/** Produto claramente de região não-facial (e que não cita o rosto). */
+function isOffFaceRegion(name: string): boolean {
+  return NON_FACE_REGION.test(name) && !FACE_TERMS.test(name);
+}
+
+/** Indica se o produto é uma recomendação adequada para o balcão. */
+export function isRecommendable(product: ProductRow): boolean {
+  const name = String(product.Produto ?? "");
+  return !OFF_CONTEXT_PATTERNS.some((re) => re.test(name));
+}
+
 function makeFilterState(): FilterState {
   return {
     query: "",
@@ -63,9 +94,8 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
     };
   }
 
-  const ignoreArea = answers.ignoreArea === true;
   const f = makeFilterState();
-  f.routine_step = ignoreArea ? "all" : routineStepFromArea(answers.area);
+  f.routine_step = routineStepFromArea(answers.area);
 
   let usedStepOverride = false;
   if (answers.needKind === "tag") {
@@ -88,15 +118,25 @@ export function buildAttendResult(allProducts: ProductRow[], answers: AttendAnsw
     f.caution_level = "baixo";
   }
 
-  let items = filterProducts(allProducts, f);
-  // Filtro de face steps só se aplica quando não houve override de categoria
-  if (!ignoreArea && answers.area === "Rosto" && !usedStepOverride) {
-    items = items.filter((p) => FACE_STEPS.has(normalizeRoutineStep(p.routine_step)));
+  // No rosto, restringe às etapas da rotina facial (a menos que a necessidade
+  // já implique uma categoria via override).
+  const constrainToArea = (rows: ProductRow[]) =>
+    answers.area === "Rosto" && !usedStepOverride
+      ? rows.filter((p) => FACE_STEPS.has(normalizeRoutineStep(p.routine_step)))
+      : rows;
+
+  let items = constrainToArea(filterProducts(allProducts, f)).filter(isRecommendable);
+
+  // No rosto, descarta produtos explicitamente de outra região do corpo
+  // (mãos, pés, corpo, cabelo…) que escaparam por etiqueta de rotina imprecisa.
+  if (answers.area === "Rosto" && !usedStepOverride) {
+    items = items.filter((p) => !isOffFaceRegion(String(p.Produto ?? "")));
   }
 
-  // Fallback: se busca textual + área retornou vazio, tenta sem área.
-  if (items.length === 0 && !usedStepOverride && f.routine_step !== "all") {
-    items = filterProducts(allProducts, { ...f, routine_step: "all" });
+  // Fallback de área: se a área escolhida não produziu resultado, amplia para
+  // todas as áreas (mantém o recorte de necessidade/preferência e a relevância).
+  if (items.length === 0 && !usedStepOverride) {
+    items = filterProducts(allProducts, { ...f, routine_step: "all" }).filter(isRecommendable);
   }
 
   items = items.slice(0, 6);

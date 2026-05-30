@@ -112,7 +112,86 @@ describe("attend/buildAttendResult", () => {
     expect(result.items.length).toBe(1);
   });
 
-  test("ignoreArea ignora o filtro por área (modo pressa)", () => {
+  test("filtro de relevância exclui kits, infantis e bundles com repelente", () => {
+    const all: ProductRow[] = [
+      makeProduct({
+        URL_produto: "https://example.com/ok",
+        Produto: "Protetor Facial FPS 50",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      }),
+      makeProduct({
+        URL_produto: "https://example.com/kit",
+        Produto: "Kit Protetor Solar Kids Bob Esponja + Repelente Infantil",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      })
+    ];
+
+    const result = buildAttendResult(all, {
+      need: "proteção solar",
+      needKind: "tag",
+      area: "Rosto",
+      preference: "sem-preferencia",
+      hasAlert: false
+    });
+
+    const urls = (result.items as ProductRow[]).map((p) => p.URL_produto);
+    expect(urls).toContain("https://example.com/ok");
+    expect(urls).not.toContain("https://example.com/kit");
+  });
+
+  test("em Rosto descarta regiões não-faciais (mãos/corpo/cabelo), mas mantém 'facial e corporal'", () => {
+    const all: ProductRow[] = [
+      makeProduct({
+        URL_produto: "https://example.com/face",
+        Produto: "Protetor Solar Facial FPS 50",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      }),
+      makeProduct({
+        URL_produto: "https://example.com/maos",
+        Produto: "Creme Hidratante para Mãos com Proteção Solar",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      }),
+      makeProduct({
+        URL_produto: "https://example.com/corporal",
+        Produto: "Proteção Solar Corporal FPS 60",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      }),
+      makeProduct({
+        URL_produto: "https://example.com/capilar",
+        Produto: "Protetor Solar Capilar 120ml",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      }),
+      makeProduct({
+        URL_produto: "https://example.com/ambos",
+        Produto: "Protetor Solar Facial e Corporal FPS 50",
+        need_tags: "proteção solar",
+        routine_step: "protecao_solar"
+      })
+    ];
+
+    const result = buildAttendResult(all, {
+      need: "proteção solar",
+      needKind: "tag",
+      area: "Rosto",
+      preference: "sem-preferencia",
+      hasAlert: false
+    });
+
+    const urls = (result.items as ProductRow[]).map((p) => p.URL_produto);
+    expect(urls).toContain("https://example.com/face");
+    expect(urls).toContain("https://example.com/ambos");
+    expect(urls).not.toContain("https://example.com/maos");
+    expect(urls).not.toContain("https://example.com/corporal");
+    expect(urls).not.toContain("https://example.com/capilar");
+  });
+
+  test("em Rosto sem produto facial, amplia para outras áreas (fallback)", () => {
     const all: ProductRow[] = [
       makeProduct({
         URL_produto: "https://example.com/corpo",
@@ -122,26 +201,16 @@ describe("attend/buildAttendResult", () => {
       })
     ];
 
-    // Em "Rosto", o filtro de face normalmente removeria um produto de corpo.
-    const semIgnore = buildAttendResult(all, {
+    const result = buildAttendResult(all, {
       need: "hidratação",
       needKind: "tag",
       area: "Rosto",
       preference: "sem-preferencia",
       hasAlert: false
     });
-    expect(semIgnore.items.length).toBe(0);
 
-    const comIgnore = buildAttendResult(all, {
-      need: "hidratação",
-      needKind: "tag",
-      area: "Rosto",
-      preference: "sem-preferencia",
-      hasAlert: false,
-      ignoreArea: true
-    });
-    expect(comIgnore.mode).toBe("recommendations");
-    expect(comIgnore.items.length).toBe(1);
+    expect(result.mode).toBe("recommendations");
+    expect(result.items.length).toBe(1);
   });
 
   test("em Rosto filtra para etapas da rotina facial", () => {

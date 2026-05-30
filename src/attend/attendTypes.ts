@@ -10,8 +10,6 @@ export type AttendAnswers = {
   area: AttendArea;
   preference: AttendPreference;
   hasAlert: boolean;
-  /** Modo pressa: ignora o filtro por área para resultados mais amplos. */
-  ignoreArea?: boolean;
 };
 
 export type AttendResult =

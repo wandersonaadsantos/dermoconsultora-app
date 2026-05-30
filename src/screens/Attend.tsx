@@ -202,8 +202,7 @@ export function Attend() {
         needKind: needs[0].kind,
         area,
         preference,
-        hasAlert: true,
-        ignoreArea: isPressa
+        hasAlert: true
       });
     }
 
@@ -214,8 +213,7 @@ export function Attend() {
         needKind: selected.kind,
         area,
         preference,
-        hasAlert: false,
-        ignoreArea: isPressa
+        hasAlert: false
       });
 
       if (result.mode !== "recommendations") continue;
@@ -242,8 +240,7 @@ export function Attend() {
       needKind: needs[0].kind,
       area,
       preference,
-      hasAlert: false,
-      ignoreArea: isPressa
+      hasAlert: false
     }).safePhrase;
 
     return {
